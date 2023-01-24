@@ -1,5 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 const { Schema, model } = require('mongoose');
+const bcrypt = require('bcrypt');
 
 const userSchema = new Schema({
   name: {
@@ -23,7 +24,13 @@ const userSchema = new Schema({
   appointments: {
     type: Schema.Types.ObjectId,
     ref: 'Appointments',
-  }
+  },
+});
+
+userSchema.pre('save', async function (next) {
+  const hash = await bcrypt.hash(this.password, 10);
+  this.password = hash;
+  return next();
 });
 
 const User = model('User', userSchema);
