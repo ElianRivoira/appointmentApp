@@ -1,4 +1,18 @@
-const { userLogin } = require('../../models/user-service');
+const userService = require('../../models/user-service');
+
+const httpSignUp = async (req, res, next) => {
+  try {
+    const user = await userService.signUp({
+      name: req.body.name,
+      email: req.body.email,
+      dni: req.body.dni,
+      password: req.body.password,
+    })
+    res.status(201).send(user);
+  } catch (e) {
+    next(e)
+  }
+}
 
 async function httpUserLogin(req, res) {
   const user = req.body;
@@ -14,11 +28,11 @@ async function httpUserLogin(req, res) {
     });
   }
 
-  const loggedUser = await userLogin(user);
+  const loggedUser = await userService.userLogin(user);
 
   res.status(200).json({
     userCredentials: loggedUser,
   });
 }
 
-module.exports = { httpUserLogin };
+module.exports = { httpUserLogin, httpSignUp };

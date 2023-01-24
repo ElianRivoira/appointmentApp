@@ -1,6 +1,9 @@
 const User = require('./User.model.js');
 
-const register = () => {};
+const signUp = async (data) => {
+  const user = await User.create(data);
+  return user;
+};
 
 async function userLogin(user) {
   const loggedUser = await User.findOne(user);
@@ -12,6 +15,6 @@ async function userLogin(user) {
 }
 
 module.exports = {
-  register,
+  signUp,
   userLogin,
 };
