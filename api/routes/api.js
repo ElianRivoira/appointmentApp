@@ -1,9 +1,8 @@
 const express = require('express');
 
 const api = express.Router();
+const userRouter = require('./users/user.router');
 
-api.use('/', (req, res) => {
-  res.send('puto')
-})
+api.use('/users', userRouter);
 
 module.exports = api;
