@@ -33,6 +33,12 @@ userSchema.pre('save', async function (next) {
   return next();
 });
 
+userSchema.methods.isValidPassword = async function (inputPassword) {
+  const hashedPassword = this.password;
+  const isMatched = await bcrypt.compare(inputPassword, hashedPassword);
+  return isMatched;
+};
+
 const User = model('User', userSchema);
 
 module.exports = User;
