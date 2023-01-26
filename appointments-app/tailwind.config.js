@@ -9,7 +9,16 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'cruce': '#A442F1',
+        'cruceSecondary': 'rgba(164, 66, 241, 0.1)'
+      },
+      fontSize: {
+        ss: ['14px', '16px'],
+        lb: ['16px', '20px'],
+      }
+    },
   },
   plugins: [],
 }
