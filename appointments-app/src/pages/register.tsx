@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import Image from 'next/image';
 import openEye from '../../public/icons/openEye.svg';
@@ -12,6 +12,53 @@ const Register = () => {
   const [passwordTwo, setPasswordTwo] = useState('');
   const [visibleOne, setVisibleOne] = useState(false);
   const [visibleTwo, setVisibleTwo] = useState(false);
+  const [mayus, setMayus] = useState(0);
+  const [minus, setMinus] = useState(0);
+  const [numb, setNumb] = useState(0);
+  const [length, setLength] = useState(0);
+
+  useEffect(() => {
+    const hasUppercase = (str: string) => {
+      return /[A-Z]/.test(str);
+    };
+    const hasLowercase = (str: string) => {
+      return /[a-z]/.test(str);
+    };
+    const hasNumber = (str: string) => {
+      return /\d/.test(str);
+    };
+    const enoughLength = (str: string) => {
+      return str.length >= 8;
+    };
+    if (password.length === 0) {
+      setMayus(0);
+      setMinus(0);
+      setNumb(0);
+      setLength(0);
+    }
+    if (password.length > 0) {
+      if (hasUppercase(password)) {
+        setMayus(2);
+      } else {
+        setMayus(1);
+      }
+      if (hasLowercase(password)) {
+        setMinus(2);
+      } else {
+        setMinus(1);
+      }
+      if (hasNumber(password)) {
+        setNumb(2);
+      } else {
+        setNumb(1);
+      }
+      if (enoughLength(password)) {
+        setLength(2);
+      } else {
+        setLength(1);
+      }
+    }
+  }, [password]);
 
   const handleName = (e: any) => {
     setName(e.target.value);
@@ -148,12 +195,44 @@ const Register = () => {
           </div>
           <div>
             <div className='flex text-xs'>
-              <p className='mr-28 mb-2'>ABC Una letra mayúscula</p>
-              <p>abc Una letra minúscula</p>
+              {mayus === 0 ? (
+                <p className='mr-28 mb-2'>ABC Una letra mayúscula</p>
+              ) : mayus === 2 ? (
+                <p className='mr-28 mb-2 text-green-500'>
+                  ABC Una letra mayúscula
+                </p>
+              ) : (
+                <p className='mr-28 mb-2 text-red-500'>
+                  ABC Una letra mayúscula
+                </p>
+              )}
+              {minus === 0 ? (
+                <p className='mr-28 mb-2'>abc Una letra minúscula</p>
+              ) : minus === 2 ? (
+                <p className='mr-28 mb-2 text-green-500'>
+                  abc Una letra minúscula
+                </p>
+              ) : (
+                <p className='mr-28 mb-2 text-red-500'>
+                  abc Una letra minúscula
+                </p>
+              )}
             </div>
             <div className='flex text-xs'>
-              <p className='mr-40'>123 Un número</p>
-              <p>*** Mínimo 8 caracteres</p>
+              {numb === 0 ? (
+                <p className='mr-40'>123 Un número</p>
+              ) : numb === 2 ? (
+                <p className='mr-40 text-green-500'>123 Un número</p>
+              ) : (
+                <p className='mr-40 text-red-500'>123 Un número</p>
+              )}
+              {length === 0 ? (
+                <p>*** Mínimo 8 caracteres</p>
+              ) : length === 2 ? (
+                <p className=' text-green-500'>*** Mínimo 8 caracteres</p>
+              ) : (
+                <p className=' text-red-500'>*** Mínimo 8 caracteres</p>
+              )}
             </div>
           </div>
         </div>
