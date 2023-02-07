@@ -5,8 +5,8 @@ import miCuentaIcon from '../../public/icons/miCuenta.svg';
 
 const Navbar = () => {
   return (
-    <div className='flex justify-center shadow-navbar'>
-      <nav className='flex flex-row justify-between w-11/12 md:max-w-screen-lg h-20 items-center'>
+    <div className='flex justify-center shadow-navbar bg-white'>
+      <nav className='flex flex-row justify-between w-11/12 md:max-w-screen-2xl h-20 items-center'>
         <button className='bg-cruceSecondary hover:bg-cruceSecondaryHover text-cruce font-semibold text-lb rounded-lg w-36 h-11'>
           Reservar
         </button>
