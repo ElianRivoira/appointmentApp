@@ -1,9 +1,11 @@
-import React, { useReducer, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import customCalendar from '@/styles/calendar.module.css';
 import Navbar from '@/components/Navbar';
 import Step from '@/commons/Step';
+import ReservePanelForm from '@/components/ReservePanelForm';
+import { postReserve } from '@/services/appointments';
 
 const ReservePanel = () => {
   const [branch, setBranch] = useState('');
@@ -13,22 +15,47 @@ const ReservePanel = () => {
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
   const [time, setTime] = useState('');
+  const [countDown, setCountDown] = useState('');
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    await postReserve(date, branch, time, name, phone, email);
+  };
 
-  }
+  const formatTime = (mss: number): string => {
+    const minutesOperation = (mss % (1000 * 60 * 60)) / (1000 * 60);
+    const secondsOperation = (mss % (1000 * 60)) / 1000;
+    const minutes = parseInt(minutesOperation.toString());
+    const seconds = parseInt(secondsOperation.toString());
+
+    return `Quedan ${minutes}:${seconds}`;
+  };
+
+  useEffect(() => {
+    const expirationDate = new Date().getTime() + 300000; // 5 minutes
+    const intervalId = setInterval(() => {
+      const now = new Date();
+      const difference = expirationDate - now.getTime();
+      const count = formatTime(difference);
+      setCountDown(count);
+    }, 1000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []);
 
   return (
     <div className='h-screen bg-cruceBackground'>
       <Navbar />
-      <div className='flex flex-col lg:mx-24'>
-        <div className='mt-12 mb-6 flex justify-around'>
+      <div className='flex flex-col lg:mx-32 2xl:mx-44'>
+        <div className='mt-12 mb-6 flex justify-around lg:justify-between'>
           <div className='w-3/6'>
             <h1 className='font-bold text-xb'>Hacer una Reserva</h1>
           </div>
           <div className='w-2/6'></div>
         </div>
-        <div className='flex justify-around'>
+        <div className='flex justify-around lg:justify-between'>
           <div className='w-3/6 px-10 py-8 rounded-lg bg-white'>
             <h3 className='text-ln font-bold mb-1'>Reserva</h3>
             <p className='text-sm font-semibold'>
@@ -87,86 +114,21 @@ const ReservePanel = () => {
                 )}
               </div>
             </div>
-            <form onSubmit={handleSubmit}>
-              <label htmlFor='branch' className='text-sm font-semibold'>
-                Sucursal
-              </label>
-              <select
-                name='branch'
-                id='branch'
-                className='w-full rounded-lg text-sm font-semibold h-11 mb-4 p-3 border border-grey3 hover:border-grey5 focus:border-cruce outline-none'
-                onChange={e => {
-                  setBranch(e.target.value);
-                }}
-              >
-                <option value=''></option>
-                <option value='Villa Crespo'>Villa Crespo</option>
-              </select>
-              {selectedDate === true ? (
-                <>
-                  <label htmlFor='time' className='text-sm font-semibold'>
-                    Horario
-                  </label>
-                  <select
-                    name='time'
-                    id='time'
-                    className='w-full rounded-lg text-sm font-semibold h-11 mb-4 p-3 border border-grey3 hover:border-grey5 focus:border-cruce outline-none'
-                    onChange={e => setTime(e.target.value)}
-                  >
-                    <option value=''></option>
-                    <option value='1017'>De 10:00 a 17:00hs</option>
-                  </select>
-                  <div className='flex mb-4'>
-                    <div className='w-1/2 mr-4'>
-                      <label htmlFor='name' className='text-sm font-semibold'>
-                        Nombre y Apellido
-                      </label>
-                      <input
-                        type='text'
-                        name='name'
-                        id='name'
-                        value={name}
-                        onChange={e => setName(e.target.value)}
-                        className='border text-sm font-semibold w-full h-11 rounded-lg p-3 border-grey3 hover:border-grey5 focus:border-cruce outline-none'
-                      />
-                    </div>
-                    <div className='w-1/2'>
-                      <label htmlFor='phone' className='text-sm font-semibold'>
-                        Teléfono
-                      </label>
-                      <input
-                        type='number'
-                        name='phone'
-                        id='phone'
-                        value={phone}
-                        onChange={e => setPhone(e.target.value)}
-                        className='border text-sm font-semibold w-full h-11 rounded-lg p-3 border-grey3 hover:border-grey5 focus:border-cruce outline-none'
-                      />
-                    </div>
-                  </div>
-                  <label htmlFor='email' className='text-sm font-semibold'>
-                    Mail
-                  </label>
-                  <input
-                    type='text'
-                    name='email'
-                    id='email'
-                    value={email}
-                    onChange={e => setEmail(e.target.value)}
-                    className='border w-full text-sm font-semibold rounded-lg h-11 p-3 border-grey3 hover:border-grey5 focus:border-cruce outline-none'
-                  />
-                </>
-              ) : null}
-              {name && phone && email && date && time && branch ? (
-                <button className='bg-cruce rounded-lg h-11 w-44 mt-8.5 font-semibold text-lb text-white hover:bg-cruceHover' type='submit'>
-                  Confirmar Reserva
-                </button>
-              ) : (
-                <button className='bg-grey3 rounded-lg h-11 w-44 mt-8.5 font-semibold text-lb text-grey6'>
-                  Confirmar Reserva
-                </button>
-              )}
-            </form>
+            <ReservePanelForm
+              handleSubmit={handleSubmit}
+              branch={branch}
+              setBranch={setBranch}
+              selectedDate={selectedDate}
+              time={time}
+              setTime={setTime}
+              name={name}
+              setName={setName}
+              phone={phone}
+              setPhone={setPhone}
+              email={email}
+              setEmail={setEmail}
+              date={date}
+            />
           </div>
           <div className='w-2/6'>
             <Calendar
@@ -183,6 +145,19 @@ const ReservePanel = () => {
             />
           </div>
         </div>
+        {selectedDate === true ? (
+          <div className='flex w-full justify-end'>
+            <div className='rounded-lg h-11 bg-cruceHover p-3 text-lb font-bold text-white w-30 shadow-timer'>
+              {countDown}
+            </div>
+          </div>
+        ) : (
+          <div className='flex w-full justify-end mt-62'>
+            <div className='rounded-lg h-11 bg-cruceHover p-3 text-lb font-bold text-white w-30 shadow-timer'>
+              {countDown}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

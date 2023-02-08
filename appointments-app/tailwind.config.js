@@ -33,12 +33,17 @@ module.exports = {
       boxShadow: {
         'xg': '0 0 24px rgba(0, 0, 0, 0.12)',
         'navbar': '0 0 12px rgba(0, 0, 0, 0.08)',
+        'timer': '0 3px 12px rgba(0, 0, 0, 0.2)',
       },
       height: {
         '26': '108px',
       },
+      width: {
+        '30': '125px',
+      },
       margin: {
         '8.5': '34px',
+        '62': '248px',
       },
     },
   },
