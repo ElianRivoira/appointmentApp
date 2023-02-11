@@ -30,9 +30,17 @@ async function httpUserLogin(req, res) {
 
   const loggedUser = await userService.userLogin(user);
 
-  res.status(200).json({
-    userCredentials: loggedUser,
-  });
+  res.status(200).json(loggedUser);
 }
 
-module.exports = { httpUserLogin, httpSignUp };
+const httpGetUser = async (req, res, next) => {
+  try {
+    const userId = req.user.id;
+    const user = await userService.getLoggedUser(userId);
+    res.send(user);
+  } catch (e) {
+    next(e);
+  }
+}
+
+module.exports = { httpUserLogin, httpSignUp, httpGetUser };
