@@ -8,7 +8,9 @@ export async function login(
     username,
     password,
   });
-  return res;
+  console.log(res.data);
+  localStorage.setItem('token', res.data.token);
+  return res.data;
 }
 
 export async function postUser(
@@ -16,7 +18,7 @@ export async function postUser(
   dni: number,
   email: string,
   password: string
-): Promise<Object> {
+): Promise<User> {
   const response = await api.post('/users', {
     name,
     dni,
@@ -24,4 +26,14 @@ export async function postUser(
     password,
   });
   return response.data;
+}
+
+export async function getLoggedUser(): Promise<User> {
+  const res = await api.get('/users/me', {
+    headers: {
+      token: localStorage.getItem('token'),
+    },
+  });
+  console.log(res.data)
+  return res.data;
 }
