@@ -328,7 +328,7 @@ const Register = () => {
             </button>
           </div>
         </form>
-        <Modal type={type} open={isOpen} onClose={() => setIsOpen(false)}>
+        <Modal open={isOpen} onClose={() => setIsOpen(false)}>
           {type === 1 ? (
             <h1>The password must be the same</h1>
           ) : type === 2 ? (

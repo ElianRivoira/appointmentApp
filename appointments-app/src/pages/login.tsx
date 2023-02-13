@@ -19,7 +19,7 @@ const Login = () => {
   const handlePassword = (e: any) => {
     setPassword(e.target.value);
   };
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       await login(username, password);

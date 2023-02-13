@@ -34,6 +34,7 @@ const getLoggedUser = async id => {
     name: user.name,
     email: user.email,
     dni: user.dni,
+    phone: user.phone,
   };
 };
 
