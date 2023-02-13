@@ -3,6 +3,7 @@ interface User {
   name: string;
   dni: number;
   email: string;
+  phone: number;
 }
 
 interface UserState {

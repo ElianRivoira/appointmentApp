@@ -4,10 +4,9 @@ interface ModalProps {
   open: boolean;
   onClose: () => void;
   children: React.ReactNode;
-  type: number;
 }
 
-const Modal: React.FC<ModalProps> = ({ type, open, onClose, children }) => {
+const Modal: React.FC<ModalProps> = ({ open, onClose, children }) => {
   if (!open) return null;
   return (
     <>

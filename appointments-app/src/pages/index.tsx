@@ -6,14 +6,13 @@ import { fetchUser } from '@/store/slices/userSlice';
 
 const Index = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const state = useSelector((state: RootState) => state.user);
   const router = useRouter();
 
   useEffect(() => {
     async function func() {
-      await dispatch(fetchUser());
-      console.log(state)
-      if (state.user) {
+      const token = localStorage.getItem('token')
+      if (token) {
+        await dispatch(fetchUser());
         router.push('reservePanel');
       } else {
         router.push('login');
