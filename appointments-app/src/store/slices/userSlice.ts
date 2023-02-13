@@ -1,7 +1,7 @@
 import { getLoggedUser } from '@/services/users';
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, createAction } from '@reduxjs/toolkit';
 
-export const fetchUser = createAsyncThunk('loggedUser', async thunkApi => {
+export const fetchUser = createAsyncThunk('LOGGED_USER', async thunkApi => {
   const user = await getLoggedUser();
   return user;
 });

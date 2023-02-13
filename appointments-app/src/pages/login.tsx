@@ -1,10 +1,17 @@
 import React, { useState } from 'react';
+import { AppDispatch } from '@/store';
+import Link from 'next/link';
+import { useDispatch } from 'react-redux';
 import Navbar from '../components/Navbar';
 import { login } from '../services/users';
+import { fetchUser } from '@/store/slices/userSlice';
+import { useRouter } from 'next/router';
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const dispatch = useDispatch<AppDispatch>();
+  const router = useRouter();
 
   const handleUsername = (e: any) => {
     setUsername(e.target.value);
@@ -14,8 +21,13 @@ const Login = () => {
   };
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    const res = await login(username, password);
-    console.log(res);
+    try {
+      await login(username, password);
+      await dispatch(fetchUser());
+      router.push('reservePanel')
+    } catch(e) {
+      console.error(e)
+    }
   };
 
   return (
@@ -62,9 +74,11 @@ const Login = () => {
                 Ingresar
               </button>
               <hr />
-              <button className='mt-5 bg-cruceSecondary hover:bg-cruceSecondaryHover text-cruce font-semibold text-lb rounded-lg h-11'>
-                ¿No tenés cuenta? Registrate
-              </button>
+              <Link href={'register'} className='mt-5 '>
+                <button className=' bg-cruceSecondary hover:bg-cruceSecondaryHover text-cruce font-semibold text-lb rounded-lg h-11 w-full'>
+                  ¿No tenés cuenta? Registrate
+                </button>
+              </Link>
             </div>
           </form>
         </div>

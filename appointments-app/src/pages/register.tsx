@@ -109,14 +109,16 @@ const Register = () => {
     <div className='flex justify-center'>
       <div className='flex flex-col p-8 w-3/4 max-w-screen-sm h-3/5 border-2 mt-20 rounded-xl shadow-xg'>
         <div className='flex w-full ml-5 text-cruce font-semibold'>
-          <button className='flex'>
-            <Image
-              src={flechitaIzq}
-              alt='flechitaIzq'
-              className='w-4 h-4 mr-1'
-            ></Image>
-            <p className='flex -mt-1'>Atrás</p>
-          </button>
+          <Link href={'login'}>
+            <button className='flex'>
+              <Image
+                src={flechitaIzq}
+                alt='flechitaIzq'
+                className='w-4 h-4 mr-1'
+              ></Image>
+              <p className='flex -mt-1'>Atrás</p>
+            </button>
+          </Link>
         </div>
         <div className='flex justify-center mt-1'>
           <h3 className='font-semibold text-2xl mb-5'>Crear cuenta</h3>
