@@ -9,7 +9,9 @@ export async function login(
     password,
   });
   console.log(res.data);
-  localStorage.setItem('token', res.data.token);
+  if(res.data.token){
+    localStorage.setItem('token', res.data.token);
+  }
   return res.data;
 }
 
