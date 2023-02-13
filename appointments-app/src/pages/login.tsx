@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AppDispatch } from '@/store';
 import Link from 'next/link';
 import { useDispatch } from 'react-redux';
@@ -6,10 +6,13 @@ import Navbar from '../components/Navbar';
 import { login } from '../services/users';
 import { fetchUser } from '@/store/slices/userSlice';
 import { useRouter } from 'next/router';
+import Modal from '@/components/Modal';
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [isOpen, setIsOpen] = useState(false);
+  const [type, setType] = useState(0);
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
 
@@ -19,16 +22,32 @@ const Login = () => {
   const handlePassword = (e: any) => {
     setPassword(e.target.value);
   };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await login(username, password);
-      await dispatch(fetchUser());
-      router.push('reservePanel')
-    } catch(e) {
-      console.error(e)
+      const res = await login(username, password);
+      if (!res) {
+        setType(2);
+        setIsOpen(true);
+      } else {
+        setType(1);
+        setIsOpen(true);
+      }
+    } catch (e) {
+      console.error(e);
     }
   };
+  
+  useEffect(() => {
+    async function func() {
+      if(type === 1 && isOpen === false){
+        await dispatch(fetchUser());
+        router.push('reservePanel');
+      }
+    }
+    func()
+  }, [isOpen])
 
   return (
     <div className='h-screen bg-cruceBackground'>
@@ -81,6 +100,14 @@ const Login = () => {
               </Link>
             </div>
           </form>
+          <Modal open={isOpen} onClose={() => setIsOpen(false)}>
+            {type === 1 ? (
+              <p>Login successfully</p>
+            ) : type === 2 ? (
+              <p>The data introduced is incorrect</p>
+            ) : null
+            }
+          </Modal>
         </div>
       </div>
     </div>
