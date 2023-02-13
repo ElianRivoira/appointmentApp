@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import Calendar from 'react-calendar';
+import { useRouter } from 'next/router';
+
 import 'react-calendar/dist/Calendar.css';
 import customCalendar from '@/styles/calendar.module.css';
 import Navbar from '@/components/Navbar';
 import Step from '@/commons/Step';
 import ReservePanelForm from '@/components/ReservePanelForm';
 import { postReserve } from '@/services/appointments';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store';
 
 const ReservePanel = () => {
   const [branch, setBranch] = useState('');
@@ -16,10 +20,13 @@ const ReservePanel = () => {
   const [email, setEmail] = useState('');
   const [time, setTime] = useState('');
   const [countDown, setCountDown] = useState('');
+  const router = useRouter();
+  const { user } = useSelector((state: RootState) => state.user)
+  const userId = user ? user.id : 'null'
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await postReserve(date, branch, time, name, phone, email);
+    await postReserve(date, branch, time, name, phone, email, userId);
   };
 
   const formatTime = (mss: number): string => {
@@ -32,6 +39,8 @@ const ReservePanel = () => {
   };
 
   useEffect(() => {
+    const token = localStorage.getItem('token')
+    if(!token) router.push('login')
     const expirationDate = new Date().getTime() + 300000; // 5 minutes
     const intervalId = setInterval(() => {
       const now = new Date();
