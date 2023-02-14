@@ -9,7 +9,7 @@ export async function login(
     password,
   });
   console.log(res.data);
-  if(res.data.token){
+  if (res.data.token) {
     localStorage.setItem('token', res.data.token);
   }
   return res.data;
@@ -36,6 +36,10 @@ export async function getLoggedUser(): Promise<User> {
       token: localStorage.getItem('token'),
     },
   });
-  console.log(res.data);
+  return res.data;
+}
+
+export async function updateUser(user: User): Promise<User> {
+  const res = await api.put(`/users`, user);
   return res.data;
 }

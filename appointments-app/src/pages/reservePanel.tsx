@@ -9,8 +9,10 @@ import Step from '@/commons/Step';
 import ReservePanelForm from '@/components/ReservePanelForm';
 import { postReserve } from '@/services/appointments';
 import { useSelector } from 'react-redux';
-import { RootState } from '@/store';
+import { AppDispatch, RootState } from '@/store';
 import CountDown from '@/components/CountDown';
+import { useDispatch } from 'react-redux';
+import { fetchUser } from '@/store/slices/userSlice';
 
 const ReservePanel = () => {
   const [branch, setBranch] = useState('');
@@ -24,6 +26,7 @@ const ReservePanel = () => {
   const [start, setStart] = useState(false);
   const [reload, setReload] = useState(false);
   const router = useRouter();
+  const dispatch = useDispatch<AppDispatch>();
   const { user } = useSelector((state: RootState) => state.user);
   const userId = user ? user.id : 'null';
 
@@ -56,6 +59,7 @@ const ReservePanel = () => {
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (!token) router.push('login');
+    dispatch(fetchUser());
   }, []);
 
   return (
