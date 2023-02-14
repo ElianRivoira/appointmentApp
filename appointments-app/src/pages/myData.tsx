@@ -1,15 +1,45 @@
 import Navbar from '@/components/Navbar';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { RootState } from '@/store';
+import { AppDispatch, RootState } from '@/store';
+import { useDispatch } from 'react-redux';
+import { fetchUser } from '@/store/slices/userSlice';
+import { updateUser } from '@/services/users';
 
 const myData = () => {
+  const dispatch = useDispatch<AppDispatch>();
   const { user } = useSelector((state: RootState) => state.user);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [dni, setDni] = useState(0);
+  const [phone, setPhone] = useState(0);
 
-  const handleSubmit = (e: React.FormEvent) => {}
-  const handleUsername = (e: React.FormEvent) => {}
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (user) {
+      const res = await updateUser({
+        id: user.id,
+        name,
+        email,
+        dni,
+        phone,
+      });
+      console.log(res);
+    }
+  };
 
+  useEffect(() => {
+    if(user){
+      setName(user.name)
+      setDni(user.dni)
+      setEmail(user.email)
+      setPhone(user.phone)
+    }
+  }, [user])
 
+  useEffect(() => {
+    dispatch(fetchUser());
+  }, []);
 
   return (
     <div className='h-screen bg-cruceBackground'>
@@ -25,8 +55,8 @@ const myData = () => {
               type='text'
               name='username'
               id='username'
-              value={user?.name}
-              onChange={handleUsername}
+              value={name}
+              onChange={e => setName(e.target.value)}
               required
               className='w-full border border-solid border-grey-500 focus:border-cruce rounded-lg h-11 mb-3 outline-none p-3'
             />
@@ -37,8 +67,8 @@ const myData = () => {
               type='text'
               name='email'
               id='email'
-              value={user?.email}
-              onChange={handleUsername}
+              value={email}
+              onChange={e => setEmail(e.target.value)}
               required
               className='w-full border border-solid border-grey-500 focus:border-cruce rounded-lg h-11 mb-3 outline-none p-3'
             />
@@ -48,11 +78,11 @@ const myData = () => {
                   DNI
                 </label>
                 <input
-                  type='text'
+                  type='number'
                   name='dni'
                   id='dni'
-                  value={user?.dni}
-                  onChange={handleUsername}
+                  value={dni}
+                  onChange={e => setDni(Number(e.target.value))}
                   required
                   className='w-full border border-solid border-grey-500 focus:border-cruce rounded-lg h-11 outline-none p-3'
                 />
@@ -62,23 +92,29 @@ const myData = () => {
                   Teléfono
                 </label>
                 <input
-                  type='text'
+                  type='number'
                   name='phone'
                   id='phone'
-                  value={user?.phone}
-                  onChange={handleUsername}
+                  value={phone}
+                  onChange={e => setPhone(Number(e.target.value))}
                   required
                   className='w-full border border-solid border-grey-500 focus:border-cruce rounded-lg h-11 outline-none p-3'
                 />
               </div>
             </div>
             <div className='flex justify-start'>
-              <button className='font-bold text-ss text-cruce hover:text-cruceHover'>
+              <button
+                type='button'
+                className='font-semibold text-ss text-cruce hover:text-cruceHover'
+              >
                 Editar contraseña
               </button>
             </div>
             <div className='flex mt-4'>
-              <button className=' bg-cruce hover:bg-cruceHover text-white font-semibold text-lb rounded-lg h-11 w-full'>
+              <button
+                type='submit'
+                className=' bg-cruce hover:bg-cruceHover text-white font-semibold text-lb rounded-lg h-11 w-full'
+              >
                 Aceptar
               </button>
             </div>

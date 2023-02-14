@@ -7,12 +7,12 @@ const httpSignUp = async (req, res, next) => {
       email: req.body.email,
       dni: req.body.dni,
       password: req.body.password,
-    })
+    });
     res.status(201).send(user);
   } catch (e) {
-    next(e)
+    next(e);
   }
-}
+};
 
 async function httpUserLogin(req, res) {
   const user = req.body;
@@ -41,6 +41,16 @@ const httpGetUser = async (req, res, next) => {
   } catch (e) {
     next(e);
   }
-}
+};
 
-module.exports = { httpUserLogin, httpSignUp, httpGetUser };
+const httpUpdateUser = async (req, res, next) => {
+  try {
+    const user = req.body;
+    const updatedUser = await userService.updateUser(user);
+    res.send(updatedUser);
+  } catch (e) {
+    next(e);
+  }
+};
+
+module.exports = { httpUserLogin, httpSignUp, httpGetUser, httpUpdateUser };

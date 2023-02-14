@@ -11,4 +11,6 @@ router.post('/login', userController.httpUserLogin);
 
 router.get('/me', [validateLoggedUser], userController.httpGetUser);
 
+router.put('/', userController.httpUpdateUser)
+
 module.exports = router;

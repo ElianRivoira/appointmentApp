@@ -38,8 +38,14 @@ const getLoggedUser = async id => {
   };
 };
 
+const updateUser = async user => {
+  const updatedUser = await User.findByIdAndUpdate(user.id, user, { new: true });
+  return updatedUser;
+};
+
 module.exports = {
   signUp,
   userLogin,
   getLoggedUser,
+  updateUser,
 };
