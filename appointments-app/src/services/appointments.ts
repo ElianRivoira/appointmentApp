@@ -7,7 +7,7 @@ export async function postReserve(
   name: string,
   phone: string,
   email: string,
-  userId: string,
+  userId: string
 ): Promise<Object> {
   const res = await api.post('/appointments', {
     date,
@@ -18,6 +18,12 @@ export async function postReserve(
     email,
     userId,
   });
-  console.log(res.data)
+  console.log(res.data);
+  return res.data;
+}
+
+export async function getReserves(id: string): Promise<reserveUser[]> {
+  const res = await api.get(`/appointments/${id}`);
+  console.log(res.data);
   return res.data;
 }
