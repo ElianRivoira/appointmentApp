@@ -9,7 +9,7 @@ const Navbar = () => {
     <div className='flex justify-center shadow-navbar bg-white'>
       <nav className='flex flex-row justify-between w-11/12 md:max-w-screen-2xl h-20 items-center'>
         <Link href={'reservePanel'} className='w-36 h-11'>
-          <button className='bg-cruceSecondary hover:bg-cruceSecondaryHover text-cruce font-semibold text-lb rounded-lg w-36 h-11'>
+          <button className='active:shadow-active bg-cruceSecondary hover:bg-cruceSecondaryHover text-cruce font-semibold text-lb rounded-lg w-36 h-11'>
             Reservar
           </button>
         </Link>

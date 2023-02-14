@@ -104,13 +104,13 @@ const ReservePanelForm: React.FC<Props> = ({
       ) : null}
       {name && phone && email && date && time && branch ? (
         <button
-          className='bg-cruce rounded-lg h-11 w-44 mt-8.5 font-semibold text-lb text-white hover:bg-cruceHover'
+          className='bg-cruce rounded-lg h-11 w-44 mt-8.5 font-semibold text-lb text-white hover:bg-cruceHover active:shadow-active'
           type='submit'
         >
           Confirmar Reserva
         </button>
       ) : (
-        <button className='bg-grey3 rounded-lg h-11 w-44 mt-8.5 font-semibold text-lb text-grey6'>
+        <button className='bg-grey3 rounded-lg h-11 w-44 mt-8.5 font-semibold text-lb text-grey6' disabled>
           Confirmar Reserva
         </button>
       )}

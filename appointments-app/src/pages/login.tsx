@@ -86,15 +86,25 @@ const Login = () => {
               </button>
             </div>
             <div className='flex flex-col justify-center'>
-              <button
-                type='submit'
-                className='mb-5 bg-cruce text-white h-11 rounded-lg font-semibold text-lb hover:bg-cruceHover'
-              >
-                Ingresar
-              </button>
+              {username && password.length >= 8 ? (
+                <button
+                  type='submit'
+                  className='mb-5 bg-cruce text-white h-11 rounded-lg font-semibold text-lb hover:bg-cruceHover active:shadow-active'
+                >
+                  Ingresar
+                </button>
+              ) : (
+                <button
+                  type='submit'
+                  className='mb-5 bg-grey3 text-grey6 h-11 rounded-lg font-semibold text-lb'
+                  disabled
+                >
+                  Ingresar
+                </button>
+              )}
               <hr />
               <Link href={'register'} className='mt-5 '>
-                <button className=' bg-cruceSecondary hover:bg-cruceSecondaryHover text-cruce font-semibold text-lb rounded-lg h-11 w-full'>
+                <button className=' bg-cruceSecondary hover:bg-cruceSecondaryHover text-cruce font-semibold text-lb rounded-lg h-11 w-full active:shadow-active'>
                   ¿No tenés cuenta? Registrate
                 </button>
               </Link>
