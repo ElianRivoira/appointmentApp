@@ -22,6 +22,7 @@ const ReservePanel = () => {
   const [time, setTime] = useState('');
   const [countDown, setCountDown] = useState('');
   const [start, setStart] = useState(false);
+  const [reload, setReload] = useState(false);
   const router = useRouter();
   const { user } = useSelector((state: RootState) => state.user);
   const userId = user ? user.id : 'null';
@@ -37,12 +38,20 @@ const ReservePanel = () => {
     const minutes = parseInt(minutesOperation.toString());
     const seconds = parseInt(secondsOperation.toString());
 
-    return `Quedan ${minutes}:${seconds}`;
+    if (minutes === 0 && seconds === 0) setReload(true);
+
+    return seconds < 10
+      ? `Quedan ${minutes}:0${seconds}`
+      : `Quedan ${minutes}:${seconds}`;
   };
 
   useEffect(() => {
     if (branch) setStart(true);
   }, [branch]);
+
+  useEffect(() => {
+    if (reload) router.reload();
+  }, [reload]);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
