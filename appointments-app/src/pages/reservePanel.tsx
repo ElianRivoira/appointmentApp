@@ -10,6 +10,7 @@ import ReservePanelForm from '@/components/ReservePanelForm';
 import { postReserve } from '@/services/appointments';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
+import CountDown from '@/components/CountDown';
 
 const ReservePanel = () => {
   const [branch, setBranch] = useState('');
@@ -20,9 +21,10 @@ const ReservePanel = () => {
   const [email, setEmail] = useState('');
   const [time, setTime] = useState('');
   const [countDown, setCountDown] = useState('');
+  const [start, setStart] = useState(false);
   const router = useRouter();
-  const { user } = useSelector((state: RootState) => state.user)
-  const userId = user ? user.id : 'null'
+  const { user } = useSelector((state: RootState) => state.user);
+  const userId = user ? user.id : 'null';
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,19 +41,12 @@ const ReservePanel = () => {
   };
 
   useEffect(() => {
-    const token = localStorage.getItem('token')
-    if(!token) router.push('login')
-    const expirationDate = new Date().getTime() + 300000; // 5 minutes
-    const intervalId = setInterval(() => {
-      const now = new Date();
-      const difference = expirationDate - now.getTime();
-      const count = formatTime(difference);
-      setCountDown(count);
-    }, 1000);
+    if (branch) setStart(true);
+  }, [branch]);
 
-    return () => {
-      clearInterval(intervalId);
-    };
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) router.push('login');
   }, []);
 
   return (
@@ -155,17 +150,21 @@ const ReservePanel = () => {
           </div>
         </div>
         {selectedDate === true ? (
-          <div className='flex w-full justify-end'>
-            <div className='rounded-lg h-11 bg-cruceHover p-3 text-lb font-bold text-white w-30 shadow-timer'>
-              {countDown}
-            </div>
-          </div>
+          <CountDown
+            start={start}
+            countDown={countDown}
+            setCountDown={setCountDown}
+            formatTime={formatTime}
+            margin={false}
+          />
         ) : (
-          <div className='flex w-full justify-end mt-62'>
-            <div className='rounded-lg h-11 bg-cruceHover p-3 text-lb font-bold text-white w-30 shadow-timer'>
-              {countDown}
-            </div>
-          </div>
+          <CountDown
+            start={start}
+            countDown={countDown}
+            setCountDown={setCountDown}
+            formatTime={formatTime}
+            margin={true}
+          />
         )}
       </div>
     </div>

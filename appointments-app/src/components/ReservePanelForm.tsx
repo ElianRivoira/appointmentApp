@@ -1,6 +1,6 @@
 import React from 'react';
 
-interface Props {
+interface ReservePanelProps {
   handleSubmit: (e: React.FormEvent) => Promise<void>;
   branch: string;
   setBranch: (state: string) => void;
@@ -16,7 +16,7 @@ interface Props {
   date: Date
 }
 
-const ReservePanelForm: React.FC<Props> = ({
+const ReservePanelForm: React.FC<ReservePanelProps> = ({
   handleSubmit,
   branch,
   setBranch,
