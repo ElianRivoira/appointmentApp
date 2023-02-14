@@ -34,6 +34,7 @@ module.exports = {
         'xg': '0 0 24px rgba(0, 0, 0, 0.12)',
         'navbar': '0 0 12px rgba(0, 0, 0, 0.08)',
         'timer': '0 3px 12px rgba(0, 0, 0, 0.2)',
+        'active': 'inset 0px 0px 8px rgba(0, 0, 0, 0.24)'
       },
       height: {
         '26': '108px',

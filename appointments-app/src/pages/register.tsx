@@ -322,7 +322,7 @@ const Register = () => {
           <div className='mr-9'>
             <button
               type='submit'
-              className=' bg-cruce h-11 text-white  hover:bg-cruceHover font-semibold rounded-lg w-full mb-5 mx-5'
+              className=' bg-cruce h-11 text-white  hover:bg-cruceHover font-semibold rounded-lg w-full mb-5 mx-5 active:shadow-active'
             >
               Registrarme
             </button>
@@ -341,7 +341,7 @@ const Register = () => {
         </Modal>
         <hr className='mx-4 mb-5' />
         <Link className='mr-9' href='/login'>
-          <button className=' bg-cruceSecondary hover:bg-cruceSecondaryHover text-cruce w-full font-semibold rounded-lg mb-5 mx-5 h-11'>
+          <button className='active:shadow-active bg-cruceSecondary hover:bg-cruceSecondaryHover text-cruce w-full font-semibold rounded-lg mb-5 mx-5 h-11'>
             ¿Ya tenés cuenta? Iniciá Sesión
           </button>
         </Link>
