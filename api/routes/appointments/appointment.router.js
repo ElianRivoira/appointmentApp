@@ -5,4 +5,6 @@ const router = express.Router();
 
 router.post('/', appointmentController.httpPostReserve);
 
+router.get('/:id', appointmentController.httpGetAllAppointmentsFromUser);
+
 module.exports = router;
