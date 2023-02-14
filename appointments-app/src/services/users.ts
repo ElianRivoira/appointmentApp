@@ -34,6 +34,6 @@ export async function getLoggedUser(): Promise<User> {
       token: localStorage.getItem('token'),
     },
   });
-  console.log(res.data)
+  console.log(res.data);
   return res.data;
 }

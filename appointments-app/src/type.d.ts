@@ -10,3 +10,12 @@ interface UserState {
   user: User | null;
   loading: boolean;
 }
+
+interface reserveUser {
+  _id: string;
+  date: Date;
+  branch: string;
+  time: string;
+  name: string;
+  email: string;
+}

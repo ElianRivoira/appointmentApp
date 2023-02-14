@@ -14,7 +14,7 @@ const Navbar = () => {
           </button>
         </Link>
         <div className='flex justify-between'>
-          <Link href={'myReserves'} className='mr-8'>
+          <Link href={'reserves'} className='mr-8'>
             <button className='text-ss font-bold flex hover:text-cruceHover'>
               Mis Reservas
               <Image
