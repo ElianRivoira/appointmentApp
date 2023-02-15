@@ -9,11 +9,11 @@ const validateSignUp = [
     .bail()
     .custom(async (value) => {
       const userExists = await User.findOne({ email: value });
-      if (userExists) throw new Error('Email already exists');
+      if (userExists) throw new Error('Ya existe una cuenta con ese email');
     }),
   check('dni').custom(async (value) => {
     const userExists = await User.findOne({ dni: value });
-    if (userExists) throw new Error('Dni already exists');
+    if (userExists) throw new Error('Ya existe una cuenta con ese dni');
   }),
   (req, res, next) => {
     validateResult(req, res, next);
