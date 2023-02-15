@@ -23,6 +23,7 @@ const Register = () => {
   const [length, setLength] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
   const [type, setType] = useState(0);
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     const hasUppercase = (str: string) => {
@@ -80,7 +81,9 @@ const Register = () => {
             setType(2);
             setIsOpen(true);
           })
-          .catch(e => {
+          .catch((e) => {
+            console.log(e);
+            setErrorMessage(e.response.data.errors[0].msg);
             setType(4);
             setIsOpen(true);
           });
@@ -336,15 +339,15 @@ const Register = () => {
         </form>
         <Modal open={isOpen} onClose={() => setIsOpen(false)}>
           {type === 1 ? (
-            <h1>Las contraseña deben coincidir</h1>
+            <h1>Las contraseñas deben coincidir</h1>
           ) : type === 2 ? (
             <h1>Tu usuario ha sido creado satisfactoriamente</h1>
           ) : type === 3 ? (
             <h1>Tiene que cumplir las condiciones primero</h1>
           ) : type === 4 ? (
             <>
-              <h1>Ha ocurrido un error al crear su usuario</h1>
-              <p>Intente nuevamente</p>
+              <h1 className='mb-2'>Ha ocurrido un error al crear su usuario</h1>
+              <p className='text-sm font-normal'>{errorMessage}</p>
             </>
           ) : null}
         </Modal>
