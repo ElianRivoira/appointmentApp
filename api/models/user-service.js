@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt');
 const User = require('./User.model.js');
 const { generateToken } = require('../utils/tokens');
 
@@ -8,7 +9,7 @@ const signUp = async data => {
 
 async function userLogin(user) {
   try {
-    const loggedUser = await User.findOne({ name: user.username });
+    const loggedUser = await User.findOne({ email: user.email });
     const match = await loggedUser.isValidPassword(user.password);
     if (match) {
       const tokenPayload = {
@@ -38,9 +39,19 @@ const getLoggedUser = async id => {
   };
 };
 
-const updateUser = async user => {
-  const updatedUser = await User.findByIdAndUpdate(user.id, user, { new: true });
+const updateUser = async (user, id) => {
+  const updatedUser = await User.findByIdAndUpdate(id, user, {
+    new: true,
+  });
   return updatedUser;
+};
+
+const updatePassword = async (id, pass) => {
+  const hash = await bcrypt.hash(pass, 10);
+  const user = await User.findByIdAndUpdate(id, {password: hash}, {
+    new: true,
+  });
+  return user;
 };
 
 module.exports = {
@@ -48,4 +59,5 @@ module.exports = {
   userLogin,
   getLoggedUser,
   updateUser,
+  updatePassword,
 };

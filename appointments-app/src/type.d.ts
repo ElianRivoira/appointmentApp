@@ -6,6 +6,13 @@ interface User {
   phone: number;
 }
 
+interface UpdateUser {
+  name: string;
+  dni: number;
+  email: string;
+  phone: number;
+}
+
 interface UserState {
   user: User | null;
   loading: boolean;

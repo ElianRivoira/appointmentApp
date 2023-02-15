@@ -11,6 +11,10 @@ router.post('/login', userController.httpUserLogin);
 
 router.get('/me', [validateLoggedUser], userController.httpGetUser);
 
-router.put('/', userController.httpUpdateUser)
+router.put('/:id', userController.httpUpdateUser);
+
+router.put('/pass/:id', userController.httpUpdatePassword);
+
+router.post('/pass/email', userController.httpSendPassEmail)
 
 module.exports = router;
