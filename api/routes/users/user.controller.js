@@ -1,4 +1,5 @@
 const userService = require('../../models/user-service');
+const { sendPasswordChangerEmail } = require('../../utils/emails');
 
 const httpSignUp = async (req, res, next) => {
   try {
@@ -17,20 +18,20 @@ const httpSignUp = async (req, res, next) => {
 async function httpUserLogin(req, res) {
   const user = req.body;
 
-  if (!user.username) {
-    res.status(401).json({
+  if (!user.email) {
+    return res.status(401).json({
       error: 'Required user property',
     });
   }
   if (!user.password) {
-    res.status(401).json({
+    return res.status(401).json({
       error: 'Required password',
     });
   }
 
   const loggedUser = await userService.userLogin(user);
 
-  res.status(200).json(loggedUser);
+  res.send(loggedUser);
 }
 
 const httpGetUser = async (req, res, next) => {
@@ -45,12 +46,42 @@ const httpGetUser = async (req, res, next) => {
 
 const httpUpdateUser = async (req, res, next) => {
   try {
+    const { id } = req.params;
     const user = req.body;
-    const updatedUser = await userService.updateUser(user);
+    const updatedUser = await userService.updateUser(user, id);
     res.send(updatedUser);
   } catch (e) {
     next(e);
   }
 };
 
-module.exports = { httpUserLogin, httpSignUp, httpGetUser, httpUpdateUser };
+const httpUpdatePassword = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { pass } = req.body;
+    console.log('PASSWORD', pass);
+    const updatedUser = await userService.updatePassword(id, pass);
+    res.send(updatedUser);
+  } catch (e) {
+    next(e);
+  }
+};
+
+const httpSendPassEmail = async (req, res, next) => {
+  try {
+    const data = req.body;
+    sendPasswordChangerEmail(data);
+    res.sendStatus(200)
+  } catch (e) {
+    next(e);
+  }
+};
+
+module.exports = {
+  httpUserLogin,
+  httpSignUp,
+  httpGetUser,
+  httpUpdateUser,
+  httpUpdatePassword,
+  httpSendPassEmail,
+};

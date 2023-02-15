@@ -1,32 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { AppDispatch } from '@/store';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useDispatch } from 'react-redux';
 import Navbar from '../components/Navbar';
 import { login } from '../services/users';
-import { fetchUser } from '@/store/slices/userSlice';
 import { useRouter } from 'next/router';
 import Modal from '@/components/Modal';
+import wrongCheckbox from '../../public/icons/wrongCheckbox.svg';
+import rightCheckbox from '../../public/icons/rightCheckbox.svg';
 
 const Login = () => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [type, setType] = useState(0);
-  const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
-
-  const handleUsername = (e: any) => {
-    setUsername(e.target.value);
-  };
-  const handlePassword = (e: any) => {
-    setPassword(e.target.value);
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await login(username, password);
+      const res = await login(email, password);
       if (!res) {
         setType(2);
         setIsOpen(true);
@@ -38,16 +32,12 @@ const Login = () => {
       console.error(e);
     }
   };
-  
+
   useEffect(() => {
-    async function func() {
-      if(type === 1 && isOpen === false){
-        await dispatch(fetchUser());
-        router.push('reservePanel');
-      }
+    if (type === 1 && isOpen === false) {
+      router.push('reservePanel');
     }
-    func()
-  }, [isOpen])
+  }, [isOpen]);
 
   return (
     <div className='h-screen bg-cruceBackground'>
@@ -56,15 +46,15 @@ const Login = () => {
         <div className='flex flex-col w-3/4 max-w-screen-sm h-3/5 mt-12 px-8 pt-10 pb-8 border rounded-xl shadow-xg bg-white'>
           <p className='text-center mb-8 font-bold text-2xl'>Iniciar Sesión</p>
           <form onSubmit={handleSubmit}>
-            <label htmlFor='username' className='text-sm font-medium'>
-              Usuario
+            <label htmlFor='email' className='text-sm font-medium'>
+              Email
             </label>
             <input
               type='text'
-              name='username'
-              id='username'
-              value={username}
-              onChange={handleUsername}
+              name='email'
+              id='email'
+              value={email}
+              onChange={e => setEmail(e.target.value)}
               required
               className='w-full border border-solid border-grey-500 focus:border-cruce rounded-lg h-11 mb-3 outline-none p-3'
             />
@@ -76,7 +66,7 @@ const Login = () => {
               name='password'
               id='password'
               value={password}
-              onChange={handlePassword}
+              onChange={e => setPassword(e.target.value)}
               required
               className='w-full border border-solid border-grey-500 focus:border-cruce rounded-lg h-11 mb-6 outline-none p-3'
             />
@@ -86,7 +76,7 @@ const Login = () => {
               </button>
             </div>
             <div className='flex flex-col justify-center'>
-              {username && password.length >= 8 ? (
+              {email && password.length >= 8 ? (
                 <button
                   type='submit'
                   className='mb-5 bg-cruce text-white h-11 rounded-lg font-semibold text-lb hover:bg-cruceHover active:shadow-active'
@@ -112,11 +102,24 @@ const Login = () => {
           </form>
           <Modal open={isOpen} onClose={() => setIsOpen(false)}>
             {type === 1 ? (
-              <p>Login successfully</p>
+              <div className='flex flex-col items-center'>
+                <Image
+                  src={rightCheckbox}
+                  alt='error'
+                  className='w-10 h-10 mb-7'
+                />
+                <p>Inicio de sesión satisfactorio</p>
+              </div>
             ) : type === 2 ? (
-              <p>The data introduced is incorrect</p>
-            ) : null
-            }
+              <div className='flex flex-col items-center'>
+                <Image
+                  src={wrongCheckbox}
+                  alt='error'
+                  className='w-10 h-10 mb-7'
+                />
+                <p>La información introducida es incorrecta</p>
+              </div>
+            ) : null}
           </Modal>
         </div>
       </div>

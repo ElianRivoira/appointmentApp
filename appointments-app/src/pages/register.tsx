@@ -75,9 +75,15 @@ const Register = () => {
         setIsOpen(true);
       } else {
         let numberDni = Number(dni);
-        postUser(name, numberDni, email, password);
-        setType(2);
-        setIsOpen(true);
+        postUser(name, numberDni, email, password)
+          .then(() => {
+            setType(2);
+            setIsOpen(true);
+          })
+          .catch(e => {
+            setType(4);
+            setIsOpen(true);
+          });
       }
     } else {
       setType(3);
@@ -330,14 +336,17 @@ const Register = () => {
         </form>
         <Modal open={isOpen} onClose={() => setIsOpen(false)}>
           {type === 1 ? (
-            <h1>The password must be the same</h1>
+            <h1>Las contraseña deben coincidir</h1>
           ) : type === 2 ? (
-            <h1>Your user has been created</h1>
+            <h1>Tu usuario ha sido creado satisfactoriamente</h1>
           ) : type === 3 ? (
-            <h1>You have to meet the conditions first</h1>
-          ) : (
-            ''
-          )}
+            <h1>Tiene que cumplir las condiciones primero</h1>
+          ) : type === 4 ? (
+            <>
+              <h1>Ha ocurrido un error al crear su usuario</h1>
+              <p>Intente nuevamente</p>
+            </>
+          ) : null}
         </Modal>
         <hr className='mx-4 mb-5' />
         <Link className='mr-9' href='/login'>

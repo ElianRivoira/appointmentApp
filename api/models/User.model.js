@@ -27,7 +27,7 @@ const userSchema = new Schema({
   },
   phone: {
     type: Number,
-  }
+  },
 });
 
 userSchema.pre('save', async function (next) {

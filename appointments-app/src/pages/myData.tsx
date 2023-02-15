@@ -1,10 +1,14 @@
-import Navbar from '@/components/Navbar';
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
+
+import Navbar from '@/components/Navbar';
 import { AppDispatch, RootState } from '@/store';
-import { useDispatch } from 'react-redux';
 import { fetchUser } from '@/store/slices/userSlice';
-import { updateUser } from '@/services/users';
+import { sendPassEmail, updateUser } from '@/services/users';
+import Modal from '@/components/Modal';
+import rightCheckbox from '../../public/icons/rightCheckbox.svg';
 
 const myData = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -13,31 +17,45 @@ const myData = () => {
   const [email, setEmail] = useState('');
   const [dni, setDni] = useState(0);
   const [phone, setPhone] = useState(0);
+  const [open, setOpen] = useState(false);
+  const [type, setType] = useState(0);
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (user) {
-      const res = await updateUser({
-        id: user.id,
+      const res = await updateUser(user.id, {
         name,
         email,
         dni,
         phone,
       });
+      setType(1);
+      setOpen(true);
       console.log(res);
     }
   };
 
-  useEffect(() => {
-    if(user){
-      setName(user.name)
-      setDni(user.dni)
-      setEmail(user.email)
-      setPhone(user.phone)
+  const changePassword = () => {
+    if (user) {
+      sendPassEmail(user?.id, email);
+      setType(2);
+      setOpen(true);
     }
-  }, [user])
+  };
 
   useEffect(() => {
+    if (user) {
+      setName(user.name);
+      setDni(user.dni);
+      setEmail(user.email);
+      setPhone(user.phone);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) router.push('login');
     dispatch(fetchUser());
   }, []);
 
@@ -106,6 +124,7 @@ const myData = () => {
               <button
                 type='button'
                 className='font-semibold text-ss text-cruce hover:text-cruceHover'
+                onClick={changePassword}
               >
                 Editar contraseña
               </button>
@@ -114,11 +133,35 @@ const myData = () => {
               <button
                 type='submit'
                 className=' bg-cruce hover:bg-cruceHover text-white font-semibold text-lb rounded-lg h-11 w-full'
+                onClick={() => {}}
               >
                 Aceptar
               </button>
             </div>
           </form>
+          <Modal open={open} onClose={() => setOpen(false)}>
+            <div className='flex flex-col items-center'>
+              {type === 1 ? (
+                <>
+                  <Image
+                    src={rightCheckbox}
+                    alt='success'
+                    className='w-10 h-10 mb-7'
+                  />
+                  <p>Sus datos se han actualizado correctamente</p>
+                </>
+              ) : type === 2 ? (
+                <>
+                  <Image
+                    src={rightCheckbox}
+                    alt='success'
+                    className='w-10 h-10 mb-7'
+                  />
+                  <p>Se le ha enviado un correo para cambiar su contraseña</p>
+                </>
+              ) : null}
+            </div>
+          </Modal>
         </div>
       </div>
     </div>

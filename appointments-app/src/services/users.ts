@@ -1,11 +1,11 @@
 import { api } from './axiosInstance';
 
 export async function login(
-  username: string,
+  email: string,
   password: string
 ): Promise<Object> {
   const res = await api.post('/users/login', {
-    username,
+    email,
     password,
   });
   console.log(res.data);
@@ -39,7 +39,21 @@ export async function getLoggedUser(): Promise<User> {
   return res.data;
 }
 
-export async function updateUser(user: User): Promise<User> {
-  const res = await api.put(`/users`, user);
+export async function updateUser(id: string, user: UpdateUser): Promise<User> {
+  const res = await api.put(`/users/${id}`, user);
   return res.data;
+}
+
+export async function updatePassword(id: string, pass: string): Promise<User> {
+  const res = await api.put(`/users/pass/${id}`, { pass });
+  console.log(res.data);
+  return res.data;
+}
+
+export async function sendPassEmail(id: string, email: string): Promise<void> {
+  try {
+    await api.post('/users/pass/email', { id, email });
+  } catch (e) {
+    console.error(e);
+  }
 }
