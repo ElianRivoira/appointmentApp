@@ -82,7 +82,7 @@ const myData = () => {
               Mail
             </label>
             <input
-              type='text'
+              type='email'
               name='email'
               id='email'
               value={email}
@@ -110,7 +110,7 @@ const myData = () => {
                   Teléfono
                 </label>
                 <input
-                  type='number'
+                  type='tel'
                   name='phone'
                   id='phone'
                   value={phone}
