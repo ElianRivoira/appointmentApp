@@ -34,8 +34,16 @@ const ReservePanel = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await postReserve(date, branch, time, name, phone, email, userId);
-    router.push('confirmedReserve');
+    const reserve = await postReserve(
+      date,
+      branch,
+      time,
+      name,
+      phone,
+      email,
+      userId
+    );
+    router.push(`/confirmedReserve/${reserve._id}`);
   };
 
   const formatTime = (mss: number): string => {

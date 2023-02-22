@@ -28,4 +28,15 @@ const httpGetAllAppointmentsFromUser = async (req, res, next) => {
   }
 };
 
-module.exports = { httpPostReserve, httpGetAllAppointmentsFromUser };
+const httpGetOneAppointment = async (req, res, next) => {
+  try {
+    const reserve = await appointmentService.getOneAppointment(
+      req.params.id
+    );
+    res.status(200).send(reserve);
+  } catch (e) {
+    next(e);
+  }
+};
+
+module.exports = { httpPostReserve, httpGetAllAppointmentsFromUser, httpGetOneAppointment };
