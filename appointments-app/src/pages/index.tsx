@@ -1,21 +1,25 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
-import { AppDispatch, RootState } from '@/store';
+import { AppDispatch } from '@/store';
 import { fetchUser } from '@/store/slices/userSlice';
 
 const Index = () => {
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
+  const [calledPush, setCalledPush] = useState(false);
 
   useEffect(() => {
     async function func() {
-      const token = localStorage.getItem('token')
+      if (calledPush) return;
+      const token = localStorage.getItem('token');
       if (token) {
         await dispatch(fetchUser());
-        router.push('reservePanel');
+        return router.push('reservePanel');
+        setCalledPush(true);
       } else {
-        router.push('login');
+        return router.push('login');
+        setCalledPush(true);
       }
     }
     func();

@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import Calendar from 'react-calendar';
 import { useRouter } from 'next/router';
 
-import 'react-calendar/dist/Calendar.css';
-import customCalendar from '@/styles/calendar.module.css';
+import {
+  CalendarContainer,
+  CalendarContainerDisabled,
+} from '@/components/Calendar';
 import Navbar from '@/components/Navbar';
 import Step from '@/commons/Step';
 import ReservePanelForm from '@/components/ReservePanelForm';
@@ -84,13 +86,11 @@ const ReservePanel = () => {
         <div className='flex justify-around lg:justify-between'>
           <div className='w-3/6 px-10 py-8 rounded-lg bg-white'>
             <h3 className='text-ln font-bold mb-1'>Reserva</h3>
-            <p className='text-sm font-semibold'>
-              Seleccioná el día en el calendario
-            </p>
-            <div className='flex flex-col'>
-              <div className='h-26 flex flex-row items-center'>
-                {!branch ? (
-                  <>
+            {!branch ? (
+              <>
+                <p className='text-sm font-semibold'>Seleccioná una sucursal</p>
+                <div className='flex flex-col'>
+                  <div className='h-26 flex flex-row items-center'>
                     <Step
                       icon='1'
                       text='Elegí tu sucursal'
@@ -109,9 +109,14 @@ const ReservePanel = () => {
                       bgColor='bg-grey4'
                       textColor='text-grey4'
                     />
-                  </>
-                ) : selectedDate === true ? (
-                  <>
+                  </div>
+                </div>
+              </>
+            ) : selectedDate === true ? (
+              <>
+                <p className='text-sm font-semibold'>Completá el formulario</p>
+                <div className='flex flex-col'>
+                  <div className='h-26 flex flex-row items-center'>
                     <Step icon='check' text='Elegí tu sucursal' />
                     <Step icon='check' text='Seleccioná el día' />
                     <Step
@@ -120,9 +125,14 @@ const ReservePanel = () => {
                       bgColor='bg-cruce'
                       textColor='text-cruce'
                     />
-                  </>
-                ) : (
-                  <>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <>
+                <p className='text-sm font-semibold'>Seleccioná el día en el calendario</p>
+                <div className='flex flex-col'>
+                  <div className='h-26 flex flex-row items-center'>
                     <Step icon='check' text='Elegí tu sucursal' />
                     <Step
                       icon='2'
@@ -136,10 +146,10 @@ const ReservePanel = () => {
                       bgColor='bg-grey4'
                       textColor='text-grey4'
                     />
-                  </>
-                )}
-              </div>
-            </div>
+                  </div>
+                </div>
+              </>
+            )}
             <ReservePanelForm
               handleSubmit={handleSubmit}
               branch={branch}
@@ -156,20 +166,37 @@ const ReservePanel = () => {
               date={date}
             />
           </div>
-          <div className='w-2/6'>
-            <Calendar
-              calendarType={'US'}
-              defaultView={'month'}
-              locale={'es-ES'}
-              value={date}
-              onChange={(e: Date) => {
-                setDate(e);
-                console.log(date);
-                setSelectedDate(true);
-              }}
-              className={customCalendar.customCalendar}
-            />
-          </div>
+          {branch ? (
+            <CalendarContainer>
+              <Calendar
+                calendarType={'US'}
+                defaultView={'month'}
+                locale={'es-ES'}
+                value={date}
+                onClickDay={(e: Date) => {
+                  setDate(e);
+                  console.log(date);
+                  setSelectedDate(true);
+                }}
+                activeStartDate={new Date()}
+              />
+            </CalendarContainer>
+          ) : (
+            <CalendarContainerDisabled>
+              <Calendar
+                calendarType={'US'}
+                defaultView={'month'}
+                locale={'es-ES'}
+                value={date}
+                onClickDay={(e: Date) => {
+                  setDate(e);
+                  console.log(date);
+                  setSelectedDate(true);
+                }}
+                activeStartDate={new Date()}
+              />
+            </CalendarContainerDisabled>
+          )}
         </div>
         {selectedDate === true ? (
           <CountDown
