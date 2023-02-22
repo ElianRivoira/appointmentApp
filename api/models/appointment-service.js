@@ -2,10 +2,14 @@ const Appointment = require('./Appointment.model');
 
 const postReserve = async data => {
   const ap = await Appointment.findOne();
-  if (ap) {
+  if (ap.id) {
     let aux = ap.id.split('-');
     aux[0] = Number(aux[0]) + 1;
     const id = aux.join('-');
+    const appointment = await Appointment.create({ ...data, id: id });
+    return appointment;
+  } else {
+    const id = '1043812955480-01';
     const appointment = await Appointment.create({ ...data, id: id });
     return appointment;
   }

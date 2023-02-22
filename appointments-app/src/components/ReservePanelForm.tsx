@@ -59,7 +59,7 @@ const ReservePanelForm: React.FC<ReservePanelProps> = ({
             onChange={e => setTime(e.target.value)}
           >
             <option value=''></option>
-            <option value='1017'>De 10:00 a 17:00hs</option>
+            <option value='10'>De 10:00 a 10:30hs</option>
           </select>
           <div className='flex mb-4'>
             <div className='w-1/2 mr-4'>

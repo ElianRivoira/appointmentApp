@@ -6,7 +6,6 @@ const httpPostReserve = async (req, res, next) => {
       userId: req.body.userId,
       date: req.body.date,
       branch: req.body.branch,
-      time: req.body.time,
       name: req.body.name,
       phone: req.body.phone,
       email: req.body.email,
