@@ -4,7 +4,11 @@ const appointmentSchema = new Schema({
   userId: {
     type: Schema.Types.ObjectId,
     ref: 'User',
-    // required: true,
+    required: true,
+  },
+  id: {
+    type: String,
+    required: true,
   },
   date: {
     type: Date,
