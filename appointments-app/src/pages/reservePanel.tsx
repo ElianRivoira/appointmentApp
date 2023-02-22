@@ -34,10 +34,10 @@ const ReservePanel = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    date.setHours(Number(time))
     const reserve = await postReserve(
       date,
       branch,
-      time,
       name,
       phone,
       email,
@@ -175,7 +175,6 @@ const ReservePanel = () => {
                 value={date}
                 onClickDay={(e: Date) => {
                   setDate(e);
-                  console.log(date);
                   setSelectedDate(true);
                 }}
                 activeStartDate={new Date()}
