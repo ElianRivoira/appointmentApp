@@ -26,7 +26,7 @@ const Reserves = () => {
       <div className='mt-12 mx-24'>
         <div className='font-semibold text-xl mb-6'>Reservas</div>
         {reservesFromUsers.map((reserve) => (
-          <Reserve data={reserve}></Reserve>
+          <Reserve data={reserve} key={reserve._id}></Reserve>
         ))}
       </div>
     </>

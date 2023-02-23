@@ -29,13 +29,28 @@ const httpGetAllAppointmentsFromUser = async (req, res, next) => {
 
 const httpGetOneAppointment = async (req, res, next) => {
   try {
-    const reserve = await appointmentService.getOneAppointment(
-      req.params.id
-    );
+    const reserve = await appointmentService.getOneAppointment(req.params.id);
     res.status(200).send(reserve);
   } catch (e) {
     next(e);
   }
 };
 
-module.exports = { httpPostReserve, httpGetAllAppointmentsFromUser, httpGetOneAppointment };
+const httpEditAppointment = async (req, res, next) => {
+  try {
+    const editedReserve = await appointmentService.putAppointment(
+      req.params.id,
+      req.body
+    );
+    res.send(editedReserve);
+  } catch (e) {
+    next(e);
+  }
+};
+
+module.exports = {
+  httpPostReserve,
+  httpGetAllAppointmentsFromUser,
+  httpGetOneAppointment,
+  httpEditAppointment,
+};

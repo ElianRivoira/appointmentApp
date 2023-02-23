@@ -24,8 +24,7 @@ const getAllAppointmentsFromUser = async userId => {
   return appointments;
 };
 
-const getOneAppointment = async (id) => {
-  console.log(id);
+const getOneAppointment = async id => {
   const appointment = await Appointment.findOne(
     { _id: id },
     { __v: 0, userId: 0 }
@@ -34,4 +33,16 @@ const getOneAppointment = async (id) => {
   return appointment;
 };
 
-module.exports = { postReserve, getAllAppointmentsFromUser, getOneAppointment };
+const putAppointment = async (id, data) => {
+  const appointment = await Appointment.findByIdAndUpdate(id, data, {
+    new: true,
+  });
+  return appointment;
+};
+
+module.exports = {
+  postReserve,
+  getAllAppointmentsFromUser,
+  getOneAppointment,
+  putAppointment,
+};

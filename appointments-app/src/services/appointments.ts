@@ -19,6 +19,24 @@ export async function postReserve(
   return res.data;
 }
 
+export async function editReserve(
+  date: Date,
+  branch: string,
+  name: string,
+  phone: string,
+  email: string,
+  reserveId: string,
+): Promise<ReserveResponse> {
+  const res = await api.put(`/appointments/${reserveId}`, {
+    date,
+    branch,
+    name,
+    phone,
+    email,
+  });
+  return res.data;
+}
+
 export async function getReserves(id: string): Promise<reserveUser[]> {
   const res = await api.get(`/appointments/all/${id}`);
   console.log(res.data);
@@ -27,6 +45,5 @@ export async function getReserves(id: string): Promise<reserveUser[]> {
 
 export async function getOneReserve(id: string): Promise<reserveUser> {
   const res = await api.get(`/appointments/${id}`);
-  console.log("DATOS DE LA RESERVA", res.data);
   return res.data;
 }

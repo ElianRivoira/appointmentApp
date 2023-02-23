@@ -17,6 +17,7 @@ async function userLogin(user) {
         username: loggedUser.name,
         dni: loggedUser.dni,
       };
+      console.log('AAAAAAAAAAAAAAAAA')
       const token = generateToken(tokenPayload);
       return {
         user: loggedUser,

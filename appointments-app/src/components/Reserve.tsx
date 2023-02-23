@@ -4,10 +4,9 @@ import Image from 'next/image';
 
 interface Props {
   data: {
-    _id: string;
+    id: string;
     date: Date;
     branch: string;
-    time: string;
     name: string;
     email: string;
   };
@@ -32,7 +31,7 @@ const Reserve: React.FC<Props> = ({ data }) => {
         </div>
         <div className='flex flex-col flex-1'>
           <div className='text-xs'>Id de la reserva</div>
-          <div className='text-sm font-semibold'>{data._id}</div>
+          <div className='text-sm font-semibold'>{data.id}</div>
         </div>
       </div>
       <div className='w-1/6 flex justify-end'>

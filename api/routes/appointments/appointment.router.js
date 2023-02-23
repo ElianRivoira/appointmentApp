@@ -9,4 +9,6 @@ router.get('/all/:id', appointmentController.httpGetAllAppointmentsFromUser);
 
 router.get('/:id', appointmentController.httpGetOneAppointment);
 
+router.put('/:id', appointmentController.httpEditAppointment);
+
 module.exports = router;

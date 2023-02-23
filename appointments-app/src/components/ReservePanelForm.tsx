@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 interface ReservePanelProps {
-  handleSubmit: (e: React.FormEvent) => Promise<void>;
+  selectedBranch?: string;
+  selectedTime?: string;
+  handleSubmit: (e: React.FormEvent) => void;
   branch: string;
   setBranch: (state: string) => void;
   selectedDate: boolean;
@@ -13,10 +15,13 @@ interface ReservePanelProps {
   setPhone: (state: string) => void;
   email: string;
   setEmail: (state: string) => void;
-  date: Date
+  date: Date;
+  edit: boolean;
 }
 
 const ReservePanelForm: React.FC<ReservePanelProps> = ({
+  selectedBranch,
+  selectedTime,
   handleSubmit,
   branch,
   setBranch,
@@ -30,23 +35,49 @@ const ReservePanelForm: React.FC<ReservePanelProps> = ({
   email,
   setEmail,
   date,
+  edit,
 }) => {
+  const dbBranches = ['', 'Villa Crespo', 'Zárate'];
+  const dbTimes = ['', '10-0', '10-30'];
+
   return (
     <form onSubmit={handleSubmit}>
       <label htmlFor='branch' className='text-sm font-semibold'>
         Sucursal
       </label>
-      <select
-        name='branch'
-        id='branch'
-        className='w-full rounded-lg text-sm font-semibold h-11 p-3 border border-grey3 hover:border-grey5 focus:border-cruce outline-none'
-        onChange={e => {
-          setBranch(e.target.value);
-        }}
-      >
-        <option value=''></option>
-        <option value='Villa Crespo'>Villa Crespo</option>
-      </select>
+      {!edit ? (
+        <select
+          name='branch'
+          id='branch'
+          className='w-full rounded-lg text-sm font-semibold h-11 p-3 border border-grey3 hover:border-grey5 focus:border-cruce outline-none'
+          defaultValue=''
+          onChange={e => {
+            setBranch(e.target.value);
+          }}
+        >
+          {dbBranches?.map(branchOffice => (
+            <option value={branchOffice} key={branchOffice}>
+              {branchOffice}
+            </option>
+          ))}
+        </select>
+      ) : selectedBranch ? (
+        <select
+          name='branch'
+          id='branch'
+          className='w-full rounded-lg text-sm font-semibold h-11 p-3 border border-grey3 hover:border-grey5 focus:border-cruce outline-none'
+          defaultValue={selectedBranch}
+          onChange={e => {
+            setBranch(e.target.value);
+          }}
+        >
+          {dbBranches?.map(branchOffice => (
+            <option value={branchOffice} key={branchOffice}>
+              {branchOffice}
+            </option>
+          ))}
+        </select>
+      ) : null }
       {selectedDate === true ? (
         <>
           <label htmlFor='time' className='text-sm font-semibold mt-4 block'>
@@ -56,10 +87,14 @@ const ReservePanelForm: React.FC<ReservePanelProps> = ({
             name='time'
             id='time'
             className='w-full rounded-lg text-sm font-semibold h-11 mb-4 p-3 border border-grey3 hover:border-grey5 focus:border-cruce outline-none'
+            defaultValue={selectedTime}
             onChange={e => setTime(e.target.value)}
           >
-            <option value=''></option>
-            <option value='10'>De 10:00 a 10:30hs</option>
+            {dbTimes?.map(dbTime => (
+              <option value={dbTime} key={dbTime}>
+                {dbTime.replace('-', ':')}
+              </option>
+            ))}
           </select>
           <div className='flex mb-4'>
             <div className='w-1/2 mr-4'>
@@ -107,11 +142,14 @@ const ReservePanelForm: React.FC<ReservePanelProps> = ({
           className='bg-cruce rounded-lg h-11 w-44 mt-8.5 font-semibold text-lb text-white hover:bg-cruceHover active:shadow-active'
           type='submit'
         >
-          Confirmar Reserva
+          {edit ? 'Confirmar Edición' : 'Confirmar Reserva'}
         </button>
       ) : (
-        <button className='bg-grey3 rounded-lg h-11 w-44 mt-8.5 font-semibold text-lb text-grey6' disabled>
-          Confirmar Reserva
+        <button
+          className='bg-grey3 rounded-lg h-11 w-44 mt-8.5 font-semibold text-lb text-grey6'
+          disabled
+        >
+          {edit ? 'Confirmar Edición' : 'Confirmar Reserva'}
         </button>
       )}
     </form>

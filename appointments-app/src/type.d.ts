@@ -20,9 +20,9 @@ interface UserState {
 
 interface reserveUser {
   _id: string;
+  id: string;
   date: Date;
   branch: string;
-  time: string;
   name: string;
   email: string;
   phone: number;
@@ -32,7 +32,6 @@ interface ReserveResponse {
   _id: string;
   date: Date;
   branch: string;
-  time: string;
   name: string;
   email: string;
   usedId: string;
