@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
+import { NextPageContext } from 'next';
+import { useRouter } from 'next/router';
+import Image from 'next/image';
+
 import { getOneReserve } from '@/services/appointments';
 import Navbar from '@/components/Navbar';
-import Image from 'next/image';
 import bigCheck from '../../../public/icons/bigCheck.svg';
 import llaveInglesa from '../../../public/icons/llaveInglesa.svg';
 import cruzRoja from '../../../public/icons/cruzRoja.svg';
-import { NextPageContext } from 'next';
 
 interface MyPageProps {
   query: {
@@ -17,6 +19,7 @@ const confirmedReserve = ({ query }: MyPageProps) => {
   const [reserve, setReserve] = useState<reserveUser>();
   const [date, setDate] = useState<string[]>([]);
   const [reserveDate, setReserveDate] = useState<string[]>([]);
+  const router = useRouter();
 
   useEffect(() => {
     let currentDate: string = new Date().toLocaleString('en-GB', {
@@ -28,7 +31,6 @@ const confirmedReserve = ({ query }: MyPageProps) => {
     });
     let todayArray: string[] = currentDate.split(',');
     setDate(todayArray);
-    console.log('DATE', todayArray);
     const getReserve = async () => {
       if (query.id) {
         const idString = Array.isArray(query.id) ? query.id.join('') : query.id;
@@ -37,26 +39,10 @@ const confirmedReserve = ({ query }: MyPageProps) => {
       }
     };
     getReserve();
-
-    /*  if (reserve.date) {
-      console.log("HOLAA", reserve.date)
-      let newDate = reserve?.date.toLocaleDateString('en-GB', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-      });
-
-      let newDateArray: string[] = newDate?.split(',');
-      setReserveDate(newDateArray);
-    } */
   }, []);
 
   useEffect(() => {
-    console.log('ESTE ES EL QUE IMPORTA', reserve?.date);
     if (reserve?.date) {
-      console.log('HOLAA', reserve.date);
       let newDate = new Date(reserve?.date).toLocaleString('en-GB', {
         year: 'numeric',
         month: '2-digit',
@@ -101,7 +87,7 @@ const confirmedReserve = ({ query }: MyPageProps) => {
               className='font-semibold text-2xl mb-3
             '
             >
-              Reserva <span className='text-cruce'>{'#' + reserve?._id}</span>
+              Reserva <span className='text-cruce'>{'#' + reserve?.id}</span>
             </p>
             <div className='font-semibold text-[#505050] text-sm mb-16'>
               Hecho el{' '}
@@ -150,7 +136,14 @@ const confirmedReserve = ({ query }: MyPageProps) => {
             </div>
           </div>
           <div className='flex w-1/2 items-end flex-col'>
-            <button className='bg-cruceSecondary hover:bg-cruceSecondaryHover text-cruce font-semibold text-lb rounded-lg w-{186} px-8 h-11 mb-2 flex items-center'>
+            <button
+              className='bg-cruceSecondary hover:bg-cruceSecondaryHover text-cruce font-semibold text-lb rounded-lg w-{186} px-8 h-11 mb-2 flex items-center'
+              onClick={() =>
+                router.push({
+                  pathname: `/reservePanel/edit/${reserve?._id}`,
+                })
+              }
+            >
               <Image
                 src={llaveInglesa}
                 alt='llaveInglesa'

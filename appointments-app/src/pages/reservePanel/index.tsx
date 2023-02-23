@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Calendar from 'react-calendar';
+import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
 
 import {
   CalendarContainer,
@@ -10,11 +12,12 @@ import Navbar from '@/components/Navbar';
 import Step from '@/commons/Step';
 import ReservePanelForm from '@/components/ReservePanelForm';
 import { postReserve } from '@/services/appointments';
-import { useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/store';
 import CountDown from '@/components/CountDown';
-import { useDispatch } from 'react-redux';
 import { fetchUser } from '@/store/slices/userSlice';
+import Modal from '@/components/Modal';
+import rightCheckbox from '../../../public/icons/rightCheckbox.svg';
+import wrongCheckbox from '../../../public/icons/wrongCheckbox.svg';
 
 const ReservePanel = () => {
   const [branch, setBranch] = useState('');
@@ -27,6 +30,9 @@ const ReservePanel = () => {
   const [countDown, setCountDown] = useState('');
   const [start, setStart] = useState(false);
   const [reload, setReload] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [type, setType] = useState(0);
+  const [reserveId, setReserveId] = useState('');
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
   const { user } = useSelector((state: RootState) => state.user);
@@ -34,16 +40,26 @@ const ReservePanel = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    date.setHours(Number(time))
-    const reserve = await postReserve(
-      date,
-      branch,
-      name,
-      phone,
-      email,
-      userId
-    );
-    router.push(`/confirmedReserve/${reserve._id}`);
+    const hours = time.split('-')[0];
+    const minutes = time.split('-')[1];
+    date.setHours(Number(hours));
+    date.setMinutes(Number(minutes));
+    try {
+      const reserv = await postReserve(
+        date,
+        branch,
+        name,
+        phone,
+        email,
+        userId
+      );
+      setReserveId(reserv._id)
+      setType(1);
+      setOpen(true);
+    } catch (e) {
+      setType(2);
+      setOpen(true);
+    }
   };
 
   const formatTime = (mss: number): string => {
@@ -58,6 +74,16 @@ const ReservePanel = () => {
       ? `Quedan ${minutes}:0${seconds}`
       : `Quedan ${minutes}:${seconds}`;
   };
+
+  useEffect(() => {
+    if (type === 1 && open === false) {
+      if (reserveId && typeof reserveId === 'string') {
+        router.push({
+          pathname: `/confirmedReserve/${reserveId}`,
+        });
+      }
+    }
+  }, [open]);
 
   useEffect(() => {
     if (branch) setStart(true);
@@ -130,7 +156,9 @@ const ReservePanel = () => {
               </>
             ) : (
               <>
-                <p className='text-sm font-semibold'>Seleccioná el día en el calendario</p>
+                <p className='text-sm font-semibold'>
+                  Seleccioná el día en el calendario
+                </p>
                 <div className='flex flex-col'>
                   <div className='h-26 flex flex-row items-center'>
                     <Step icon='check' text='Elegí tu sucursal' />
@@ -164,6 +192,7 @@ const ReservePanel = () => {
               email={email}
               setEmail={setEmail}
               date={date}
+              edit={false}
             />
           </div>
           {branch ? (
@@ -177,7 +206,6 @@ const ReservePanel = () => {
                   setDate(e);
                   setSelectedDate(true);
                 }}
-                activeStartDate={new Date()}
               />
             </CalendarContainer>
           ) : (
@@ -192,7 +220,6 @@ const ReservePanel = () => {
                   console.log(date);
                   setSelectedDate(true);
                 }}
-                activeStartDate={new Date()}
               />
             </CalendarContainerDisabled>
           )}
@@ -215,6 +242,36 @@ const ReservePanel = () => {
           />
         )}
       </div>
+      <Modal open={open} onClose={() => setOpen(false)}>
+        <div className='flex flex-col items-center'>
+          {type === 1 ? (
+            <>
+              <Image
+                src={rightCheckbox}
+                alt='success'
+                className='w-10 h-10 mb-7'
+              />
+              <h1>Turno reservado con éxito</h1>
+              <p>Gracias por confiar en nuestro servicio</p>
+            </>
+          ) : type === 2 ? (
+            <>
+              <Image
+                src={wrongCheckbox}
+                alt='error'
+                className='w-10 h-10 mb-7'
+              />
+              <>
+                <h1>No se pudo reservar el turno</h1>
+                <p>
+                  Este turno ya fue ocupado, vuelve a intentarlo más tarde o
+                  modificando algún parámetro
+                </p>
+              </>
+            </>
+          ) : null}
+        </div>
+      </Modal>
     </div>
   );
 };
