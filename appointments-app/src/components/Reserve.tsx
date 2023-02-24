@@ -1,9 +1,10 @@
 import React from 'react';
-import editIcon from '../../public/icons/edit.svg';
-import Image from 'next/image';
+
+import Dropdown from '@/commons/Dropdown';
 
 interface Props {
   data: {
+    _id: string;
     id: string;
     date: Date;
     branch: string;
@@ -35,10 +36,7 @@ const Reserve: React.FC<Props> = ({ data }) => {
         </div>
       </div>
       <div className='w-1/6 flex justify-end'>
-        <button className='bg-cruceSecondary hover:bg-cruceSecondaryHover text-cruce font-semibold text-lb rounded-lg w-24 h-12 flex justify-center items-center'>
-          <div className='ml-2 mr-3 font-semibold text-[15px]'>Editar</div>
-          <Image src={editIcon} alt='editIcon' className='w-4 h-4 mr-1'></Image>
-        </button>
+        <Dropdown reserveId={data._id} />
       </div>
     </div>
   );
