@@ -40,9 +40,14 @@ const putAppointment = async (id, data) => {
   return appointment;
 };
 
+const deleteAppointment = async (id) => {
+  await Appointment.findByIdAndDelete(id)
+}
+
 module.exports = {
   postReserve,
   getAllAppointmentsFromUser,
   getOneAppointment,
   putAppointment,
+  deleteAppointment,
 };

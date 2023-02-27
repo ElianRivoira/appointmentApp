@@ -25,7 +25,7 @@ export async function editReserve(
   name: string,
   phone: string,
   email: string,
-  reserveId: string,
+  reserveId: string
 ): Promise<ReserveResponse> {
   const res = await api.put(`/appointments/${reserveId}`, {
     date,
@@ -39,11 +39,15 @@ export async function editReserve(
 
 export async function getReserves(id: string): Promise<reserveUser[]> {
   const res = await api.get(`/appointments/all/${id}`);
-  console.log(res.data);
   return res.data;
 }
 
 export async function getOneReserve(id: string): Promise<reserveUser> {
   const res = await api.get(`/appointments/${id}`);
+  return res.data;
+}
+
+export async function cancelReserv(id: string): Promise<void> {
+  const res = await api.delete(`/appointments/${id}`);
   return res.data;
 }

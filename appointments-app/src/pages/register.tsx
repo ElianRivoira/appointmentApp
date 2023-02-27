@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
+
 import openEye from '../../public/icons/openEye.svg';
 import flechitaIzq from '../../public/icons/flechitaIzq.svg';
 import rightCheckbox from '../../public/icons/rightCheckbox.svg';
 import wrongCheckbox from '../../public/icons/wrongCheckbox.svg';
-import Link from 'next/link';
 import Modal from '@/components/Modal';
 import { postUser } from '../services/users';
 

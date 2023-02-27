@@ -48,9 +48,19 @@ const httpEditAppointment = async (req, res, next) => {
   }
 };
 
+const httpDeleteAppointment = async (req, res, next) => {
+  try {
+    await appointmentService.deleteAppointment(req.params.id);
+    res.sendStatus(204);
+  } catch (e) {
+    next(e);
+  }
+};
+
 module.exports = {
   httpPostReserve,
   httpGetAllAppointmentsFromUser,
   httpGetOneAppointment,
   httpEditAppointment,
+  httpDeleteAppointment,
 };

@@ -23,13 +23,18 @@ module.exports = {
         grey5: '#AFAFAF',
         grey6: '#8C8C8C',
         grey7: '#6E6E6E',
+        grey8: '#505050',
         exito: '#00A541',
         error: '#E53939',
+        errorHover: '#E54949',
       },
       fontSize: {
+        xm: ['13px', '16px'],
         ss: ['14px', '16px'],
+        ls: ['15px', '20px'],
         lb: ['16px', '20px'],
         ln: ['18px', '24px'],
+        lx: ['19px', '24px'],
         xb: ['20px', '24px'],
       },
       boxShadow: {
@@ -45,8 +50,12 @@ module.exports = {
         30: '125px',
       },
       margin: {
+        6.5: '26px',
         8.5: '34px',
         62: '248px',
+      },
+      backgroundImage: {
+        'doneIcon': "url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cGF0aCBmaWxsPSIjYTU0MmYxIiBkPSJNMTczLjg5OCA0MzkuNDA0bC0xNjYuNC0xNjYuNGMtOS45OTctOS45OTctOS45OTctMjYuMjA2IDAtMzYuMjA0bDM2LjIwMy0zNi4yMDRjOS45OTctOS45OTggMjYuMjA3LTkuOTk4IDM2LjIwNCAwTDE5MiAzMTIuNjkgNDMyLjA5NSA3Mi41OTZjOS45OTctOS45OTcgMjYuMjA3LTkuOTk3IDM2LjIwNCAwbDM2LjIwMyAzNi4yMDRjOS45OTcgOS45OTcgOS45OTcgMjYuMjA2IDAgMzYuMjA0bC0yOTQuNCAyOTQuNDAxYy05Ljk5OCA5Ljk5Ny0yNi4yMDcgOS45OTctMzYuMjA0LS4wMDF6Ii8+PC9zdmc+')",
       },
     },
   },
