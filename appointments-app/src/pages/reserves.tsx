@@ -1,14 +1,25 @@
 import { getReserves } from '@/services/appointments';
 import { useSelector } from 'react-redux';
-import { RootState } from '@/store';
+import { AppDispatch, RootState } from '@/store';
 import { useEffect, useState } from 'react';
 import Reserve from '@/components/Reserve';
 import Navbar from '@/components/Navbar';
+import { useDispatch } from 'react-redux';
+import { fetchUser } from '@/store/slices/userSlice';
+import { useRouter } from 'next/router';
 
 const Reserves = () => {
   const { user } = useSelector((state: RootState) => state.user);
   const [reservesFromUsers, setReservesFromUsers] = useState<reserveUser[]>([]);
+  const dispatch = useDispatch<AppDispatch>();
+  const router = useRouter();
 
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) router.push('login');
+    dispatch(fetchUser());
+  }, []);
+  
   useEffect(() => {
     const getReserve = async () => {
       if (user) {
@@ -18,7 +29,7 @@ const Reserves = () => {
       }
     };
     getReserve();
-  }, []);
+  }, [user])
 
   return (
     <>
