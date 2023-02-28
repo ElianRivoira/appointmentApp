@@ -64,7 +64,7 @@ const createBranch = () => {
                   name='phone'
                   id='phone'
                   value={phone}
-                  defaultValue={''}
+                  defaultValue={phone}
                   onChange={(e) => setPhone(Number(e.target.value))}
                   required
                   className='w-full border border-solid border-grey-500 focus:border-cruce rounded-lg h-11 outline-none p-3'
