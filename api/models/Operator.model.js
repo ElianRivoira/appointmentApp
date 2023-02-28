@@ -19,6 +19,9 @@ const operatorSchema = new Schema ({
     type: String,
     required: true,
   },
+  branch: {
+    type: Schema.Types.ObjectId,
+  }
 });
 
 const Operator = model('Operator', operatorSchema);

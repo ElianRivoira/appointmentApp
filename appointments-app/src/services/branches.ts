@@ -7,8 +7,8 @@ export async function postBranch(
   capacity: number,
   openHour: string,
   closeHour: string
-): Promise<ReserveResponse> {
-  const res = await api.post('/branch', {
+): Promise<Branch> {
+  const res = await api.post('/branches', {
     name,
     email,
     phone,
@@ -16,5 +16,11 @@ export async function postBranch(
     openHour,
     closeHour,
   });
+  return res.data;
+}
+
+export async function getBranches(
+): Promise<Branch[]> {
+  const res = await api.get('/branches');
   return res.data;
 }

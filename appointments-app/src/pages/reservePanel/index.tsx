@@ -20,12 +20,12 @@ import rightCheckbox from '../../../public/icons/rightCheckbox.svg';
 import wrongCheckbox from '../../../public/icons/wrongCheckbox.svg';
 
 const ReservePanel = () => {
-  const [branch, setBranch] = useState('');
   const [date, setDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(false);
+  const [branch, setBranch] = useState('');
   const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
   const [time, setTime] = useState('');
   const [countDown, setCountDown] = useState('');
   const [start, setStart] = useState(false);
