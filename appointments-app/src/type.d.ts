@@ -34,6 +34,25 @@ interface ReserveResponse {
   branch: string;
   name: string;
   email: string;
-  usedId: string;
+  userId: string;
   phone: number;
+}
+
+interface Operator {
+  _id: string;
+  name: string;
+  email: string;
+  dni: number;
+  password: string;
+  branch: string;
+}
+
+interface Branch {
+  _id: string;
+  name: string;
+  email: string;
+  phone: number;
+  capacity: number;
+  openHour: string;
+  closeHour: string;
 }

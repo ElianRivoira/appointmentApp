@@ -28,12 +28,12 @@ const AdminNavbar = () => {
     <div className='flex justify-center shadow-navbar bg-white'>
       <nav className='flex flex-row justify-between w-11/12 md:max-w-screen-2xl h-20 items-center'>
         <div className='flex'>
-          <Link href={'/createBranch'} className='w-36 h-11 mr-3.5'>
+          <Link href={'/admin/createBranch'} className='w-36 h-11 mr-3.5'>
             <button className='active:shadow-active bg-cruceSecondary hover:bg-cruceSecondaryHover text-cruce font-semibold text-lb rounded-lg w-36 h-11'>
               Crear Sucursal
             </button>
           </Link>
-          <Link href={'/reservePanel'} className='w-36 h-11'>
+          <Link href={'/admin/operators/create'} className='w-36 h-11'>
             <button className='active:shadow-active bg-cruceSecondary hover:bg-cruceSecondaryHover text-cruce font-semibold text-lb rounded-lg w-36 h-11'>
               Crear Operador
             </button>
