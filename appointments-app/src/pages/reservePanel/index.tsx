@@ -36,7 +36,7 @@ const ReservePanel = () => {
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
   const { user } = useSelector((state: RootState) => state.user);
-  const userId = user ? user.id : 'null';
+  const userId = user ? user._id : 'null';
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -251,8 +251,8 @@ const ReservePanel = () => {
                 alt='success'
                 className='w-10 h-10 mb-7'
               />
-              <h1>Turno reservado con éxito</h1>
-              <p>Gracias por confiar en nuestro servicio</p>
+              <h1 className='text-ln font-bold'>Turno reservado con éxito</h1>
+              <p className='text-sm font-normal mt-1'>Gracias por confiar en nuestro servicio</p>
             </>
           ) : type === 2 ? (
             <>
@@ -262,8 +262,8 @@ const ReservePanel = () => {
                 className='w-10 h-10 mb-7'
               />
               <>
-                <h1>No se pudo reservar el turno</h1>
-                <p>
+                <h1 className='text-ln font-bold'>No se pudo reservar el turno</h1>
+                <p className='text-sm font-normal mt-1'>
                   Este turno ya fue ocupado, vuelve a intentarlo más tarde o
                   modificando algún parámetro
                 </p>

@@ -1,9 +1,12 @@
 interface User {
+  _id: string;
   id: string;
   name: string;
   dni: number;
   email: string;
-  phone: number;
+  phone?: number;
+  role: string;
+  branch?: string;
 }
 
 interface UpdateUser {
@@ -22,7 +25,10 @@ interface reserveUser {
   _id: string;
   id: string;
   date: Date;
-  branch: string;
+  creationDate: Date;
+  branch: {
+    name: string;
+  };
   name: string;
   email: string;
   phone: number;
@@ -55,4 +61,5 @@ interface Branch {
   capacity: number;
   openHour: string;
   closeHour: string;
+  appointments: reserveUser[];
 }

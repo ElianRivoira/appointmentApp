@@ -16,7 +16,7 @@ const validateLoggedUser = async (req, res, next) => {
 };
 
 const validateLoggedAdmin = async (req, res, next) => {
-  if (!req.user || req.user.role !== 'ADMIN_ROLE') return res.sendStatus(401);
+  if (!req.user || req.user.role !== 'admin') return res.sendStatus(401);
   next();
 };
 

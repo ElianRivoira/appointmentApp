@@ -24,3 +24,8 @@ export async function getBranches(
   const res = await api.get('/branches');
   return res.data;
 }
+
+export async function getBranch(id: string): Promise<Branch> {
+  const res = await api.get(`/branches/${id}`);
+  return res.data;
+}

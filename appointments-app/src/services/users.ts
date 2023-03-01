@@ -3,16 +3,15 @@ import { api } from './axiosInstance';
 export async function login(
   email: string,
   password: string
-): Promise<Object> {
+): Promise<User> {
   const res = await api.post('/users/login', {
     email,
     password,
   });
-  console.log(res.data);
   if (res.data.token) {
     localStorage.setItem('token', res.data.token);
   }
-  return res.data;
+  return res.data.user;
 }
 
 export async function postUser(

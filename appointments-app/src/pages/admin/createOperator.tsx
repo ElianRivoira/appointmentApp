@@ -3,11 +3,11 @@ import Image from 'next/image';
 
 import AdminNavbar from '@/components/AdminNavbar';
 import Modal from '@/components/Modal';
-import rightCheckbox from '../../../../public/icons/rightCheckbox.svg';
-import wrongCheckbox from '../../../../public/icons/wrongCheckbox.svg';
+import rightCheckbox from '../../../public/icons/rightCheckbox.svg';
+import wrongCheckbox from '../../../public/icons/wrongCheckbox.svg';
 import { createOperator } from '@/services/operators';
 import { getBranches } from '@/services/branches';
-import openEye from '../../../../public/icons/openEye.svg';
+import openEye from '../../../public/icons/openEye.svg';
 
 const CreateOperators = () => {
   const [open, setOpen] = useState(false);
@@ -173,7 +173,7 @@ const CreateOperators = () => {
               </div>
             </div>
             <div className='flex mt-4'>
-              {name && email && dni && branch && password && repeatPassword && password === repeatPassword ? (
+              {name && email && dni && branch && password && repeatPassword && password === repeatPassword && password.length >= 8 ? (
                 <button
                   type='submit'
                   className=' bg-cruce hover:bg-cruceHover text-white font-semibold text-lb rounded-lg h-11 w-full'

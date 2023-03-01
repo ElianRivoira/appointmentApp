@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import { getBranches } from '@/services/branches';
+import React, { useEffect, useState } from 'react';
 
 interface ReservePanelProps {
   selectedBranch?: string;
@@ -37,8 +38,16 @@ const ReservePanelForm: React.FC<ReservePanelProps> = ({
   date,
   edit,
 }) => {
-  const dbBranches = ['', 'Villa Crespo', 'Zárate'];
   const dbTimes = ['', '10-0', '10-30'];
+  const [branches, setBranches] = useState<Branch[]>([]);
+
+  useEffect(() => {
+    const func = async () => {
+      const branches = await getBranches();
+      setBranches(branches);
+    };
+    func();
+  }, []);
 
   return (
     <form onSubmit={handleSubmit}>
@@ -55,9 +64,9 @@ const ReservePanelForm: React.FC<ReservePanelProps> = ({
             setBranch(e.target.value);
           }}
         >
-          {dbBranches?.map(branchOffice => (
-            <option value={branchOffice} key={branchOffice}>
-              {branchOffice}
+          {branches?.map(branchOffice => (
+            <option value={branchOffice.name} key={branchOffice._id}>
+              {branchOffice.name}
             </option>
           ))}
         </select>
@@ -71,13 +80,13 @@ const ReservePanelForm: React.FC<ReservePanelProps> = ({
             setBranch(e.target.value);
           }}
         >
-          {dbBranches?.map(branchOffice => (
-            <option value={branchOffice} key={branchOffice}>
-              {branchOffice}
+          {branches?.map(branchOffice => (
+            <option value={branchOffice.name} key={branchOffice._id}>
+              {branchOffice.name}
             </option>
           ))}
         </select>
-      ) : null }
+      ) : null}
       {selectedDate === true ? (
         <>
           <label htmlFor='time' className='text-sm font-semibold mt-4 block'>

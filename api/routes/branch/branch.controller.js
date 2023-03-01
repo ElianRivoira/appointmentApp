@@ -18,7 +18,7 @@ const httpPostBranch = async (req, res, next) => {
 
 const httpGetAllBranches = async (req, res, next) => {
   try {
-    const branches = await branchService.getAllBranches(req.params.id);
+    const branches = await branchService.getAllBranches();
     res.status(200).send(branches);
   } catch (e) {
     next(e);

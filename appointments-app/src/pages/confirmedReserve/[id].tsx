@@ -17,20 +17,11 @@ interface MyPageProps {
 
 const confirmedReserve = ({ query }: MyPageProps) => {
   const [reserve, setReserve] = useState<reserveUser>();
-  const [date, setDate] = useState<string[]>([]);
+  const [creationDate, setCreationDate] = useState<string[]>([]);
   const [reserveDate, setReserveDate] = useState<string[]>([]);
   const router = useRouter();
 
   useEffect(() => {
-    let currentDate: string = new Date().toLocaleString('en-GB', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit',
-    });
-    let todayArray: string[] = currentDate.split(',');
-    setDate(todayArray);
     const getReserve = async () => {
       if (query.id) {
         const idString = Array.isArray(query.id) ? query.id.join('') : query.id;
@@ -40,10 +31,22 @@ const confirmedReserve = ({ query }: MyPageProps) => {
     };
     getReserve();
   }, []);
-
+  
   useEffect(() => {
+    if (reserve?.creationDate) {
+      let currentDate: string = new Date(reserve.creationDate).toLocaleString('en-GB', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+      });
+      let todayArray: string[] = currentDate.split(',');
+      setCreationDate(todayArray);
+    }
+
     if (reserve?.date) {
-      let newDate = new Date(reserve?.date).toLocaleString('en-GB', {
+      let newDate = new Date(reserve.date).toLocaleString('en-GB', {
         year: 'numeric',
         month: '2-digit',
         day: '2-digit',
@@ -91,9 +94,9 @@ const confirmedReserve = ({ query }: MyPageProps) => {
             </p>
             <div className='font-semibold text-[#505050] text-sm mb-16'>
               Hecho el{' '}
-              {date[0] +
+              {creationDate[0] +
                 ' a las' +
-                date[1] +
+                creationDate[1] +
                 ' hs para el ' +
                 reserveDate[0] +
                 ' a las' +
@@ -126,7 +129,7 @@ const confirmedReserve = ({ query }: MyPageProps) => {
                 </p>
                 <p className='text-sm text-[#505050] mb-1'>
                   <span className='font-medium'>Sucursal: </span>
-                  {reserve?.branch}
+                  {reserve?.branch.name}
                 </p>
                 <p className='text-sm text-[#505050]'>
                   <span className='font-medium'>Horario: </span>
