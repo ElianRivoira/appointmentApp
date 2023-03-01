@@ -23,10 +23,18 @@ const userSchema = new Schema({
   },
   appointments: {
     type: Schema.Types.ObjectId,
-    ref: 'Appointments',
+    ref: 'Appointment',
   },
   phone: {
     type: Number,
+  },
+  branch: {
+    type: Schema.Types.ObjectId,
+    ref: 'BranchOffice',
+  },
+  role: {
+    type: String,
+    enum: ['user', 'operator', 'admin'],
   },
 });
 

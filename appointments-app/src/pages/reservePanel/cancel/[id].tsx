@@ -99,7 +99,7 @@ const cancelReserve = () => {
             ) : null}
           </p>
           <p className='text-ss font-semibold'>
-            Sucursal: <span className='font-normal'>{reserve?.branch}</span>
+            Sucursal: <span className='font-normal'>{reserve?.branch.name}</span>
           </p>
           <hr className='mt-4' />
         </div>

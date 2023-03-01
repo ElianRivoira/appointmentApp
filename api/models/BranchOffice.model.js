@@ -26,6 +26,12 @@ const branchOffice = new Schema({
     type: String,
     required: true,
   },
+  appointments: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Appointment',
+    },
+  ],
 });
 
 const BranchOffice = model('BranchOffice', branchOffice);

@@ -15,16 +15,19 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [type, setType] = useState(0);
+  const [role, setRole] = useState('');
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await login(email, password);
-      if (!res) {
+      const user = await login(email, password);
+      console.log(user)
+      if (!user) {
         setType(2);
         setIsOpen(true);
       } else {
+        setRole(user.role)
         setType(1);
         setIsOpen(true);
       }
@@ -35,7 +38,9 @@ const Login = () => {
 
   useEffect(() => {
     if (type === 1 && isOpen === false) {
-      router.push('reservePanel');
+      if (role === 'user') router.push('reservePanel')
+      else if (role === 'operator') router.push('operator/reserves')
+      else if (role === 'admin') router.push('admin/createOperator')
     }
   }, [isOpen]);
 
@@ -105,7 +110,7 @@ const Login = () => {
               <div className='flex flex-col items-center'>
                 <Image
                   src={rightCheckbox}
-                  alt='error'
+                  alt='success'
                   className='w-10 h-10 mb-7'
                 />
                 <p>Inicio de sesión satisfactorio</p>

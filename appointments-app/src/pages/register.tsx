@@ -339,14 +339,14 @@ const Register = () => {
         </form>
         <Modal open={isOpen} onClose={() => setIsOpen(false)}>
           {type === 1 ? (
-            <h1>Las contraseñas deben coincidir</h1>
+            <h1 className='text-ln font-bold mb-2'>Las contraseñas deben coincidir</h1>
           ) : type === 2 ? (
-            <h1>Tu usuario ha sido creado satisfactoriamente</h1>
+            <h1 className='text-ln font-bold mb-2'>Tu usuario ha sido creado satisfactoriamente</h1>
           ) : type === 3 ? (
-            <h1>Tiene que cumplir las condiciones primero</h1>
+            <h1 className='text-ln font-bold mb-2'>Tiene que cumplir las condiciones primero</h1>
           ) : type === 4 ? (
             <>
-              <h1 className='mb-2'>Ha ocurrido un error al crear su usuario</h1>
+              <h1 className='text-ln font-bold mb-2'>Ha ocurrido un error al crear su usuario</h1>
               <p className='text-sm font-normal'>{errorMessage}</p>
             </>
           ) : null}

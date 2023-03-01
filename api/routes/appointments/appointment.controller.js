@@ -27,6 +27,17 @@ const httpGetAllAppointmentsFromUser = async (req, res, next) => {
   }
 };
 
+const httpGetAllAppointmentsFromBranch = async (req, res, next) => {
+  try {
+    const reserves = await appointmentService.getAllAppointmentsFromBranch(
+      req.params.branchId
+    );
+    res.status(200).send(reserves);
+  } catch (e) {
+    next(e);
+  }
+};
+
 const httpGetOneAppointment = async (req, res, next) => {
   try {
     const reserve = await appointmentService.getOneAppointment(req.params.id);
@@ -60,6 +71,7 @@ const httpDeleteAppointment = async (req, res, next) => {
 module.exports = {
   httpPostReserve,
   httpGetAllAppointmentsFromUser,
+  httpGetAllAppointmentsFromBranch,
   httpGetOneAppointment,
   httpEditAppointment,
   httpDeleteAppointment,

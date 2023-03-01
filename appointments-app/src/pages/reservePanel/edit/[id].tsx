@@ -92,9 +92,9 @@ const ReservePanel = () => {
   useEffect(() => {
     if (reserve) {
       const datee = new Date(reserve.date);
-      setSelectedBranch(reserve.branch);
+      setSelectedBranch(reserve.branch.name);
       setSelectedTime(`${datee.getHours()}-${datee.getMinutes()}`)
-      setBranch(reserve.branch);
+      setBranch(reserve.branch.name);
       setSelectedDate(true);
       setDate(datee);
       setEmail(reserve.email);
