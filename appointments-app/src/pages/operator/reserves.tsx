@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -12,7 +12,10 @@ const Reserves = () => {
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
   const { user } = useSelector((state: RootState) => state.user);
-  const [reservesFromBranch, setReservesFromBranch] = useState<reserveUser[]>([]);
+  const [reservesFromBranch, setReservesFromBranch] = useState<reserveUser[]>(
+    []
+  );
+  const [state, setState] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -28,21 +31,27 @@ const Reserves = () => {
       }
     };
     getReserves();
-  }, [user])
+  }, [user]);
 
   return (
     <>
       <OperatorNavbar />
       <div className='mt-12 mx-24'>
         <div className='font-semibold text-xl mb-6'>Reservas</div>
-        {reservesFromBranch.map((reserve) => {
-          if(!reserve.confirmed){
-            return <Reserve data={reserve} key={reserve._id} operatorView={true} />
+        {reservesFromBranch.map(reserve => {
+          if (!reserve.confirmed) {
+            if (!state) setState(true);
+            return (
+              <Reserve data={reserve} key={reserve._id} operatorView={true} />
+            );
           }
         })}
+        {!state ? (
+          <p className=''>No existen reservas pendientes para tu sucursal</p>
+        ) : null}
       </div>
     </>
-  )
-}
+  );
+};
 
-export default Reserves
+export default Reserves;
