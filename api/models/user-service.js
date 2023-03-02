@@ -15,7 +15,7 @@ const postOperator = async ({name, email, dni, password, branchId}) => {
 async function userLogin(user) {
   try {
     const loggedUser = await User.findOne({ email: user.email });
-    const match = await loggedUser.isValidPassword(user.password);
+    const match = await loggedUser?.isValidPassword(user.password);
     if (match) {
       const tokenPayload = {
         id: loggedUser._id,

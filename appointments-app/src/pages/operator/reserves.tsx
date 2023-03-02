@@ -19,7 +19,7 @@ const Reserves = () => {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    if (!token) router.push('login');
+    if (!token) router.push('/login');
     dispatch(fetchUser());
   }, []);
 
