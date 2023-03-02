@@ -20,7 +20,7 @@ const Navbar = () => {
     <div className='flex justify-center shadow-navbar bg-white'>
       <nav className='flex flex-row justify-end w-11/12 md:max-w-screen-2xl h-20 items-center'>
         <div className='flex justify-between'>
-          <Link href={'/reserves'} className='mr-8'>
+          <Link href={'/operator/reserves'} className='mr-8'>
             <button className={`text-ss font-bold flex hover:text-cruceHover ${ activeLink === '/operator/reserves' ? 'text-cruce' : null }`}>
               Reservas
               <Image
@@ -30,7 +30,7 @@ const Navbar = () => {
               ></Image>
             </button>
           </Link>
-          <Link href={'/myData'}>
+          <Link href={'/operator/myData'}>
             <button className={`text-ss font-bold flex hover:text-cruceHover ${ activeLink === '/operator/myData' ? 'text-cruce' : null }`}>
               Mi Cuenta
               <Image

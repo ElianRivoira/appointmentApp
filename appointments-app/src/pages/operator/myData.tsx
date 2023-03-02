@@ -3,12 +3,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 
-import Navbar from '@/components/Navbar';
+import OperatorNavbar from '../../components/OperatorNavbar';
 import { AppDispatch, RootState } from '@/store';
 import { fetchUser } from '@/store/slices/userSlice';
 import { sendPassEmail, updateUser } from '@/services/users';
 import Modal from '@/components/Modal';
-import rightCheckbox from '../../public/icons/rightCheckbox.svg';
+import rightCheckbox from '../../../public/icons/rightCheckbox.svg';
 
 const myData = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -16,7 +16,7 @@ const myData = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [dni, setDni] = useState(0);
-  const [phone, setPhone] = useState(0);
+  const [branch, setBranch] = useState('');
   const [open, setOpen] = useState(false);
   const [type, setType] = useState(0);
   const router = useRouter();
@@ -28,11 +28,10 @@ const myData = () => {
         name,
         email,
         dni,
-        phone,
+        branch,
       });
       setType(1);
       setOpen(true);
-      console.log(res);
     }
   };
 
@@ -49,7 +48,7 @@ const myData = () => {
       setName(user.name);
       setDni(user.dni);
       setEmail(user.email);
-      if (user.phone) setPhone(user.phone);
+      if (typeof user.branch === 'object') setBranch(user.branch.name);
     }
   }, [user]);
 
@@ -61,7 +60,7 @@ const myData = () => {
 
   return (
     <div className='h-screen bg-cruceBackground'>
-      <Navbar />
+      <OperatorNavbar />
       <div className='flex justify-center'>
         <div className='flex flex-col w-3/4 max-w-screen-md h-3/5 mt-12 p-10 pb-8 border rounded-xl shadow-navbar bg-white'>
           <p className='mb-4 font-bold text-xb'>Mis Datos</p>
@@ -106,17 +105,17 @@ const myData = () => {
                 />
               </div>
               <div className='w-1/2'>
-                <label htmlFor='phone' className='text-sm font-medium'>
-                  Teléfono
+                <label htmlFor='branch' className='text-sm font-medium'>
+                  Sucursal
                 </label>
                 <input
                   type='tel'
-                  name='phone'
-                  id='phone'
-                  value={phone}
-                  onChange={e => setPhone(Number(e.target.value))}
-                  required
-                  className='w-full border border-solid border-grey-500 focus:border-cruce rounded-lg h-11 outline-none p-3'
+                  name='branch'
+                  id='branch'
+                  value={branch}
+                  onChange={e => setBranch(e.target.value)}
+                  className='w-full border border-solid border-grey-500 focus:border-cruce rounded-lg h-11 outline-none p-3 text-grey5'
+                  disabled
                 />
               </div>
             </div>

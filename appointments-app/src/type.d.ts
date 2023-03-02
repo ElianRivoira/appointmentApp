@@ -1,19 +1,21 @@
 interface User {
   _id: string;
-  id: string;
   name: string;
   dni: number;
   email: string;
   phone?: number;
   role: string;
-  branch?: string;
+  branch?: string | {
+    name: string;
+  };
 }
 
 interface UpdateUser {
   name: string;
   dni: number;
   email: string;
-  phone: number;
+  phone?: number;
+  branch?: string;
 }
 
 interface UserState {
