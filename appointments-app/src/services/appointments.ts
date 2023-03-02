@@ -49,5 +49,8 @@ export async function getOneReserve(id: string): Promise<reserveUser> {
 
 export async function cancelReserv(id: string): Promise<void> {
   const res = await api.delete(`/appointments/${id}`);
-  return res.data;
+}
+
+export async function confirmReserve(id: string): Promise<void> {
+  const res = await api.put(`/appointments/confirm/${id}`);
 }

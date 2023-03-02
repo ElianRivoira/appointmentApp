@@ -35,9 +35,11 @@ const Reserves = () => {
       <OperatorNavbar />
       <div className='mt-12 mx-24'>
         <div className='font-semibold text-xl mb-6'>Reservas</div>
-        {reservesFromBranch.map((reserve) => (
-          <Reserve data={reserve} key={reserve._id} operatorView={true} />
-        ))}
+        {reservesFromBranch.map((reserve) => {
+          if(!reserve.confirmed){
+            return <Reserve data={reserve} key={reserve._id} operatorView={true} />
+          }
+        })}
       </div>
     </>
   )

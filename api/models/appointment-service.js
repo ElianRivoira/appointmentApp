@@ -46,11 +46,6 @@ const getAllAppointmentsFromUser = async userId => {
   return appointments;
 };
 
-const getAllAppointmentsFromBranch = async branchId => {
-  const branch = await BranchOffice.findById(branchId).populate('appointments');
-  return branch;
-};
-
 const getOneAppointment = async id => {
   const appointment = await Appointment.findOne(
     { _id: id },
@@ -74,7 +69,6 @@ const deleteAppointment = async id => {
 module.exports = {
   postReserve,
   getAllAppointmentsFromUser,
-  getAllAppointmentsFromBranch,
   getOneAppointment,
   putAppointment,
   deleteAppointment,
