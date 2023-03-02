@@ -35,7 +35,7 @@ async function userLogin(user) {
 }
 
 const getLoggedUser = async id => {
-  const user = await User.findById(id, {password: 0, __v: 0});
+  const user = await User.findById(id, {password: 0, __v: 0}).populate('branch');
   return user;
 };
 

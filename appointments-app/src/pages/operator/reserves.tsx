@@ -25,7 +25,7 @@ const Reserves = () => {
 
   useEffect(() => {
     const getReserves = async () => {
-      if (user?.branch) {
+      if (typeof user?.branch === 'string') {
         const branch = await getBranch(user.branch);
         setReservesFromBranch(branch.appointments);
       }
