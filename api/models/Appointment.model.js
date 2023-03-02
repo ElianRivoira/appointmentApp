@@ -16,7 +16,6 @@ const appointmentSchema = new Schema({
   },
   creationDate: {
     type: Date,
-    // required: true,
   },
   branch: {
     type: Schema.Types.ObjectId,
@@ -34,6 +33,10 @@ const appointmentSchema = new Schema({
   email: {
     type: String,
     required: true,
+  },
+  confirmed: {
+    type: Boolean,
+    default: false,
   },
 });
 

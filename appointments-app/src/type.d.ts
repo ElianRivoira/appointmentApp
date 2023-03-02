@@ -32,6 +32,7 @@ interface reserveUser {
   name: string;
   email: string;
   phone: number;
+  confirmed: boolean;
 }
 
 interface ReserveResponse {
