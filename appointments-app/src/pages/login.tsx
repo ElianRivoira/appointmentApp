@@ -22,7 +22,6 @@ const Login = () => {
     e.preventDefault();
     try {
       const user = await login(email, password);
-      console.log(user)
       if (!user) {
         setType(2);
         setIsOpen(true);
