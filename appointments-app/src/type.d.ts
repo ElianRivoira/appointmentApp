@@ -5,8 +5,9 @@ interface User {
   email: string;
   phone?: number;
   role: string;
-  branch?: string | {
+  branch?: {
     name: string;
+    _id: string;
   };
 }
 

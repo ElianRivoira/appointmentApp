@@ -12,9 +12,7 @@ const Reserves = () => {
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
   const { user } = useSelector((state: RootState) => state.user);
-  const [reservesFromBranch, setReservesFromBranch] = useState<reserveUser[]>(
-    []
-  );
+  const [reservesFromBranch, setReservesFromBranch] = useState<reserveUser[]>();
   const [state, setState] = useState(false);
 
   useEffect(() => {
@@ -25,8 +23,8 @@ const Reserves = () => {
 
   useEffect(() => {
     const getReserves = async () => {
-      if (typeof user?.branch === 'string') {
-        const branch = await getBranch(user.branch);
+      if (user?.branch?._id) {
+        const branch = await getBranch(user?.branch?._id);
         setReservesFromBranch(branch.appointments);
       }
     };
@@ -38,7 +36,7 @@ const Reserves = () => {
       <OperatorNavbar />
       <div className='mt-12 mx-24'>
         <div className='font-semibold text-xl mb-6'>Reservas</div>
-        {reservesFromBranch.map(reserve => {
+        {reservesFromBranch?.map(reserve => {
           if (!reserve.confirmed) {
             if (!state) setState(true);
             return (
