@@ -10,3 +10,8 @@ export async function createOperator(
   const operator = await api.post('/operators', { name, email, dni, password, branch })
   return operator.data;
 }
+
+export async function getOperators(): Promise<User[]> {
+  const operators = await api.get('/operators')
+  return operators.data;
+}
