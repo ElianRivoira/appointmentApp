@@ -12,14 +12,7 @@ const createBranch = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    let branch = await postBranch(
-      name,
-      email,
-      capacity,
-      phone,
-      openHour,
-      closeHour
-    );
+    await postBranch(name, email, phone, capacity, openHour, closeHour);
     return;
   };
 

@@ -40,17 +40,17 @@ const AdminNavbar = () => {
           </Link>
         </div>
         <div className='flex justify-between'>
-          <Link href={'/sucursales'} className='mr-8'>
+          <Link href={'/admin/branches'} className='mr-8'>
             <button
               className={`text-ss font-bold flex hover:text-cruceHover ${
-                activeLink === '/sucursales' ? 'text-cruce' : ''
+                activeLink === '/admin/branches' ? 'text-cruce' : ''
               }`}
             >
               Sucursales
               <Image
                 className='w-4 h-3.5 ml-1'
                 alt='mis reservas'
-                src={activeLink === '/sucursales' ? sucursalActiva : sucursal}
+                src={activeLink === '/admin/branches' ? sucursalActiva : sucursal}
               ></Image>
             </button>
           </Link>
