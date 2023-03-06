@@ -11,10 +11,13 @@ import logoutIcon from '../../public/icons/logout.svg';
 
 const Navbar = () => {
   const [activeLink, setActiveLink] = useState('');
+  const [token, setToken] = useState('');
   const router = useRouter();
 
   useEffect(() => {
     setActiveLink(router.pathname);
+    const t = localStorage.getItem('token')
+    if (t) setToken(t)
   }, []);
 
   const handleLogout = () => {
@@ -53,7 +56,7 @@ const Navbar = () => {
               ></Image>
             </button>
           </Link>
-          {localStorage.getItem('token') ? (
+          {token ? (
             <button className={`text-ss font-bold flex hover:text-cruceHover ml-8`} onClick={handleLogout}>
               Cerrar Sesión
               <Image
