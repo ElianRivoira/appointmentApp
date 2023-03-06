@@ -20,10 +20,6 @@ const AdminNavbar = () => {
     setActiveLink(router.pathname);
   }, []);
 
-  const handleLinkClick = (link: string) => {
-    setActiveLink(link);
-  };
-
   return (
     <div className='flex justify-center shadow-navbar bg-white'>
       <nav className='flex flex-row justify-between w-11/12 md:max-w-screen-2xl h-20 items-center'>
@@ -57,15 +53,14 @@ const AdminNavbar = () => {
           <Link href={'/admin/operators'} className='mr-8'>
             <button
               className={`text-ss font-bold flex hover:text-cruceHover ${
-                activeLink === 'operadores' ? 'text-cruce' : ''
+                activeLink === '/admin/operators' ? 'text-cruce' : ''
               }`}
-              onClick={() => handleLinkClick('operadores')}
             >
               Operadores
               <Image
                 className='w-4 h-3.5 ml-1'
                 alt='mis reservas'
-                src={activeLink === 'operadores' ? operadorActivo : operadores}
+                src={activeLink === '/admin/operators' ? operadorActivo : operadores}
               ></Image>
             </button>
           </Link>
@@ -74,7 +69,6 @@ const AdminNavbar = () => {
               className={`text-ss font-bold flex hover:text-cruceHover ${
                 activeLink === 'reportes' ? 'text-cruce' : ''
               }`}
-              onClick={() => handleLinkClick('reportes')}
             >
               Reportes
               <Image
@@ -89,7 +83,6 @@ const AdminNavbar = () => {
               className={`text-ss font-bold flex hover:text-cruceHover ${
                 activeLink === 'miCuenta' ? 'text-cruce' : ''
               }`}
-              onClick={() => handleLinkClick('miCuenta')}
             >
               Mi Cuenta
               <Image
