@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+
 import miCuentaIcon from '../../public/icons/miCuenta.svg';
 import sucursal from '../../public/icons/sucursal.svg';
 import sucursalActiva from '../../public/icons/sucursalActiva.svg';
@@ -8,17 +11,25 @@ import reporteActivo from '../../public/icons/reporteActivo.svg';
 import miCuentaActivo from '../../public/icons/miCuentaActivo.svg';
 import operadores from '../../public/icons/operadores.svg';
 import reportes from '../../public/icons/reportes.svg';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
+import logoutIcon from '../../public/icons/logout.svg';
 
 const AdminNavbar = () => {
   const [activeLink, setActiveLink] = useState('');
-
+  const [token, setToken] = useState('');
   const router = useRouter();
+
   useEffect(() => {
-    console.log(router.pathname);
     setActiveLink(router.pathname);
+    const t = localStorage.getItem('token')
+    if (t) setToken(t)
   }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('token')
+    router.push({
+      pathname: '/login'
+    })
+  }
 
   return (
     <div className='flex justify-center shadow-navbar bg-white'>
@@ -35,7 +46,7 @@ const AdminNavbar = () => {
             </button>
           </Link>
         </div>
-        <div className='flex justify-between'>
+        <div className='flex justify-between items-center'>
           <Link href={'/admin/branches'} className='mr-8'>
             <button
               className={`text-ss font-bold flex hover:text-cruceHover ${
@@ -92,6 +103,16 @@ const AdminNavbar = () => {
               ></Image>
             </button>
           </Link>
+          {token ? (
+            <button className={`text-ss font-bold flex hover:text-cruceHover ml-8`} onClick={handleLogout}>
+              Cerrar Sesión
+              <Image
+                className='w-4 h-4 ml-1'
+                alt='logout'
+                src={logoutIcon}
+              ></Image>
+            </button>
+          ) : null}
         </div>
       </nav>
     </div>
