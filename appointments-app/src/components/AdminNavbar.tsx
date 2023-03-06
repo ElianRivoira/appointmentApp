@@ -33,7 +33,7 @@ const AdminNavbar = () => {
               Crear Sucursal
             </button>
           </Link>
-          <Link href={'/admin/operators/create'} className='w-36 h-11'>
+          <Link href={'/admin/createOperator'} className='w-36 h-11'>
             <button className='active:shadow-active bg-cruceSecondary hover:bg-cruceSecondaryHover text-cruce font-semibold text-lb rounded-lg w-36 h-11'>
               Crear Operador
             </button>
@@ -54,7 +54,7 @@ const AdminNavbar = () => {
               ></Image>
             </button>
           </Link>
-          <Link href={'/admin'} className='mr-8'>
+          <Link href={'/admin/operators'} className='mr-8'>
             <button
               className={`text-ss font-bold flex hover:text-cruceHover ${
                 activeLink === 'operadores' ? 'text-cruce' : ''

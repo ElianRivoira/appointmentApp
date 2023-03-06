@@ -7,6 +7,7 @@ import misReservasIcon from '../../public/icons/misReservas.svg';
 import miCuentaIcon from '../../public/icons/miCuenta.svg';
 import misReservasIconActivo from '../../public/icons/misReservasActivo.svg';
 import miCuentaIconActivo from '../../public/icons/miCuentaActivo.svg';
+import logoutIcon from '../../public/icons/logout.svg';
 
 const Navbar = () => {
   const [activeLink, setActiveLink] = useState('');
@@ -16,6 +17,13 @@ const Navbar = () => {
     setActiveLink(router.pathname);
   }, []);
 
+  const handleLogout = () => {
+    localStorage.removeItem('token')
+    router.push({
+      pathname: '/login'
+    })
+  }
+
   return (
     <div className='flex justify-center shadow-navbar bg-white'>
       <nav className='flex flex-row justify-between w-11/12 md:max-w-screen-2xl h-20 items-center'>
@@ -24,7 +32,7 @@ const Navbar = () => {
             Reservar
           </button>
         </Link>
-        <div className='flex justify-between'>
+        <div className='flex justify-between items-center'>
           <Link href={'/reserves'} className='mr-8'>
             <button className={`text-ss font-bold flex hover:text-cruceHover ${ activeLink === '/reserves' ? 'text-cruce' : null }`}>
               Mis Reservas
@@ -45,6 +53,16 @@ const Navbar = () => {
               ></Image>
             </button>
           </Link>
+          {localStorage.getItem('token') ? (
+            <button className={`text-ss font-bold flex hover:text-cruceHover ml-8`} onClick={handleLogout}>
+              Cerrar Sesión
+              <Image
+                className='w-4 h-4 ml-1'
+                alt='logout'
+                src={logoutIcon}
+              ></Image>
+            </button>
+          ) : null}
         </div>
       </nav>
     </div>
