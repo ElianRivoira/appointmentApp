@@ -7,7 +7,7 @@ const signUp = async data => {
   return user;
 };
 
-const postOperator = async ({ name, email, dni, password, branchId }) => {
+const postOperator = async ({ name, email, dni, password, branchId, phone }) => {
   const operator = await User.create({
     name,
     email,
@@ -15,6 +15,7 @@ const postOperator = async ({ name, email, dni, password, branchId }) => {
     password,
     branch: branchId,
     role: 'operator',
+    phone,
   });
   return operator;
 };
@@ -53,8 +54,8 @@ const getLoggedUser = async id => {
   return user;
 };
 
-const updateUser = async (user, id) => {
-  const updatedUser = await User.findByIdAndUpdate(id, user, {
+const updateUser = async (user, branch, id) => {
+  const updatedUser = await User.findByIdAndUpdate(id, { name: user.name, dni: user.dni, email: user.email, phone: user.phone, branch: branch._id }, {
     new: true,
   });
   return updatedUser;

@@ -17,6 +17,7 @@ const myData = () => {
   const [email, setEmail] = useState('');
   const [dni, setDni] = useState(0);
   const [branch, setBranch] = useState('');
+  const [phone, setPhone] = useState(0);
   const [open, setOpen] = useState(false);
   const [type, setType] = useState(0);
   const router = useRouter();
@@ -29,6 +30,7 @@ const myData = () => {
         email,
         dni,
         branch,
+        phone,
       });
       setType(1);
       setOpen(true);
@@ -49,12 +51,15 @@ const myData = () => {
       setDni(user.dni);
       setEmail(user.email);
       if (typeof user.branch === 'object') setBranch(user.branch.name);
+      if (user.phone) setPhone(user.phone)
     }
   }, [user]);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    if (!token) router.push('login');
+    if (!token) router.push({
+      pathname: '/login'
+    });
     dispatch(fetchUser());
   }, []);
 
@@ -89,13 +94,25 @@ const myData = () => {
               required
               className='w-full border border-solid border-grey-500 focus:border-cruce rounded-lg h-11 mb-3 outline-none p-3'
             />
+            <label htmlFor='phone' className='text-sm font-medium'>
+              Teléfono
+            </label>
+            <input
+              type='tel'
+              name='phone'
+              id='phone'
+              value={phone}
+              onChange={e => setPhone(Number(e.target.value))}
+              required
+              className='w-full border border-solid border-grey-500 focus:border-cruce rounded-lg h-11 mb-3 outline-none p-3'
+            />
             <div className='flex mb-3'>
               <div className='w-1/2 mr-4'>
                 <label htmlFor='dni' className='text-sm font-medium'>
                   DNI
                 </label>
                 <input
-                  type='number'
+                  type='tel'
                   name='dni'
                   id='dni'
                   value={dni}

@@ -17,6 +17,7 @@ const CreateOperators = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [dni, setDni] = useState(0);
+  const [phone, setPhone] = useState(0);
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
   const [visibleOne, setVisibleOne] = useState(false);
@@ -25,7 +26,7 @@ const CreateOperators = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const operator = await createOperator(name, email, dni, password, branch);
+      const operator = await createOperator(name, email, dni, password, branch, phone);
       console.log(operator);
       setType(1);
       setOpen(true);
@@ -75,13 +76,25 @@ const CreateOperators = () => {
               required
               className='w-full border border-solid border-grey-500 focus:border-cruce rounded-lg h-11 mb-3 outline-none p-3'
             />
+            <label htmlFor='phone' className='text-sm font-medium'>
+              Teléfono
+            </label>
+            <input
+              type='tel'
+              name='phone'
+              id='phone'
+              value={phone}
+              onChange={e => setPhone(Number(e.target.value))}
+              required
+              className='w-full border border-solid border-grey-500 focus:border-cruce rounded-lg h-11 mb-3 outline-none p-3'
+            />
             <div className='flex mb-3'>
               <div className='w-1/2 mr-4'>
                 <label htmlFor='dni' className='text-sm font-medium'>
                   DNI
                 </label>
                 <input
-                  type='number'
+                  type='tel'
                   name='dni'
                   id='dni'
                   value={dni}
