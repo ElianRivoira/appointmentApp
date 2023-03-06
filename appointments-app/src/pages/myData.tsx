@@ -96,7 +96,7 @@ const myData = () => {
                   DNI
                 </label>
                 <input
-                  type='number'
+                  type='tel'
                   name='dni'
                   id='dni'
                   value={dni}

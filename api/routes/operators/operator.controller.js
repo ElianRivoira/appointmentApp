@@ -3,7 +3,7 @@ const branchService = require('../../models/branchOffice-service');
 
 const createOperator = async (req, res, next) => {
   try {
-    const { name, email, dni, password, branch } = req.body;
+    const { name, email, dni, password, branch, phone } = req.body;
     const branchOffice = await branchService.getBranchByName(branch);
     const branchId = branchOffice._id;
     const operator = await userService.postOperator({
@@ -12,6 +12,7 @@ const createOperator = async (req, res, next) => {
       dni,
       password,
       branchId,
+      phone,
     });
     res.send(operator);
   } catch (e) {

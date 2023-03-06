@@ -5,9 +5,10 @@ export async function createOperator(
   email: string,
   dni: number,
   password: string,
-  branch: string
+  branch: string,
+  phone: number,
 ): Promise<Operator> {
-  const operator = await api.post('/operators', { name, email, dni, password, branch })
+  const operator = await api.post('/operators', { name, email, dni, password, branch, phone })
   return operator.data;
 }
 

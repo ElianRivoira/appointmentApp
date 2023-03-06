@@ -1,4 +1,5 @@
 const userService = require('../../models/user-service');
+const branchService = require('../../models/branchOffice-service');
 const { sendPasswordChangerEmail } = require('../../utils/emails');
 
 const httpSignUp = async (req, res, next) => {
@@ -48,7 +49,8 @@ const httpUpdateUser = async (req, res, next) => {
   try {
     const { id } = req.params;
     const user = req.body;
-    const updatedUser = await userService.updateUser(user, id);
+    const branch = await branchService.getBranchByName(user.branch)
+    const updatedUser = await userService.updateUser(user, branch, id);
     res.send(updatedUser);
   } catch (e) {
     next(e);
