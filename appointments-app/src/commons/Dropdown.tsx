@@ -26,7 +26,7 @@ const Dropdown: React.FC<Props> = ({ reserveId, view }) => {
         setType(1);
         setIsOpen(true);
       })
-      .catch(e => {
+      .catch((e) => {
         setType(3);
         setIsOpen(true);
       });
@@ -38,7 +38,7 @@ const Dropdown: React.FC<Props> = ({ reserveId, view }) => {
         setType(2);
         setIsOpen(true);
       })
-      .catch(e => {
+      .catch((e) => {
         setType(3);
         setIsOpen(true);
       });
@@ -71,6 +71,7 @@ const Dropdown: React.FC<Props> = ({ reserveId, view }) => {
         </div>
         <Image src={editIcon} alt='editIcon' className='w-4 h-4 mr-1'></Image>
       </button>
+
       {open ? (
         <>
           <button

@@ -67,3 +67,4 @@ interface Branch {
   closeHour: string;
   appointments: reserveUser[];
 }
+
