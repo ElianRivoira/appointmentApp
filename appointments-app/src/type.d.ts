@@ -68,3 +68,11 @@ interface Branch {
   appointments: reserveUser[];
 }
 
+interface UpdateBranch {
+  name: string;
+  email: string;
+  phone: number;
+  capacity: number;
+  openHour: string;
+  closeHour: string;
+}

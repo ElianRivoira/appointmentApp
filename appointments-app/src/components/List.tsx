@@ -13,6 +13,10 @@ const List: React.FC<Props> = ({ data }) => {
     setActiveLink(router.pathname);
   }, []);
 
+  const onEdit = () => {
+    router.push(`branches/${data._id}`);
+  };
+
   return (
     <>
       {activeLink === '/admin/branches' ? (
@@ -40,6 +44,7 @@ const List: React.FC<Props> = ({ data }) => {
           <div className='w-1/6 flex justify-end'>
             <button
               className={`bg-grey1 hover:bg-grey2 text-cruce font-semibold text-ls rounded-lg h-12 w-[88px] flex justify-center items-center active:shadow-active`}
+              onClick={onEdit}
             >
               Editar
             </button>
