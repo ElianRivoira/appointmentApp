@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const CalendarContainer = styled.div`
 /* ~~~ container styles ~~~ */
 width: 40%;
-height: 362px;
+height: 380px;
 max-width: 500px;
 padding: 32px;
 border-radius: 8px;
@@ -76,7 +76,7 @@ button {
 export const CalendarContainerDisabled = styled.div`
 /* ~~~ container styles ~~~ */
 width: 40%;
-height: 362px;
+height: 400px;
 max-width: 500px;
 padding: 32px;
 border-radius: 8px;
