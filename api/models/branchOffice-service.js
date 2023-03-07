@@ -1,6 +1,6 @@
 const Branch = require('./BranchOffice.model');
 
-const postBranch = async data => {
+const postBranch = async (data) => {
   const branch = await Branch.create(data);
   return branch;
 };
@@ -13,7 +13,7 @@ const getAllBranches = async () => {
   return branches;
 };
 
-const getBranchByName = async data => {
+const getBranchByName = async (data) => {
   const branch = await Branch.findOne({ name: data }).populate({
     path: 'appointments',
     options: { populate: { path: 'branch' } },
@@ -21,7 +21,7 @@ const getBranchByName = async data => {
   return branch;
 };
 
-const getBranch = async id => {
+const getBranch = async (id) => {
   const branch = await Branch.findById(id).populate({
     path: 'appointments',
     options: { populate: { path: 'branch' } },
@@ -30,7 +30,7 @@ const getBranch = async id => {
 };
 
 const putBranch = async (id, data) => {
-  const branch = await Appointment.findByIdAndUpdate(id, data, {
+  const branch = await Branch.findByIdAndUpdate(id, data, {
     new: true,
   }).populate({
     path: 'appointments',

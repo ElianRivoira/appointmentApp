@@ -19,8 +19,7 @@ export async function postBranch(
   return res.data;
 }
 
-export async function getBranches(
-): Promise<Branch[]> {
+export async function getBranches(): Promise<Branch[]> {
   const res = await api.get('/branches');
   return res.data;
 }
@@ -29,3 +28,13 @@ export async function getBranch(id: string): Promise<Branch> {
   const res = await api.get(`/branches/${id}`);
   return res.data;
 }
+
+export async function updateBranch(
+  id: string,
+  branch: UpdateBranch
+): Promise<Branch> {
+  const res = await api.put(`/branches/${id}`, branch);
+  return res.data;
+}
+
+//fix
