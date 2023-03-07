@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 
 import AdminNavbar from '@/components/AdminNavbar';
 import List from '@/components/List';
-import { getBranches } from '@/services/branches';
+import { getOperators } from '@/services/operators';
 import { AppDispatch, RootState } from '@/store';
 import { fetchUser } from '@/store/slices/userSlice';
 
-const branches = () => {
+const Operators = () => {
   const { user } = useSelector((state: RootState) => state.user);
-  const [allBranches, setAllBranches] = useState<Branch[]>([]);
+  const [operators, setOperators] = useState<User[]>([]);
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
 
@@ -21,26 +21,26 @@ const branches = () => {
   }, []);
 
   useEffect(() => {
-    const getBranch = async () => {
+    const getOper = async () => {
       if (user) {
-        const branches = await getBranches();
-        setAllBranches(branches);
+        const operators = await getOperators();
+        setOperators(operators);
       }
     };
-    getBranch();
+    getOper();
   }, [user]);
 
   return (
     <>
       <AdminNavbar />
       <div className='mt-12 mx-24'>
-        <div className='font-semibold text-xl mb-6'>Sucursales</div>
-        {allBranches.map((branch) => (
-          <List branch={branch} key={branch._id} />
+        <div className='font-semibold text-xl mb-6'>Operadores</div>
+        {operators.map((oper) => (
+          <List user={oper} key={oper._id} />
         ))}
       </div>
     </>
   );
 };
 
-export default branches;
+export default Operators

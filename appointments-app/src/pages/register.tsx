@@ -150,7 +150,7 @@ const Register = () => {
               <label htmlFor='dni '>DNI</label>
               <input
                 onChange={handleDni}
-                type='number'
+                type='tel'
                 id='dni'
                 value={dni}
                 min='0'

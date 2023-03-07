@@ -5,4 +5,6 @@ const router = express.Router();
 
 router.post('/', operatorController.createOperator);
 
+router.get('/', operatorController.getOperators)
+
 module.exports = router
