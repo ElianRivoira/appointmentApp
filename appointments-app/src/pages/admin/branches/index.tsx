@@ -1,13 +1,12 @@
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useRouter } from 'next/router';
+
 import AdminNavbar from '@/components/AdminNavbar';
 import List from '@/components/List';
-import Navbar from '@/components/Navbar';
 import { getBranches } from '@/services/branches';
 import { AppDispatch, RootState } from '@/store';
 import { fetchUser } from '@/store/slices/userSlice';
-import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
 
 const branches = () => {
   const { user } = useSelector((state: RootState) => state.user);
@@ -37,7 +36,7 @@ const branches = () => {
       <div className='mt-12 mx-24'>
         <div className='font-semibold text-xl mb-6'>Sucursales</div>
         {allBranches.map((branch) => (
-          <List data={branch} key={branch._id} />
+          <List branch={branch} key={branch._id} />
         ))}
       </div>
     </>

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+
 import AdminNavbar from '@/components/AdminNavbar';
 import { getBranch, updateBranch } from '@/services/branches';
-import { useRouter } from 'next/router';
 
 const editBranch = () => {
   const [name, setName] = useState('');
