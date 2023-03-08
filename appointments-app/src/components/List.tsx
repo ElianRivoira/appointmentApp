@@ -16,7 +16,7 @@ const List: React.FC<Props> = ({ branch, user }) => {
 
   const onEdit = () => {
     if (branch) router.push(`branches/${branch._id}`);
-    else if (user) router.push(`operator/${user._id}`);
+    else if (user) router.push(`operators/${user._id}`);
   };
 
   return (
