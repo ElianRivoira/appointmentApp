@@ -29,7 +29,18 @@ const getOperators = async (req, res, next) => {
   }
 };
 
+const getOneOperator = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const operator = await userService.getOneOperator(id);
+    res.send(operator);
+  } catch (e) {
+    next(e);
+  }
+};
+
 module.exports = {
   createOperator,
   getOperators,
+  getOneOperator,
 };
