@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { AppDispatch } from '@/store';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useDispatch } from 'react-redux';
+import { useRouter } from 'next/router';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { AppDispatch, RootState } from '@/store';
 import Navbar from '../components/Navbar';
 import { login } from '../services/users';
-import { useRouter } from 'next/router';
 import Modal from '@/components/Modal';
 import wrongCheckbox from '../../public/icons/wrongCheckbox.svg';
 import rightCheckbox from '../../public/icons/rightCheckbox.svg';
+import { fetchUser } from '@/store/slices/userSlice';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -16,7 +18,10 @@ const Login = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [type, setType] = useState(0);
   const [role, setRole] = useState('');
+  const [calledPush, setCalledPush] = useState(false);
   const router = useRouter();
+  const dispatch = useDispatch<AppDispatch>();
+  const { user } = useSelector((state: RootState) => state.user);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,7 +31,7 @@ const Login = () => {
         setType(2);
         setIsOpen(true);
       } else {
-        setRole(user.role)
+        setRole(user.role);
         setType(1);
         setIsOpen(true);
       }
@@ -37,11 +42,46 @@ const Login = () => {
 
   useEffect(() => {
     if (type === 1 && isOpen === false) {
-      if (role === 'user') router.push('reservePanel')
-      else if (role === 'operator') router.push('operator/reserves')
-      else if (role === 'admin') router.push('admin/createOperator')
+      if (role === 'user') {
+        setCalledPush(true);
+        router.push('reservePanel');
+      } else if (role === 'operator') {
+        setCalledPush(true);
+        router.push('operator/reserves');
+      } else if (role === 'admin') {
+        setCalledPush(true);
+        router.push('admin/operators');
+      }
     }
   }, [isOpen]);
+
+  useEffect(() => {
+    if (calledPush) return;
+    if (user) {
+      if (user.role === 'user') {
+        router.push('reservePanel');
+        setCalledPush(true);
+      } else if (user.role === 'operator') {
+        router.push('operator/reserves');
+        setCalledPush(true);
+      } else if (user.role === 'admin') {
+        setCalledPush(true);
+        router.push('admin/operators');
+      }
+    }
+  }, [role]);
+
+  useEffect(() => {
+    const func = async (): Promise<void> => {
+      const token = localStorage.getItem('token');
+      if (token) await dispatch(fetchUser());
+    };
+    func();
+  }, []);
+
+  useEffect(() => {
+    if (user) setRole(user.role);
+  }, [user]);
 
   return (
     <div className='h-screen bg-cruceBackground'>
