@@ -16,7 +16,6 @@ const myData = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [dni, setDni] = useState(0);
-  const [phone, setPhone] = useState(0);
   const [open, setOpen] = useState(false);
   const [type, setType] = useState(0);
   const router = useRouter();
@@ -28,7 +27,6 @@ const myData = () => {
         name,
         email,
         dni,
-        phone,
       });
       setType(1);
       setOpen(true);
@@ -49,7 +47,6 @@ const myData = () => {
       setName(user.name);
       setDni(user.dni);
       setEmail(user.email);
-      if (user.phone) setPhone(user.phone);
     }
   }, [user]);
 
