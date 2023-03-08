@@ -35,12 +35,12 @@ const AdminNavbar = () => {
     <div className='flex justify-center shadow-navbar bg-white'>
       <nav className='flex flex-row justify-between w-11/12 md:max-w-screen-2xl h-20 items-center'>
         <div className='flex'>
-          <Link href={'/admin/createBranch'} className='w-36 h-11 mr-3.5'>
+          <Link href={'/admin/branches/create'} className='w-36 h-11 mr-3.5'>
             <button className='active:shadow-active bg-cruceSecondary hover:bg-cruceSecondaryHover text-cruce font-semibold text-lb rounded-lg w-36 h-11'>
               Crear Sucursal
             </button>
           </Link>
-          <Link href={'/admin/createOperator'} className='w-36 h-11'>
+          <Link href={'/admin/operators/create'} className='w-36 h-11'>
             <button className='active:shadow-active bg-cruceSecondary hover:bg-cruceSecondaryHover text-cruce font-semibold text-lb rounded-lg w-36 h-11'>
               Crear Operador
             </button>
@@ -56,7 +56,7 @@ const AdminNavbar = () => {
               Sucursales
               <Image
                 className='w-4 h-3.5 ml-1'
-                alt='mis reservas'
+                alt='branches'
                 src={activeLink === '/admin/branches' ? sucursalActiva : sucursal}
               ></Image>
             </button>
@@ -70,7 +70,7 @@ const AdminNavbar = () => {
               Operadores
               <Image
                 className='w-4 h-3.5 ml-1'
-                alt='mis reservas'
+                alt='operators'
                 src={activeLink === '/admin/operators' ? operadorActivo : operadores}
               ></Image>
             </button>
@@ -84,22 +84,22 @@ const AdminNavbar = () => {
               Reportes
               <Image
                 className='w-4 h-3.5 ml-1'
-                alt='mis reservas'
+                alt='reports'
                 src={activeLink === 'reportes' ? reporteActivo : reportes}
               ></Image>
             </button>
           </Link>
-          <Link href={'/admin'}>
+          <Link href={'/admin/myData'}>
             <button
               className={`text-ss font-bold flex hover:text-cruceHover ${
-                activeLink === 'miCuenta' ? 'text-cruce' : ''
+                activeLink === '/admin/myData' ? 'text-cruce' : ''
               }`}
             >
               Mi Cuenta
               <Image
                 className='w-4 h-3.5 ml-1'
-                alt='mi cuenta'
-                src={activeLink === 'miCuenta' ? miCuentaActivo : miCuentaIcon}
+                alt='my account'
+                src={activeLink === '/admin/myData' ? miCuentaActivo : miCuentaIcon}
               ></Image>
             </button>
           </Link>
