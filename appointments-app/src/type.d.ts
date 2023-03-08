@@ -48,15 +48,6 @@ interface ReserveResponse {
   phone: number;
 }
 
-interface Operator {
-  _id: string;
-  name: string;
-  email: string;
-  dni: number;
-  password: string;
-  branch: string;
-}
-
 interface Branch {
   _id: string;
   name: string;
