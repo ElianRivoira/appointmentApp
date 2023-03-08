@@ -25,6 +25,11 @@ const getOperators = async () => {
   return operators;
 };
 
+const getOneOperator = async (id) => {
+  const operator = await User.findOne({ role: 'operator', _id: id }, {__v: 0, password: 0}).populate('branch');
+  return operator;
+};
+
 async function userLogin(user) {
   try {
     const loggedUser = await User.findOne({ email: user.email });
@@ -55,7 +60,7 @@ const getLoggedUser = async id => {
 };
 
 const updateUser = async (user, branch, id) => {
-  const updatedUser = await User.findByIdAndUpdate(id, { name: user.name, dni: user.dni, email: user.email, phone: user.phone, branch: branch._id }, {
+  const updatedUser = await User.findByIdAndUpdate(id, { name: user.name, dni: user.dni, email: user.email, phone: user.phone, branch: branch?._id }, {
     new: true,
   });
   return updatedUser;
@@ -77,6 +82,7 @@ module.exports = {
   signUp,
   postOperator,
   getOperators,
+  getOneOperator,
   userLogin,
   getLoggedUser,
   updateUser,
