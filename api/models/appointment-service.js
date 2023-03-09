@@ -2,10 +2,10 @@ const Appointment = require('./Appointment.model');
 const BranchOffice = require('./BranchOffice.model');
 
 const postReserve = async ({ userId, date, branch, name, phone, email }) => {
-  const ap = await Appointment.findOne();
+  const ap = await Appointment.find().sort({ _id: -1 }).limit(1);
   const branchOffice = await BranchOffice.findOne({ name: branch });
-  if (ap?.id) {
-    let aux = ap.id.split('-');
+  if (ap[0]) {
+    let aux = ap[0].id.split('-');
     aux[0] = Number(aux[0]) + 1;
     const id = aux.join('-');
     const appointment = await Appointment.create({
