@@ -36,7 +36,7 @@ const Index = () => {
         setCalledPush(true);
       } else if (user.role === 'admin') {
         setCalledPush(true);
-        router.push('admin/createOperator');
+        router.push('admin/operators');
       }
     }
     }, [user])
