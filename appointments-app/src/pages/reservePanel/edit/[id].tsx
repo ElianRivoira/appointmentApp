@@ -33,7 +33,6 @@ const ReservePanel = () => {
   const [reserve, setReserve] = useState<reserveUser>();
   const [open, setOpen] = useState(false);
   const [type, setType] = useState(0);
-  const [selectedBranch, setSelectedBranch] = useState('');
   const [selectedTime, setSelectedTime] = useState('');
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
@@ -92,7 +91,6 @@ const ReservePanel = () => {
   useEffect(() => {
     if (reserve) {
       const datee = new Date(reserve.date);
-      setSelectedBranch(reserve.branch.name);
       setSelectedTime(`${datee.getHours()}-${datee.getMinutes()}`)
       setBranch(reserve.branch.name);
       setSelectedDate(true);
@@ -196,24 +194,23 @@ const ReservePanel = () => {
                 </div>
               </>
             )}
-            <ReservePanelForm
-              selectedBranch={selectedBranch}
-              selectedTime={selectedTime}
-              handleSubmit={handleSubmit}
-              branch={branch}
-              setBranch={setBranch}
-              selectedDate={selectedDate}
-              time={time}
-              setTime={setTime}
-              name={name}
-              setName={setName}
-              phone={phone}
-              setPhone={setPhone}
-              email={email}
-              setEmail={setEmail}
-              date={date}
-              edit={true}
-            />
+              <ReservePanelForm
+                selectedTime={selectedTime}
+                handleSubmit={handleSubmit}
+                branch={branch}
+                setBranch={setBranch}
+                selectedDate={selectedDate}
+                time={time}
+                setTime={setTime}
+                name={name}
+                setName={setName}
+                phone={phone}
+                setPhone={setPhone}
+                email={email}
+                setEmail={setEmail}
+                date={date}
+                edit={true}
+              />
           </div>
           {branch ? (
             <CalendarContainer>

@@ -13,8 +13,8 @@ const getAllBranches = async () => {
   return branches;
 };
 
-const getBranchByName = async (data) => {
-  const branch = await Branch.findOne({ name: data }).populate({
+const getBranchByName = async (name) => {
+  const branch = await Branch.findOne({ name }).populate({
     path: 'appointments',
     options: { populate: { path: 'branch' } },
   });
