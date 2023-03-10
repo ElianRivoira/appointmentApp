@@ -18,12 +18,15 @@ import { fetchUser } from '@/store/slices/userSlice';
 import Modal from '@/components/Modal';
 import rightCheckbox from '../../../public/icons/rightCheckbox.svg';
 import wrongCheckbox from '../../../public/icons/wrongCheckbox.svg';
+import { getBranchByName } from '@/services/branches';
 
 const ReservePanel = () => {
   const [date, setDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(false);
   const [branch, setBranch] = useState('');
+  const [branchObject, setBranchObject] = useState<Branch>();
   const [name, setName] = useState('');
+  const [shifts, setShifts] = useState<string[]>([]);
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [time, setTime] = useState('');
@@ -40,10 +43,12 @@ const ReservePanel = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const hours = time.split('-')[0];
-    const minutes = time.split('-')[1];
+    console.log("ANTES", date)
+    const hours = time.split(':')[0];
+    const minutes = time.split(':')[1];
     date.setHours(Number(hours));
     date.setMinutes(Number(minutes));
+    console.log(date)
     try {
       const reserv = await postReserve(
         date,
@@ -53,7 +58,7 @@ const ReservePanel = () => {
         email,
         userId
       );
-      setReserveId(reserv._id)
+      setReserveId(reserv._id);
       setType(1);
       setOpen(true);
     } catch (e) {
@@ -86,8 +91,22 @@ const ReservePanel = () => {
   }, [open]);
 
   useEffect(() => {
-    if (branch) setStart(true);
+    if (branch) {
+      setStart(true);
+      const branchByName = async () => {
+        let branchByName = await getBranchByName(branch);
+        setBranchObject(branchByName);
+      };
+      branchByName();
+    }
   }, [branch]);
+
+  useEffect(() => {
+    let findDate = date.toLocaleDateString();
+    if (branchObject) {
+      setShifts(branchObject?.shifts[findDate]);
+    }
+  }, [date]);
 
   useEffect(() => {
     if (reload) router.reload();
@@ -181,6 +200,7 @@ const ReservePanel = () => {
             <ReservePanelForm
               handleSubmit={handleSubmit}
               branch={branch}
+              shifts={shifts}
               setBranch={setBranch}
               selectedDate={selectedDate}
               time={time}
@@ -252,7 +272,9 @@ const ReservePanel = () => {
                 className='w-10 h-10 mb-7'
               />
               <h1 className='text-ln font-bold'>Turno reservado con éxito</h1>
-              <p className='text-sm font-normal mt-1'>Gracias por confiar en nuestro servicio</p>
+              <p className='text-sm font-normal mt-1'>
+                Gracias por confiar en nuestro servicio
+              </p>
             </>
           ) : type === 2 ? (
             <>
@@ -262,7 +284,9 @@ const ReservePanel = () => {
                 className='w-10 h-10 mb-7'
               />
               <>
-                <h1 className='text-ln font-bold'>No se pudo reservar el turno</h1>
+                <h1 className='text-ln font-bold'>
+                  No se pudo reservar el turno
+                </h1>
                 <p className='text-sm font-normal mt-1'>
                   Este turno ya fue ocupado, vuelve a intentarlo más tarde o
                   modificando algún parámetro
