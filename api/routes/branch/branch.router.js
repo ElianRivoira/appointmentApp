@@ -11,4 +11,6 @@ router.get('/:id', branchController.httpGetBranch);
 
 router.put('/:id', branchController.httpEditBranch);
 
+router.get('/name/:name', branchController.httpGetBranchByName);
+
 module.exports = router;

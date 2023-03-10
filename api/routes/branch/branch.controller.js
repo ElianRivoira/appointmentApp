@@ -27,12 +27,12 @@ const httpGetAllBranches = async (req, res, next) => {
 
 const httpGetBranch = async (req, res, next) => {
   try {
-    const branch = await branchService.getBranch(req.params.id)
+    const branch = await branchService.getBranch(req.params.id);
     res.send(branch);
   } catch (e) {
-    next(e)
+    next(e);
   }
-}
+};
 
 const httpEditBranch = async (req, res, next) => {
   try {
@@ -43,9 +43,19 @@ const httpEditBranch = async (req, res, next) => {
   }
 };
 
+const httpGetBranchByName = async (req, res, next) => {
+  try {
+    const branch = await branchService.getBranchByName(req.params.name);
+    res.send(branch);
+  } catch (e) {
+    next(e);
+  }
+};
+
 module.exports = {
   httpPostBranch,
   httpGetAllBranches,
   httpGetBranch,
   httpEditBranch,
+  httpGetBranchByName,
 };

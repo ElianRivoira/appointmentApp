@@ -2,6 +2,7 @@ const appointmentService = require('../../models/appointment-service');
 const branchService = require('../../models/branchOffice-service');
 
 const httpPostReserve = async (req, res, next) => {
+  console.log(req.body)
   try {
     const reserve = await appointmentService.postReserve({
       userId: req.body.userId,
