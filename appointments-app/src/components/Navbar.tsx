@@ -7,7 +7,7 @@ import misReservasIcon from '../../public/icons/misReservas.svg';
 import miCuentaIcon from '../../public/icons/miCuenta.svg';
 import misReservasIconActivo from '../../public/icons/misReservasActivo.svg';
 import miCuentaIconActivo from '../../public/icons/miCuentaActivo.svg';
-import logoutIcon from '../../public/icons/logout.svg';
+import logoutIcon from '../../public/icons/logOut.svg';
 
 const Navbar = () => {
   const [activeLink, setActiveLink] = useState('');

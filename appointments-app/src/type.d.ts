@@ -57,6 +57,10 @@ interface Operator {
   branch: string;
 }
 
+interface Shift {
+  [key: string]: any[];
+}
+
 interface Branch {
   _id: string;
   name: string;
@@ -65,6 +69,7 @@ interface Branch {
   capacity: number;
   openHour: string;
   closeHour: string;
+  shifts: Shift;
   appointments: reserveUser[];
 }
 

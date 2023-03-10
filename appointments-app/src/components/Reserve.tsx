@@ -9,6 +9,9 @@ interface Props {
 
 const Reserve: React.FC<Props> = ({ data, operatorView }) => {
   let date = new Date(data.date);
+  let [fecha, hora] = date.toLocaleString().split(',');
+  let minutos;
+  [hora, minutos] = hora.split(':');
   return (
     <div className='flex mb-4 border-2 rounded-xl p-6'>
       {operatorView ? (
@@ -21,12 +24,14 @@ const Reserve: React.FC<Props> = ({ data, operatorView }) => {
             <div className='flex flex-col flex-1'>
               <div className='text-xs'>Reserva</div>
               <div className='text-sm font-semibold'>
-                {date.toLocaleString()}
+                {fecha + ',' + hora + ':' + minutos + ' hs'}
               </div>
             </div>
             <div className='flex flex-col flex-1'>
               <div className='text-xs'>Día de la reserva</div>
-              <div className='text-sm font-semibold'>{new Date(data.creationDate).toLocaleString().split(',')[0]}</div>
+              <div className='text-sm font-semibold'>
+                {new Date(data.creationDate).toLocaleString().split(',')[0]}
+              </div>
             </div>
             <div className='flex flex-col flex-1'>
               <div className='text-xs'>N° de la reserva</div>
@@ -49,7 +54,7 @@ const Reserve: React.FC<Props> = ({ data, operatorView }) => {
             <div className='flex flex-col flex-1'>
               <div className='text-xs'>Reserva</div>
               <div className='text-sm font-semibold'>
-                {date.toLocaleString()}
+                {fecha + ',' + hora + ':' + minutos + ' hs'}
               </div>
             </div>
             <div className='flex flex-col flex-1'>

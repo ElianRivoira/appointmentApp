@@ -37,4 +37,9 @@ export async function updateBranch(
   return res.data;
 }
 
+export async function getBranchByName(name: string): Promise<Branch> {
+  const res = await api.get(`/branches/name/${name}`);
+  return res.data;
+}
+
 //fix
