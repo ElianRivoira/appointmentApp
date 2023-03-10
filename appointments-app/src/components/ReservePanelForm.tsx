@@ -2,7 +2,6 @@ import { getBranches } from '@/services/branches';
 import React, { useEffect, useState } from 'react';
 
 interface ReservePanelProps {
-  selectedBranch?: string;
   selectedTime?: string;
   handleSubmit: (e: React.FormEvent) => void;
   branch: string;
@@ -21,7 +20,6 @@ interface ReservePanelProps {
 }
 
 const ReservePanelForm: React.FC<ReservePanelProps> = ({
-  selectedBranch,
   selectedTime,
   handleSubmit,
   branch,
@@ -70,12 +68,12 @@ const ReservePanelForm: React.FC<ReservePanelProps> = ({
             </option>
           ))}
         </select>
-      ) : selectedBranch ? (
+      ) : branch ? (
         <select
           name='branch'
           id='branch'
           className='w-full rounded-lg text-sm font-semibold h-11 p-3 border border-grey3 hover:border-grey5 focus:border-cruce outline-none'
-          defaultValue={selectedBranch}
+          value={branch}
           onChange={e => {
             setBranch(e.target.value);
           }}
