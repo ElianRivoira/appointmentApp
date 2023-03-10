@@ -31,16 +31,19 @@ const confirmedReserve = ({ query }: MyPageProps) => {
     };
     getReserve();
   }, []);
-  
+
   useEffect(() => {
     if (reserve?.creationDate) {
-      let currentDate: string = new Date(reserve.creationDate).toLocaleString('en-GB', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-      });
+      let currentDate: string = new Date(reserve.creationDate).toLocaleString(
+        'en-GB',
+        {
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+        }
+      );
       let todayArray: string[] = currentDate.split(',');
       setCreationDate(todayArray);
     }
@@ -129,7 +132,7 @@ const confirmedReserve = ({ query }: MyPageProps) => {
                 </p>
                 <p className='text-sm text-[#505050] mb-1'>
                   <span className='font-medium'>Sucursal: </span>
-                  {reserve?.branch.name}
+                  {reserve?.branch?.name}
                 </p>
                 <p className='text-sm text-[#505050]'>
                   <span className='font-medium'>Horario: </span>
@@ -154,7 +157,14 @@ const confirmedReserve = ({ query }: MyPageProps) => {
               ></Image>
               Editar Reserva
             </button>
-            <button className='bg-[#F5F5F5] hover:bg-cruceSecondaryHover text-red-500 font-semibold text-lb rounded-lg w-{186} px-[26px] h-11 flex items-center'>
+            <button
+              className='bg-[#F5F5F5] hover:bg-cruceSecondaryHover text-red-500 font-semibold text-lb rounded-lg w-{186} px-[26px] h-11 flex items-center'
+              onClick={() => {
+                router.push({
+                  pathname: `/reservePanel/cancel/${reserve?._id}`,
+                });
+              }}
+            >
               <Image src={cruzRoja} alt='cruzRoja' className='mr-1.5'></Image>
               Cancelar reserva
             </button>
