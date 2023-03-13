@@ -43,12 +43,10 @@ const ReservePanel = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("ANTES", date)
     const hours = time.split(':')[0];
     const minutes = time.split(':')[1];
     date.setHours(Number(hours));
     date.setMinutes(Number(minutes));
-    console.log(date)
     try {
       const reserv = await postReserve(
         date,
@@ -104,7 +102,7 @@ const ReservePanel = () => {
   useEffect(() => {
     let findDate = date.toLocaleDateString();
     if (branchObject) {
-      setShifts(branchObject?.shifts[findDate]);
+      setShifts(branchObject.shifts[findDate]);
     }
   }, [date]);
 
@@ -237,7 +235,6 @@ const ReservePanel = () => {
                 value={date}
                 onClickDay={(e: Date) => {
                   setDate(e);
-                  console.log(date);
                   setSelectedDate(true);
                 }}
               />
