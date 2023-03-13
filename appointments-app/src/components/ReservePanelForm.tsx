@@ -2,7 +2,6 @@ import { getBranches } from '@/services/branches';
 import React, { useEffect, useState } from 'react';
 
 interface ReservePanelProps {
-  selectedTime?: string;
   handleSubmit: (e: React.FormEvent) => void;
   branch: string;
   shifts: string[];
@@ -21,7 +20,6 @@ interface ReservePanelProps {
 }
 
 const ReservePanelForm: React.FC<ReservePanelProps> = ({
-  selectedTime,
   handleSubmit,
   branch,
   shifts,
@@ -38,7 +36,6 @@ const ReservePanelForm: React.FC<ReservePanelProps> = ({
   date,
   edit,
 }) => {
-  
   const dbTimes = shifts;
   const [branches, setBranches] = useState<Branch[]>([]);
 
@@ -55,39 +52,21 @@ const ReservePanelForm: React.FC<ReservePanelProps> = ({
       <label htmlFor='branch' className='text-sm font-semibold'>
         Sucursal
       </label>
-      {!edit ? (
-        <select
-          name='branch'
-          id='branch'
-          className='w-full rounded-lg text-sm font-semibold h-11 p-3 border border-grey3 hover:border-grey5 focus:border-cruce outline-none'
-          defaultValue=''
-          onChange={(e) => {
-            setBranch(e.target.value);
-          }}
-        >
-          {branches?.map((branchOffice) => (
-            <option value={branchOffice.name} key={branchOffice._id}>
-              {branchOffice.name}
-            </option>
-          ))}
-        </select>
-      ) : branch ? (
-        <select
-          name='branch'
-          id='branch'
-          className='w-full rounded-lg text-sm font-semibold h-11 p-3 border border-grey3 hover:border-grey5 focus:border-cruce outline-none'
-          value={branch}
-          onChange={e => {
-            setBranch(e.target.value);
-          }}
-        >
-          {branches?.map((branchOffice) => (
-            <option value={branchOffice.name} key={branchOffice._id}>
-              {branchOffice.name}
-            </option>
-          ))}
-        </select>
-      ) : null}
+      <select
+        name='branch'
+        id='branch'
+        className='w-full rounded-lg text-sm font-semibold h-11 p-3 border border-grey3 hover:border-grey5 focus:border-cruce outline-none'
+        value={branch}
+        onChange={e => {
+          setBranch(e.target.value);
+        }}
+      >
+        {branches?.map(branchOffice => (
+          <option value={branchOffice.name} key={branchOffice._id}>
+            {branchOffice.name}
+          </option>
+        ))}
+      </select>
       {selectedDate === true ? (
         <>
           <label htmlFor='time' className='text-sm font-semibold mt-4 block'>
@@ -97,10 +76,10 @@ const ReservePanelForm: React.FC<ReservePanelProps> = ({
             name='time'
             id='time'
             className='w-full rounded-lg text-sm font-semibold h-11 mb-4 p-3 border border-grey3 hover:border-grey5 focus:border-cruce outline-none'
-            defaultValue={selectedTime}
-            onChange={(e) => setTime(e.target.value)}
+            value={time}
+            onChange={e => setTime(e.target.value)}
           >
-            {dbTimes?.map((dbTime) => (
+            {dbTimes?.map(dbTime => (
               <option value={dbTime} key={dbTime}>
                 {dbTime}
               </option>
@@ -116,7 +95,7 @@ const ReservePanelForm: React.FC<ReservePanelProps> = ({
                 name='name'
                 id='name'
                 value={name}
-                onChange={(e) => setName(e.target.value)}
+                onChange={e => setName(e.target.value)}
                 className='border text-sm font-semibold w-full h-11 rounded-lg p-3 border-grey3 hover:border-grey5 focus:border-cruce outline-none'
               />
             </div>
@@ -129,7 +108,7 @@ const ReservePanelForm: React.FC<ReservePanelProps> = ({
                 name='phone'
                 id='phone'
                 value={phone}
-                onChange={(e) => setPhone(e.target.value)}
+                onChange={e => setPhone(e.target.value)}
                 className='border text-sm font-semibold w-full h-11 rounded-lg p-3 border-grey3 hover:border-grey5 focus:border-cruce outline-none'
               />
             </div>
@@ -142,7 +121,7 @@ const ReservePanelForm: React.FC<ReservePanelProps> = ({
             name='email'
             id='email'
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={e => setEmail(e.target.value)}
             className='border w-full text-sm font-semibold rounded-lg h-11 p-3 border-grey3 hover:border-grey5 focus:border-cruce outline-none'
           />
         </>

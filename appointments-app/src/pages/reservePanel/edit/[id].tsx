@@ -18,11 +18,14 @@ import { fetchUser } from '@/store/slices/userSlice';
 import Modal from '@/components/Modal';
 import rightCheckbox from '../../../../public/icons/rightCheckbox.svg';
 import wrongCheckbox from '../../../../public/icons/wrongCheckbox.svg';
+import { getBranchByName } from '@/services/branches';
 
 const ReservePanel = () => {
   const [branch, setBranch] = useState('');
   const [date, setDate] = useState<Date>(new Date());
   const [selectedDate, setSelectedDate] = useState(false);
+  const [branchObject, setBranchObject] = useState<Branch>();
+  const [shifts, setShifts] = useState<string[]>([]);
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
@@ -81,7 +84,15 @@ const ReservePanel = () => {
   }, [open]);
 
   useEffect(() => {
-    if (branch) setStart(true);
+    if (branch) {
+      setStart(true)
+      const branchByName = async () => {
+        let branchByName = await getBranchByName(branch);
+        setBranchObject(branchByName);
+        setShifts(branchByName.shifts[date.toLocaleDateString()]);
+      };
+      branchByName();
+    };
   }, [branch]);
 
   useEffect(() => {
@@ -195,10 +206,10 @@ const ReservePanel = () => {
               </>
             )}
               <ReservePanelForm
-                selectedTime={selectedTime}
                 handleSubmit={handleSubmit}
                 branch={branch}
                 setBranch={setBranch}
+                shifts={shifts}
                 selectedDate={selectedDate}
                 time={time}
                 setTime={setTime}
