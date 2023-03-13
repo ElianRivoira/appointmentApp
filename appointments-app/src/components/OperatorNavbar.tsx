@@ -16,43 +16,62 @@ const Navbar = () => {
 
   useEffect(() => {
     setActiveLink(router.pathname);
-    const t = localStorage.getItem('token')
-    if (t) setToken(t)
+    const t = localStorage.getItem('token');
+    if (t) setToken(t);
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem('token')
+    localStorage.removeItem('token');
     router.push({
-      pathname: '/login'
-    })
-  }
-  
+      pathname: '/login',
+    });
+  };
+
   return (
     <div className='flex justify-center shadow-navbar bg-white'>
       <nav className='flex flex-row justify-end w-11/12 md:max-w-screen-2xl h-20 items-center'>
         <div className='flex justify-between'>
           <Link href={'/operator/reserves'} className='mr-8'>
-            <button className={`text-ss font-bold flex hover:text-cruceHover ${ activeLink === '/operator/reserves' ? 'text-cruce' : null }`}>
+            <button
+              className={`text-ss font-bold flex hover:text-cruceHover ${
+                activeLink === '/operator/reserves' ? 'text-cruce' : null
+              }`}
+            >
               Reservas
               <Image
                 className='w-4 h-3.5 ml-1'
                 alt='reservas'
-                src={activeLink === '/operator/reserves' ? misReservasIconActivo : misReservasIcon}
+                src={
+                  activeLink === '/operator/reserves'
+                    ? misReservasIconActivo
+                    : misReservasIcon
+                }
               ></Image>
             </button>
           </Link>
           <Link href={'/operator/myData'}>
-            <button className={`text-ss font-bold flex hover:text-cruceHover ${ activeLink === '/operator/myData' ? 'text-cruce' : null }`}>
+            <button
+              className={`text-ss font-bold flex hover:text-cruceHover ${
+                activeLink === '/operator/myData' ? 'text-cruce' : null
+              }`}
+            >
               Mi Cuenta
               <Image
                 className='w-4 h-3.5 ml-1'
                 alt='mi cuenta'
-                src={activeLink === '/operator/myData' ? miCuentaIconActivo : miCuentaIcon}
+                src={
+                  activeLink === '/operator/myData'
+                    ? miCuentaIconActivo
+                    : miCuentaIcon
+                }
               ></Image>
             </button>
           </Link>
           {token ? (
-            <button className={`text-ss font-bold flex hover:text-cruceHover ml-8`} onClick={handleLogout}>
+            <button
+              className={`text-ss font-bold flex hover:text-cruceHover ml-8`}
+              onClick={handleLogout}
+            >
               Cerrar Sesión
               <Image
                 className='w-4 h-4 ml-1'
