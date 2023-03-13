@@ -24,7 +24,6 @@ const ReservePanel = () => {
   const [branch, setBranch] = useState('');
   const [date, setDate] = useState<Date>(new Date());
   const [selectedDate, setSelectedDate] = useState(false);
-  const [branchObject, setBranchObject] = useState<Branch>();
   const [shifts, setShifts] = useState<string[]>([]);
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
@@ -36,7 +35,6 @@ const ReservePanel = () => {
   const [reserve, setReserve] = useState<reserveUser>();
   const [open, setOpen] = useState(false);
   const [type, setType] = useState(0);
-  const [selectedTime, setSelectedTime] = useState('');
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
   const reserveId = router.query.id;
@@ -87,7 +85,6 @@ const ReservePanel = () => {
       setStart(true)
       const branchByName = async () => {
         let branchByName = await getBranchByName(branch);
-        setBranchObject(branchByName);
         setShifts(branchByName.shifts[date.toLocaleDateString()]);
       };
       branchByName();
@@ -101,14 +98,13 @@ const ReservePanel = () => {
   useEffect(() => {
     if (reserve) {
       const datee = new Date(reserve.date);
-      setSelectedTime(`${datee.getHours()}-${datee.getMinutes()}`)
       setBranch(reserve.branch.name);
       setSelectedDate(true);
       setDate(datee);
       setEmail(reserve.email);
       setPhone(reserve.phone.toString());
       setName(reserve.name);
-      setTime(`${datee.getHours()}-${datee.getMinutes()}`);
+      setTime(`${datee.getHours()}:${datee.getMinutes()}`);
     }
   }, [reserve]);
 
