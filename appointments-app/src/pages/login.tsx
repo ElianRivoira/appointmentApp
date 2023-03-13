@@ -17,7 +17,6 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [type, setType] = useState(0);
-  const [role, setRole] = useState('');
   const [calledPush, setCalledPush] = useState(false);
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
@@ -31,7 +30,7 @@ const Login = () => {
         setType(2);
         setIsOpen(true);
       } else {
-        setRole(user.role);
+        await dispatch(fetchUser())
         setType(1);
         setIsOpen(true);
       }
@@ -40,48 +39,36 @@ const Login = () => {
     }
   };
 
+  const redirect = () => {
+    if (calledPush) return;
+    if (user?.role === 'user') {
+      setCalledPush(true);
+      router.push('reservePanel');
+    } else if (user?.role === 'operator') {
+      setCalledPush(true);
+      router.push('operator/reserves');
+    } else if (user?.role === 'admin') {
+      setCalledPush(true);
+      router.push('admin/operators');
+    }
+  }
+
   useEffect(() => {
     if (type === 1 && isOpen === false) {
-      if (role === 'user') {
-        setCalledPush(true);
-        router.push('reservePanel');
-      } else if (role === 'operator') {
-        setCalledPush(true);
-        router.push('operator/reserves');
-      } else if (role === 'admin') {
-        setCalledPush(true);
-        router.push('admin/operators');
-      }
+      redirect()
     }
   }, [isOpen]);
 
-  useEffect(() => {
-    if (calledPush) return;
-    if (user) {
-      if (user.role === 'user') {
-        router.push('reservePanel');
-        setCalledPush(true);
-      } else if (user.role === 'operator') {
-        router.push('operator/reserves');
-        setCalledPush(true);
-      } else if (user.role === 'admin') {
-        setCalledPush(true);
-        router.push('admin/operators');
-      }
-    }
-  }, [role]);
-
-  useEffect(() => {
-    const func = async (): Promise<void> => {
-      const token = localStorage.getItem('token');
-      if (token) await dispatch(fetchUser());
-    };
-    func();
-  }, []);
-
-  useEffect(() => {
-    if (user) setRole(user.role);
-  }, [user]);
+  // useEffect(() => {
+  //   const func = async (): Promise<void> => {
+  //     const token = localStorage.getItem('token');
+  //     if (token) {
+  //       await dispatch(fetchUser());
+  //       redirect();
+  //     };
+  //   };
+  //   func();
+  // }, []);
 
   return (
     <div className='h-screen bg-cruceBackground'>
