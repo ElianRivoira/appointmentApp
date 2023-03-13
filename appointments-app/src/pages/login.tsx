@@ -139,7 +139,7 @@ const Login = () => {
                   alt='success'
                   className='w-10 h-10 mb-7'
                 />
-                <p>Inicio de sesión satisfactorio</p>
+                <p className='text-ln font-bold'>Inicio de sesión satisfactorio</p>
               </div>
             ) : type === 2 ? (
               <div className='flex flex-col items-center'>
@@ -148,7 +148,7 @@ const Login = () => {
                   alt='error'
                   className='w-10 h-10 mb-7'
                 />
-                <p>La información introducida es incorrecta</p>
+                <p className='text-ln font-bold'>La información introducida es incorrecta</p>
               </div>
             ) : null}
           </Modal>

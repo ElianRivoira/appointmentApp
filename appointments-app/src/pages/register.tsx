@@ -81,7 +81,7 @@ const Register = () => {
             setType(2);
             setIsOpen(true);
           })
-          .catch((e) => {
+          .catch(e => {
             console.log(e);
             setErrorMessage(e.response.data.errors[0].msg);
             setType(4);
@@ -339,16 +339,50 @@ const Register = () => {
         </form>
         <Modal open={isOpen} onClose={() => setIsOpen(false)}>
           {type === 1 ? (
-            <h1 className='text-ln font-bold mb-2'>Las contraseñas deben coincidir</h1>
+            <div className='flex flex-col items-center'>
+              <Image
+                src={wrongCheckbox}
+                alt='error'
+                className='w-10 h-10 mb-7'
+              />
+              <h1 className='text-ln font-bold'>
+                Las contraseñas deben coincidir
+              </h1>
+            </div>
           ) : type === 2 ? (
-            <h1 className='text-ln font-bold mb-2'>Tu usuario ha sido creado satisfactoriamente</h1>
+            <div className='flex flex-col items-center'>
+              <Image
+                src={rightCheckbox}
+                alt='success'
+                className='w-10 h-10 mb-7'
+              />
+              <h1 className='text-ln font-bold'>
+                Tu usuario ha sido creado satisfactoriamente
+              </h1>
+            </div>
           ) : type === 3 ? (
-            <h1 className='text-ln font-bold mb-2'>Tiene que cumplir las condiciones primero</h1>
+            <div className='flex flex-col items-center'>
+              <Image
+                src={wrongCheckbox}
+                alt='error'
+                className='w-10 h-10 mb-7'
+              />
+              <h1 className='text-ln font-bold'>
+                Tiene que cumplir las condiciones primero
+              </h1>
+            </div>
           ) : type === 4 ? (
-            <>
-              <h1 className='text-ln font-bold mb-2'>Ha ocurrido un error al crear su usuario</h1>
+            <div className='flex flex-col items-center'>
+              <Image
+                src={wrongCheckbox}
+                alt='error'
+                className='w-10 h-10 mb-7'
+              />
+              <h1 className='text-ln font-bold mb-2'>
+                Ha ocurrido un error al crear su usuario
+              </h1>
               <p className='text-sm font-normal'>{errorMessage}</p>
-            </>
+            </div>
           ) : null}
         </Modal>
         <hr className='mx-4 mb-5' />
