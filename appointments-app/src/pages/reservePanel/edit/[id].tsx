@@ -43,8 +43,7 @@ const ReservePanel = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const hours = time.split('-')[0];
-    const minutes = time.split('-')[1];
+    const [hours, minutes] = time.split(':');
     date.setHours(Number(hours));
     date.setMinutes(Number(minutes));
     if (reserveId && typeof reserveId === 'string') {
