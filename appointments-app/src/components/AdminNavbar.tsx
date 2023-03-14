@@ -75,17 +75,17 @@ const AdminNavbar = () => {
               ></Image>
             </button>
           </Link>
-          <Link href={'/admin'} className='mr-8'>
+          <Link href={'/admin/reports'} className='mr-8'>
             <button
               className={`text-ss font-bold flex hover:text-cruceHover ${
-                activeLink === 'reportes' ? 'text-cruce' : ''
+                activeLink === '/admin/reports' ? 'text-cruce' : ''
               }`}
             >
               Reportes
               <Image
                 className='w-4 h-3.5 ml-1'
                 alt='reports'
-                src={activeLink === 'reportes' ? reporteActivo : reportes}
+                src={activeLink === '/admin/reports' ? reporteActivo : reportes}
               ></Image>
             </button>
           </Link>
