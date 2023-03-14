@@ -27,15 +27,18 @@ module.exports = {
         exito: '#00A541',
         error: '#E53939',
         errorHover: '#E54949',
+        black033: 'rgba(0, 0, 0, 0.3)',
       },
       fontSize: {
         xm: ['13px', '16px'],
         ss: ['14px', '16px'],
         ls: ['15px', '20px'],
+        lm: ['15px', '18px'],
         lb: ['16px', '20px'],
         ln: ['18px', '24px'],
         lx: ['19px', '24px'],
         xb: ['20px', '24px'],
+        '4.5xl': ['40px', '47px'],
       },
       boxShadow: {
         xg: '0 0 24px rgba(0, 0, 0, 0.12)',
