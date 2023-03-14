@@ -55,7 +55,7 @@ const reports = () => {
 
             </div>
           </div>
-          <div className='mt-6 w-full h-[230px] bg-white rounded-[20px] p-8 pt-6 shadow-xg'>
+          <div className='mt-6 mb-10 w-full h-[230px] bg-white rounded-[20px] p-8 pt-6 shadow-xg'>
             <p className='font-semibold text-sm'>Plazo de antelación de solicitud de las reservas</p>
           </div>
         </div>
