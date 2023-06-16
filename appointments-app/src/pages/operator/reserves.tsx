@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { AppDispatch, RootState } from '@/store';
@@ -10,14 +9,11 @@ import { getBranch } from '@/services/branches';
 
 const Reserves = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const router = useRouter();
   const { user } = useSelector((state: RootState) => state.user);
   const [reservesFromBranch, setReservesFromBranch] = useState<reserveUser[]>();
   const [state, setState] = useState(false);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (!token) router.push('/login');
     dispatch(fetchUser());
   }, []);
 

@@ -1,13 +1,6 @@
 import { api } from './axiosInstance';
 
-export async function postReserve(
-  date: Date,
-  branch: string,
-  name: string,
-  phone: string,
-  email: string,
-  userId: string
-): Promise<ReserveResponse> {
+export async function postReserve({ date, branch, name, phone, email, userId }: PostReserve): Promise<ReserveResponse> {
   const res = await api.post('/appointments', {
     date,
     branch,
@@ -19,14 +12,14 @@ export async function postReserve(
   return res.data;
 }
 
-export async function editReserve(
-  date: Date,
-  branch: string,
-  name: string,
-  phone: string,
-  email: string,
-  reserveId: string
-): Promise<ReserveResponse> {
+export async function editReserve({
+  date,
+  branch,
+  name,
+  phone,
+  email,
+  reserveId,
+}: PutReserve): Promise<ReserveResponse> {
   const res = await api.put(`/appointments/${reserveId}`, {
     date,
     branch,

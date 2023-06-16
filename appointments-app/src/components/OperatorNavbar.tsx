@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { deleteCookie } from 'cookies-next';
 
 import misReservasIcon from '../../public/icons/misReservas.svg';
 import misReservasIconActivo from '../../public/icons/misReservasActivo.svg';
@@ -21,7 +22,7 @@ const Navbar = () => {
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
+    deleteCookie('session');
     router.push({
       pathname: '/login',
     });

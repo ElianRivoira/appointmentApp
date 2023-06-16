@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
-import check from '../../public/icons/check.svg';
-import error from '../../public/icons/error.svg';
+import check from '@/assets/icons/check.svg';
+import error from '@/assets/icons/error.svg';
 
 interface stepValue {
   icon: string;

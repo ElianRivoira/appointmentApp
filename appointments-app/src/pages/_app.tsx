@@ -1,13 +1,26 @@
 import '@/styles/globals.css';
 import React from 'react';
 import { Provider } from 'react-redux';
+import { Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { hasCookie } from 'cookies-next';
+
 import { store } from '../store/index';
+import Navbar from '@/components/Navbar';
 
 const App = ({ Component, pageProps }: any) => {
+  const [queryClient] = React.useState(() => new QueryClient());
+
   return (
-    <Provider store={store}>
-      <Component {...pageProps} />
-    </Provider>
+    <QueryClientProvider client={queryClient}>
+      {/* <Hydrate state={pageProps.dehydratedState}> */}
+        <Provider store={store}>
+          <Navbar />
+          <Component {...pageProps} />
+          <ReactQueryDevtools />
+        </Provider>
+      {/* </Hydrate> */}
+    </QueryClientProvider>
   );
 };
 

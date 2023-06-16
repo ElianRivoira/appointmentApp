@@ -1,18 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import Image from 'next/image';
-import { useRouter } from 'next/router';
 
 import OperatorNavbar from '../../components/OperatorNavbar';
-import { AppDispatch, RootState } from '@/store';
-import { fetchUser } from '@/store/slices/userSlice';
-import { sendPassEmail, updateUser } from '@/services/users';
+import { getLoggedUser, sendPassEmail, updateUser } from '@/services/users';
 import Modal from '@/components/Modal';
-import rightCheckbox from '../../../public/icons/rightCheckbox.svg';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { hasCookie } from 'cookies-next';
 
 const myData = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  const { user } = useSelector((state: RootState) => state.user);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [dni, setDni] = useState(0);
@@ -20,48 +14,65 @@ const myData = () => {
   const [phone, setPhone] = useState(0);
   const [open, setOpen] = useState(false);
   const [type, setType] = useState(0);
-  const router = useRouter();
+  const [errors, setErrors] = useState<CustomError[]>([]);
+  const [message, setMessage] = useState('');
+
+  const loggedUser = useQuery({
+    queryKey: ['loggedUser'],
+    enabled: hasCookie('session'),
+    queryFn: getLoggedUser,
+    onError: error => {
+      setType(2);
+      setErrors((error as any).response.data.errors);
+      setOpen(true);
+    },
+  });
+
+  const putUser = useMutation({
+    mutationFn: updateUser,
+    onSuccess: user => {
+      setType(1);
+      setOpen(true);
+    },
+    onError: (err: any) => {
+      setType(2);
+      setErrors(err.response.data.errors);
+      setOpen(true);
+    },
+  });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (user) {
-      const res = await updateUser(user._id, {
+    if (loggedUser.data) {
+      putUser.mutate({
+        id: loggedUser.data._id,
         name,
         email,
         dni,
         branch,
         phone,
       });
-      setType(1);
-      setOpen(true);
     }
   };
 
   const changePassword = () => {
-    if (user) {
-      sendPassEmail(user?._id, email);
-      setType(2);
+    if (loggedUser.data) {
+      sendPassEmail({ id: loggedUser.data._id, email });
+      setMessage('Se le ha enviado un correo para cambiar su contraseña');
+      setType(3);
       setOpen(true);
     }
   };
 
   useEffect(() => {
-    if (user) {
-      setName(user.name);
-      setDni(user.dni);
-      setEmail(user.email);
-      if (typeof user.branch === 'object') setBranch(user.branch.name);
-      if (user.phone) setPhone(user.phone)
+    if (loggedUser.data) {
+      setName(loggedUser.data.name);
+      setDni(loggedUser.data.dni);
+      setEmail(loggedUser.data.email);
+      if (typeof loggedUser.data.branch === 'object') setBranch(loggedUser.data.branch.name);
+      if (loggedUser.data.phone) setPhone(loggedUser.data.phone);
     }
-  }, [user]);
-
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (!token) router.push({
-      pathname: '/login'
-    });
-    dispatch(fetchUser());
-  }, []);
+  }, [loggedUser.isSuccess, loggedUser.isRefetching]);
 
   return (
     <div className='h-screen bg-cruceBackground'>
@@ -155,28 +166,8 @@ const myData = () => {
               </button>
             </div>
           </form>
-          <Modal open={open} onClose={() => setOpen(false)}>
-            <div className='flex flex-col items-center'>
-              {type === 1 ? (
-                <>
-                  <Image
-                    src={rightCheckbox}
-                    alt='success'
-                    className='w-10 h-10 mb-7'
-                  />
-                  <p>Sus datos se han actualizado correctamente</p>
-                </>
-              ) : type === 2 ? (
-                <>
-                  <Image
-                    src={rightCheckbox}
-                    alt='success'
-                    className='w-10 h-10 mb-7'
-                  />
-                  <p>Se le ha enviado un correo para cambiar su contraseña</p>
-                </>
-              ) : null}
-            </div>
+          <Modal type={type} errors={errors} type3Message={message} open={open} onClose={() => setOpen(false)}>
+            <h1>Sus datos se han actualizado correctamente</h1>
           </Modal>
         </div>
       </div>

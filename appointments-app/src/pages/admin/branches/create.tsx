@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import AdminNavbar from '@/components/AdminNavbar';
+import React, { useState } from 'react';
 import { postBranch } from '@/services/branches';
+import { useMutation } from '@tanstack/react-query';
+import Modal from '@/components/Modal';
 
 const createBranch = () => {
   const [name, setName] = useState('');
@@ -9,16 +10,30 @@ const createBranch = () => {
   const [phone, setPhone] = useState(0);
   const [openHour, setOpenHour] = useState('');
   const [closeHour, setCloseHour] = useState('');
+  const [open, setOpen] = useState(false);
+  const [type, setType] = useState(0);
+  const [errors, setErrors] = useState<CustomError[]>([]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const postBranchOffice = useMutation({
+    mutationFn: postBranch,
+    onSuccess: branch => {
+      setType(1);
+      setOpen(true);
+    },
+    onError: (err: any) => {
+      setType(2);
+      setErrors(err.response.data.errors);
+      setOpen(true);
+    },
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    await postBranch(name, email, phone, capacity, openHour, closeHour);
-    return;
+    postBranchOffice.mutate({ name, email, phone, capacity, openHour, closeHour });
   };
 
   return (
     <div className='h-screen bg-cruceBackground'>
-      <AdminNavbar />
       <div className='flex justify-center'>
         <div className='flex flex-col w-3/4 max-w-screen-md h-3/5 mt-12 p-10 pb-8 border rounded-xl shadow-navbar bg-white'>
           <p className='mb-4 font-bold text-xb'>Creación de sucursales</p>
@@ -31,7 +46,7 @@ const createBranch = () => {
               name='username'
               id='username'
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={e => setName(e.target.value)}
               required
               className='w-full border border-solid border-grey-500 focus:border-cruce rounded-lg h-11 mb-3 outline-none p-3'
             />
@@ -43,7 +58,7 @@ const createBranch = () => {
               name='email'
               id='email'
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={e => setEmail(e.target.value)}
               required
               className='w-full border border-solid border-grey-500 focus:border-cruce rounded-lg h-11 mb-3 outline-none p-3'
             />
@@ -57,8 +72,7 @@ const createBranch = () => {
                   name='phone'
                   id='phone'
                   value={phone}
-                  defaultValue={''}
-                  onChange={(e) => setPhone(Number(e.target.value))}
+                  onChange={e => setPhone(Number(e.target.value))}
                   required
                   className='w-full border border-solid border-grey-500 focus:border-cruce rounded-lg h-11 outline-none p-3'
                 />
@@ -72,7 +86,7 @@ const createBranch = () => {
                   name='capacity'
                   id='capacity'
                   value={capacity}
-                  onChange={(e) => setCapacity(Number(e.target.value))}
+                  onChange={e => setCapacity(Number(e.target.value))}
                   required
                   className='w-full border border-solid border-grey-500 focus:border-cruce rounded-lg h-11 outline-none p-3'
                 />
@@ -89,7 +103,8 @@ const createBranch = () => {
                   id='openHour'
                   value={openHour}
                   pattern='^(?:[0-5][0-9]):[0-5][0-9]$'
-                  onChange={(e) => setOpenHour(e.target.value)}
+                  placeholder='08:00'
+                  onChange={e => setOpenHour(e.target.value)}
                   required
                   className='w-full border border-solid border-grey-500 focus:border-cruce rounded-lg h-11 outline-none p-3'
                 />
@@ -104,13 +119,13 @@ const createBranch = () => {
                   id='closeHour'
                   value={closeHour}
                   pattern='^(?:[0-5][0-9]):[0-5][0-9]$'
-                  onChange={(e) => setCloseHour(e.target.value)}
+                  placeholder='17:00'
+                  onChange={e => setCloseHour(e.target.value)}
                   required
                   className='w-full border border-solid border-grey-500 focus:border-cruce rounded-lg h-11 outline-none p-3'
                 />
               </div>
             </div>
-
             <div className='flex mt-4'>
               <button
                 type='submit'
@@ -123,6 +138,9 @@ const createBranch = () => {
           </form>
         </div>
       </div>
+      <Modal type={type} errors={errors} open={open} onClose={() => setOpen(false)}>
+        <h1>Sucursal creada con éxito</h1>
+      </Modal>
     </div>
   );
 };

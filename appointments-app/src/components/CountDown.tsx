@@ -1,14 +1,16 @@
+import { NextRouter, useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 
 interface CountDownProps {
   start: boolean;
   countDown: string;
   setCountDown: (state: string) => void;
-  formatTime: (mss: number) => string;
+  formatTime: (mss: number, router: NextRouter) => string;
   margin: boolean;
 }
 
 const CountDown: React.FC<CountDownProps> = ({start, countDown, setCountDown, formatTime, margin}) => {
+  const router = useRouter();
 
   useEffect(() => {
     if(start){
@@ -16,7 +18,7 @@ const CountDown: React.FC<CountDownProps> = ({start, countDown, setCountDown, fo
       const intervalId = setInterval(() => {
         const now = new Date();
         const difference = expirationDate - now.getTime();
-        const count = formatTime(difference);
+        const count = formatTime(difference, router);
         setCountDown(count);
       }, 1000);
   

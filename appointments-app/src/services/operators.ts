@@ -1,13 +1,6 @@
 import { api } from './axiosInstance';
 
-export async function createOperator(
-  name: string,
-  email: string,
-  dni: number,
-  password: string,
-  branch: string,
-  phone: number
-): Promise<User> {
+export async function createOperator({ name, email, dni, password, branch, phone }: PostOperator): Promise<User> {
   const operator = await api.post('/operators', {
     name,
     email,

@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 
-import AdminNavbar from '@/components/AdminNavbar';
 import { AppDispatch, RootState } from '@/store';
 import { fetchUser } from '@/store/slices/userSlice';
 import { sendPassEmail, updateUser } from '@/services/users';
 import Modal from '@/components/Modal';
-import rightCheckbox from '../../../public/icons/rightCheckbox.svg';
+import { useMutation } from '@tanstack/react-query';
 
 const myData = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -18,27 +16,45 @@ const myData = () => {
   const [dni, setDni] = useState(0);
   const [open, setOpen] = useState(false);
   const [type, setType] = useState(0);
-  const router = useRouter();
+  const [errors, setErrors] = useState<CustomError[]>([]);
+  const [message, setMessage] = useState('');
+
+  const putUser = useMutation({
+    mutationFn: updateUser,
+    onSuccess: operator => {
+      setType(1);
+      setOpen(true);
+    },
+    onError: (err: any) => {
+      setType(2);
+      setErrors(err.response.data.errors);
+      setOpen(true);
+    },
+  });
+
+  const passEmail = useMutation({
+    mutationFn: sendPassEmail,
+    onSuccess: operator => {
+      setMessage('Se le ha enviado un correo para cambiar su contraseña');
+      setType(3);
+      setOpen(true);
+    },
+    onError: (err: any) => {
+      setType(2);
+      setErrors(err.response.data.errors);
+      setOpen(true);
+    },
+  });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (user) {
-      const res = await updateUser(user._id, {
+      putUser.mutate({
+        id: user._id,
         name,
         email,
         dni,
       });
-      setType(1);
-      setOpen(true);
-      console.log(res);
-    }
-  };
-
-  const changePassword = () => {
-    if (user) {
-      sendPassEmail(user?._id, email);
-      setType(2);
-      setOpen(true);
     }
   };
 
@@ -51,14 +67,11 @@ const myData = () => {
   }, [user]);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (!token) router.push('login');
     dispatch(fetchUser());
   }, []);
 
   return (
     <div className='h-screen bg-cruceBackground'>
-      <AdminNavbar />
       <div className='flex justify-center'>
         <div className='flex flex-col w-3/4 max-w-screen-md h-3/5 mt-12 p-10 pb-8 border rounded-xl shadow-navbar bg-white'>
           <p className='mb-4 font-bold text-xb'>Mis Datos</p>
@@ -103,7 +116,9 @@ const myData = () => {
               <button
                 type='button'
                 className='font-semibold text-ss text-cruce hover:text-cruceHover'
-                onClick={changePassword}
+                onClick={() => {
+                  user && passEmail.mutate({ id: user._id, email: email });
+                }}
               >
                 Editar contraseña
               </button>
@@ -118,30 +133,10 @@ const myData = () => {
               </button>
             </div>
           </form>
-          <Modal open={open} onClose={() => setOpen(false)}>
-            <div className='flex flex-col items-center'>
-              {type === 1 ? (
-                <>
-                  <Image
-                    src={rightCheckbox}
-                    alt='success'
-                    className='w-10 h-10 mb-7'
-                  />
-                  <p>Sus datos se han actualizado correctamente</p>
-                </>
-              ) : type === 2 ? (
-                <>
-                  <Image
-                    src={rightCheckbox}
-                    alt='success'
-                    className='w-10 h-10 mb-7'
-                  />
-                  <p>Se le ha enviado un correo para cambiar su contraseña</p>
-                </>
-              ) : null}
-            </div>
-          </Modal>
         </div>
+        <Modal type={type} errors={errors} open={open} type3Message={message} onClose={() => setOpen(false)}>
+          <h1>Sus datos se han actualizado correctamente</h1>
+        </Modal>
       </div>
     </div>
   );

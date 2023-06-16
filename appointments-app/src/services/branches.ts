@@ -1,13 +1,6 @@
 import { api } from './axiosInstance';
 
-export async function postBranch(
-  name: string,
-  email: string,
-  phone: number,
-  capacity: number,
-  openHour: string,
-  closeHour: string
-): Promise<Branch> {
+export async function postBranch({ name, email, phone, capacity, openHour, closeHour }: PostBranch): Promise<Branch> {
   const res = await api.post('/branches', {
     name,
     email,
@@ -29,11 +22,8 @@ export async function getBranch(id: string): Promise<Branch> {
   return res.data;
 }
 
-export async function updateBranch(
-  id: string,
-  branch: UpdateBranch
-): Promise<Branch> {
-  const res = await api.put(`/branches/${id}`, branch);
+export async function updateBranch(branch: UpdateBranch): Promise<Branch> {
+  const res = await api.put(`/branches/${branch.id}`, branch);
   return res.data;
 }
 
@@ -41,5 +31,3 @@ export async function getBranchByName(name: string): Promise<Branch> {
   const res = await api.get(`/branches/name/${name}`);
   return res.data;
 }
-
-//fix

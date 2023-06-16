@@ -1,12 +1,11 @@
 import Image from 'next/image';
 import React, { useState } from 'react';
 
-import openEye from '../../public/icons/openEye.svg';
+import openEye from '@/assets/icons/openEye.svg';
 
 interface OperatorFormProps {
   handleSubmit: (e: React.FormEvent) => void;
-  selectedBranch?: string;
-  branches: Branch[];
+  branches: Branch[] | undefined;
   branch: string;
   setBranch: (state: string) => void;
   name: string;
@@ -24,7 +23,6 @@ interface OperatorFormProps {
 
 const OperatorsForm: React.FC<OperatorFormProps> = ({
   handleSubmit,
-  selectedBranch,
   branches,
   branch,
   setBranch,
@@ -101,41 +99,22 @@ const OperatorsForm: React.FC<OperatorFormProps> = ({
           <label htmlFor='phone' className='text-sm font-medium'>
             Sucursal
           </label>
-          {!edit ? (
-            <select
-              name='branch'
-              id='branch'
-              className='w-full rounded-lg text-sm font-semibold h-11 p-3 border border-grey3 hover:border-grey5 focus:border-cruce outline-none'
-              defaultValue=''
-              required
-              onChange={e => {
-                setBranch(e.target.value);
-              }}
-            >
-              {branches?.map(branchOffice => (
-                <option value={branchOffice.name} key={branchOffice._id}>
-                  {branchOffice.name}
-                </option>
-              ))}
-            </select>
-          ) : selectedBranch ? (
-            <select
-              name='branch'
-              id='branch'
-              className='w-full rounded-lg text-sm font-semibold h-11 p-3 border border-grey3 hover:border-grey5 focus:border-cruce outline-none'
-              defaultValue={selectedBranch}
-              required
-              onChange={e => {
-                setBranch(e.target.value);
-              }}
-            >
-              {branches?.map(branchOffice => (
-                <option value={branchOffice.name} key={branchOffice._id}>
-                  {branchOffice.name}
-                </option>
-              ))}
-            </select>
-          ) : null}
+          <select
+            name='branch'
+            id='branch'
+            className='w-full rounded-lg text-sm font-semibold h-11 p-3 border border-grey3 hover:border-grey5 focus:border-cruce outline-none'
+            value={branch}
+            required
+            onChange={e => {
+              setBranch(e.target.value);
+            }}
+          >
+            {branches?.map(branchOffice => (
+              <option value={branchOffice.name} key={branchOffice._id} hidden={branchOffice.name === ''}>
+                {branchOffice.name}
+              </option>
+            ))}
+          </select>
         </div>
       </div>
       {!edit ? (
@@ -156,16 +135,8 @@ const OperatorsForm: React.FC<OperatorFormProps> = ({
                   className='w-full border border-solid border-grey-500 focus:border-cruce rounded-lg h-11 outline-none p-3'
                 />
                 <div className='absolute inset-y-0 right-2 pl-3 flex items-center'>
-                  <button
-                    type='button'
-                    className='h-5 w-5 object-cover'
-                    onClick={() => setVisibleOne(!visibleOne)}
-                  >
-                    <Image
-                      src={openEye}
-                      alt='ojito'
-                      className='w-4 h-4'
-                    ></Image>
+                  <button type='button' className='h-5 w-5 object-cover' onClick={() => setVisibleOne(!visibleOne)}>
+                    <Image src={openEye} alt='ojito' className='w-4 h-4'></Image>
                   </button>
                 </div>
               </div>
@@ -185,16 +156,8 @@ const OperatorsForm: React.FC<OperatorFormProps> = ({
                   className='w-full border border-solid border-grey-500 focus:border-cruce rounded-lg h-11 outline-none p-3'
                 />
                 <div className='absolute inset-y-0 right-2 pl-3 flex items-center'>
-                  <button
-                    type='button'
-                    className='h-5 w-5 object-cover'
-                    onClick={() => setVisibleTwo(!visibleTwo)}
-                  >
-                    <Image
-                      src={openEye}
-                      alt='ojito'
-                      className='w-4 h-4'
-                    ></Image>
+                  <button type='button' className='h-5 w-5 object-cover' onClick={() => setVisibleTwo(!visibleTwo)}>
+                    <Image src={openEye} alt='ojito' className='w-4 h-4'></Image>
                   </button>
                 </div>
               </div>
@@ -236,11 +199,7 @@ const OperatorsForm: React.FC<OperatorFormProps> = ({
               Enviar
             </button>
           ) : (
-            <button
-              type='submit'
-              className='bg-grey3 text-grey6 font-semibold text-lb rounded-lg h-11 w-full'
-              disabled
-            >
+            <button type='submit' className='bg-grey3 text-grey6 font-semibold text-lb rounded-lg h-11 w-full' disabled>
               Enviar
             </button>
           )}
