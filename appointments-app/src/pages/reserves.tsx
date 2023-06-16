@@ -6,7 +6,6 @@ import { AppDispatch, RootState } from '@/store';
 import { fetchUser } from '@/store/slices/userSlice';
 import { getReserves } from '@/services/appointments';
 import Reserve from '@/components/Reserve';
-import Navbar from '@/components/Navbar';
 
 const Reserves = () => {
   const { user } = useSelector((state: RootState) => state.user);
@@ -15,8 +14,6 @@ const Reserves = () => {
   const router = useRouter();
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (!token) router.push('login');
     dispatch(fetchUser());
   }, []);
   
@@ -32,7 +29,6 @@ const Reserves = () => {
 
   return (
     <>
-      <Navbar />
       <div className='mt-12 mx-24'>
         <div className='font-semibold text-xl mb-6'>Reservas</div>
         {reservesFromUser.map((reserve) => (

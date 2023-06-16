@@ -11,7 +11,20 @@ interface User {
   };
 }
 
+interface LoginUser {
+  email: string; 
+  password: string;
+}
+
+interface PostUser {
+  name: string;
+  dni: number;
+  email: string; 
+  password: string;
+}
+
 interface UpdateUser {
+  id: string;
   name: string;
   dni: number;
   email: string;
@@ -48,7 +61,6 @@ interface ReserveResponse {
   phone: number;
 }
 
-
 interface Operator {
   _id: string;
   name: string;
@@ -56,6 +68,15 @@ interface Operator {
   dni: number;
   password: string;
   branch: string;
+}
+
+interface PostOperator {
+  name: string,
+  email: string,
+  dni: number,
+  password: string,
+  branch: string,
+  phone: number
 }
 
 interface Shift {
@@ -74,11 +95,43 @@ interface Branch {
   appointments: reserveUser[];
 }
 
+interface PostBranch {
+  name: string,
+  email: string,
+  phone: number,
+  capacity: number,
+  openHour: string,
+  closeHour: string
+}
+
 interface UpdateBranch {
+  id: string;
   name: string;
   email: string;
   phone: number;
   capacity: number;
   openHour: string;
   closeHour: string;
+}
+
+interface CustomError {
+  message: string;
+}
+
+interface PostReserve {
+  date: Date,
+  branch: string,
+  name: string,
+  phone: string,
+  email: string,
+  userId: string
+}
+
+interface PutReserve {
+  date: Date,
+  branch: string,
+  name: string,
+  phone: string,
+  email: string,
+  reserveId: string
 }

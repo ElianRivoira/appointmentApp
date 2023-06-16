@@ -1,47 +1,41 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { AppDispatch, RootState } from '@/store';
-import { fetchUser } from '@/store/slices/userSlice';
-import { useSelector } from 'react-redux';
+import { hasCookie } from 'cookies-next';
+import { useQuery } from '@tanstack/react-query';
+import { getLoggedUser } from '@/services/users';
+import Spinner from '@/components/Spinner';
 
 const Index = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  const { user } = useSelector((state: RootState) => state.user);
   const router = useRouter();
-  const [calledPush, setCalledPush] = useState(false);
 
-  useEffect(() => {
-    async function func() {
-      if (calledPush) return;
-      const token = localStorage.getItem('token');
-      if (token) {
-        await dispatch(fetchUser());
-      } else {
-        setCalledPush(true);
-        return router.push('login');
-      }
-    }
-    func();
-  }, []);
-  
-  useEffect(() => {
-    if (calledPush) return;
-    if (user) {
-      if (user.role === 'user'){
-        router.push('reservePanel');
-        setCalledPush(true);
-      } else if (user.role === 'operator') {
-        router.push('operator/reserves');
-        setCalledPush(true);
-      } else if (user.role === 'admin') {
-        setCalledPush(true);
-        router.push('admin/operators');
-      }
-    }
-    }, [user])
+  const loggedUser = useQuery({
+    queryKey: ['loggedUser'],
+    enabled: hasCookie('session'),
+    queryFn: getLoggedUser,
 
-  return <div>index</div>;
+  });
+
+  // useEffect(() => {
+  //   if (!hasCookie('session')) {
+  //     router.push('/login');
+  //   }
+  // }, []);
+
+  if (loggedUser.isLoading) return <Spinner />;
+  // if (loggedUser.isError) {
+  //   return <h1>{(loggedUser.error as any)?.response.data.errors[0].message}</h1>;
+  // }
+  if (loggedUser.isSuccess) {
+    if (loggedUser.data.role === 'user') {
+      router.push('reservePanel');
+    } else if (loggedUser.data.role === 'operator') {
+      router.push('operator/reserves');
+    } else if (loggedUser.data.role === 'admin') {
+      router.push('admin/operators');
+    }
+  }
+
+  return <></>;
 };
 
 export default Index;

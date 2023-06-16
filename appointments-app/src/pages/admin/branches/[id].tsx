@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
-import AdminNavbar from '@/components/AdminNavbar';
 import { getBranch, updateBranch } from '@/services/branches';
 
 const editBranch = () => {
@@ -17,7 +16,8 @@ const editBranch = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (thisBranch) {
-      updateBranch(thisBranch._id, {
+      updateBranch({
+        id: thisBranch._id,
         name,
         email,
         capacity,
@@ -53,7 +53,6 @@ const editBranch = () => {
 
   return (
     <div className='h-screen bg-cruceBackground'>
-      <AdminNavbar />
       <div className='flex justify-center'>
         <div className='flex flex-col w-3/4 max-w-screen-md h-3/5 mt-12 p-10 pb-8 border rounded-xl shadow-navbar bg-white'>
           <p className='mb-4 font-bold text-xb'>Editar sucursal</p>
@@ -92,7 +91,6 @@ const editBranch = () => {
                   name='phone'
                   id='phone'
                   value={phone}
-                  defaultValue={''}
                   onChange={(e) => setPhone(Number(e.target.value))}
                   required
                   className='w-full border border-solid border-grey-500 focus:border-cruce rounded-lg h-11 outline-none p-3'

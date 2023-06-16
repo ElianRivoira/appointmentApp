@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import openEye from '../../public/icons/openEye.svg';
-import flechitaIzq from '../../public/icons/flechitaIzq.svg';
-import rightCheckbox from '../../public/icons/rightCheckbox.svg';
-import wrongCheckbox from '../../public/icons/wrongCheckbox.svg';
+import openEye from '@/assets/icons/openEye.svg';
+import flechitaIzq from '@/assets/icons/flechitaIzq.svg';
+import rightCheckbox from '@/assets/icons/rightCheckbox.svg';
+import wrongCheckbox from '@/assets/icons/wrongCheckbox.svg';
 import Modal from '@/components/Modal';
 import { postUser } from '../services/users';
 

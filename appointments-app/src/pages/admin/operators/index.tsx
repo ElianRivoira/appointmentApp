@@ -1,43 +1,40 @@
-import React, { useEffect, useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux';
-import { useRouter } from 'next/router';
+import React, { useState } from 'react'
+import { hasCookie } from 'cookies-next';
+import { useQuery } from '@tanstack/react-query';
 
-import AdminNavbar from '@/components/AdminNavbar';
 import List from '@/components/List';
 import { getOperators } from '@/services/operators';
-import { AppDispatch, RootState } from '@/store';
-import { fetchUser } from '@/store/slices/userSlice';
+import Modal from '@/components/Modal';
 
 const Operators = () => {
-  const { user } = useSelector((state: RootState) => state.user);
-  const [operators, setOperators] = useState<User[]>([]);
-  const dispatch = useDispatch<AppDispatch>();
-  const router = useRouter();
+  // const { user } = useSelector((state: RootState) => state.user);
+  // const dispatch = useDispatch<AppDispatch>();
+  // const router = useRouter();
+  const [open, setOpen] = useState(false);
+  const [type, setType] = useState(0);
+  const [errors, setErrors] = useState<CustomError[]>([]);
 
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (!token) router.push('login');
-    dispatch(fetchUser());
-  }, []);
-
-  useEffect(() => {
-    const getOper = async () => {
-      if (user) {
-        const operators = await getOperators();
-        setOperators(operators);
-      }
-    };
-    getOper();
-  }, [user]);
+  const operators = useQuery({
+    queryKey: ['operators'],
+    queryFn: getOperators,
+    enabled: hasCookie('session'),
+    onError: error => {
+      setType(2);
+      setErrors((error as any).response.data.errors);
+      setOpen(true);
+    },
+  });
 
   return (
     <>
-      <AdminNavbar />
       <div className='mt-12 mx-24'>
-        <div className='font-semibold text-xl mb-6'>Operadores</div>
-        {operators.map((oper) => (
-          <List user={oper} key={oper._id} />
-        ))}
+        <h1 className='font-semibold text-xl mb-6'>Operadores</h1>
+        <div>
+          {operators.data?.map((oper) => (
+            <List user={oper} key={oper._id} />
+          ))}
+        </div>
+        <Modal open={open} type={type} errors={errors} onClose={() => setOpen(false)}/>
       </div>
     </>
   );

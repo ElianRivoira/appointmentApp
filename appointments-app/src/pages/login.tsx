@@ -1,42 +1,42 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { AppDispatch, RootState } from '@/store';
-import Navbar from '../components/Navbar';
 import { login } from '../services/users';
 import Modal from '@/components/Modal';
-import wrongCheckbox from '../../public/icons/wrongCheckbox.svg';
-import rightCheckbox from '../../public/icons/rightCheckbox.svg';
 import { fetchUser } from '@/store/slices/userSlice';
+import { useMutation } from '@tanstack/react-query';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isOpen, setIsOpen] = useState(false);
+  const [open, setOpen] = useState(false);
   const [type, setType] = useState(0);
+  const [errors, setErrors] = useState<CustomError[]>([]);
   const [calledPush, setCalledPush] = useState(false);
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
   const { user } = useSelector((state: RootState) => state.user);
 
+  const loginUser = useMutation({
+    mutationFn: login,
+    onSuccess: async user => {
+      await dispatch(fetchUser());
+      setType(1);
+      setOpen(true);
+    },
+    onError: (err: any) => {
+      setType(2);
+      setErrors(err.response.data.errors);
+      setOpen(true);
+    },
+  });
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      const user = await login(email, password);
-      if (!user) {
-        setType(2);
-        setIsOpen(true);
-      } else {
-        await dispatch(fetchUser())
-        setType(1);
-        setIsOpen(true);
-      }
-    } catch (e) {
-      console.error(e);
-    }
+    loginUser.mutate({ email, password });
   };
 
   const redirect = () => {
@@ -51,30 +51,18 @@ const Login = () => {
       setCalledPush(true);
       router.push('admin/operators');
     }
-  }
+  };
 
   useEffect(() => {
-    if (type === 1 && isOpen === false) {
-      redirect()
+    if (type === 1 && open === false) {
+      redirect();
     }
-  }, [isOpen]);
-
-  // useEffect(() => {
-  //   const func = async (): Promise<void> => {
-  //     const token = localStorage.getItem('token');
-  //     if (token) {
-  //       await dispatch(fetchUser());
-  //       redirect();
-  //     };
-  //   };
-  //   func();
-  // }, []);
+  }, [open]);
 
   return (
-    <div className='h-screen bg-cruceBackground'>
-      <Navbar />
+    <div className='min-h-screen bg-cruceBackground'>
       <div className='flex justify-center'>
-        <div className='flex flex-col w-3/4 max-w-screen-sm h-3/5 mt-12 px-8 pt-10 pb-8 border rounded-xl shadow-xg bg-white'>
+        <div className='flex flex-col w-3/4 max-w-screen-sm h-3/5 mt-32 px-8 pt-10 pb-8 border rounded-xl shadow-xg bg-white'>
           <p className='text-center mb-8 font-bold text-2xl'>Iniciar Sesión</p>
           <form onSubmit={handleSubmit}>
             <label htmlFor='email' className='text-sm font-medium'>
@@ -131,28 +119,10 @@ const Login = () => {
               </Link>
             </div>
           </form>
-          <Modal open={isOpen} onClose={() => setIsOpen(false)}>
-            {type === 1 ? (
-              <div className='flex flex-col items-center'>
-                <Image
-                  src={rightCheckbox}
-                  alt='success'
-                  className='w-10 h-10 mb-7'
-                />
-                <p className='text-ln font-bold'>Inicio de sesión satisfactorio</p>
-              </div>
-            ) : type === 2 ? (
-              <div className='flex flex-col items-center'>
-                <Image
-                  src={wrongCheckbox}
-                  alt='error'
-                  className='w-10 h-10 mb-7'
-                />
-                <p className='text-ln font-bold'>La información introducida es incorrecta</p>
-              </div>
-            ) : null}
-          </Modal>
         </div>
+        <Modal type={type} open={open} errors={errors} onClose={() => setOpen(false)}>
+          <p>Inicio de sesión satisfactorio</p>
+        </Modal>
       </div>
     </div>
   );

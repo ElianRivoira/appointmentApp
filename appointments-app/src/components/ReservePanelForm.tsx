@@ -1,8 +1,8 @@
-import { getBranches } from '@/services/branches';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 interface ReservePanelProps {
   handleSubmit: (e: React.FormEvent) => void;
+  branches: Branch[] | undefined;
   branch: string;
   shifts: string[];
   setBranch: (state: string) => void;
@@ -21,6 +21,7 @@ interface ReservePanelProps {
 
 const ReservePanelForm: React.FC<ReservePanelProps> = ({
   handleSubmit,
+  branches,
   branch,
   shifts,
   setBranch,
@@ -36,16 +37,6 @@ const ReservePanelForm: React.FC<ReservePanelProps> = ({
   date,
   edit,
 }) => {
-  const dbTimes = shifts;
-  const [branches, setBranches] = useState<Branch[]>([]);
-
-  useEffect(() => {
-    const func = async () => {
-      const branches = await getBranches();
-      setBranches(branches);
-    };
-    func();
-  }, []);
 
   return (
     <form onSubmit={handleSubmit}>
@@ -62,7 +53,7 @@ const ReservePanelForm: React.FC<ReservePanelProps> = ({
         }}
       >
         {branches?.map(branchOffice => (
-          <option value={branchOffice.name} key={branchOffice._id}>
+          <option value={branchOffice.name} key={branchOffice._id} hidden={branchOffice.name === ''}>
             {branchOffice.name}
           </option>
         ))}
@@ -79,7 +70,7 @@ const ReservePanelForm: React.FC<ReservePanelProps> = ({
             value={time}
             onChange={e => setTime(e.target.value)}
           >
-            {dbTimes?.map(dbTime => (
+            {shifts?.map(dbTime => (
               <option value={dbTime} key={dbTime}>
                 {dbTime}
               </option>

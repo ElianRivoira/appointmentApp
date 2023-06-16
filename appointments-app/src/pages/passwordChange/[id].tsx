@@ -1,39 +1,46 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
+import { NextPageContext } from 'next';
+import { useMutation } from '@tanstack/react-query';
 
-import Navbar from '@/components/Navbar';
 import { updatePassword } from '@/services/users';
-import openEye from '../../../public/icons/openEye.svg';
+import openEye from '@/assets/icons/openEye.svg';
 import Modal from '@/components/Modal';
-import rightCheckbox from '../../../public/icons/rightCheckbox.svg';
-import wrongCheckbox from '../../../public/icons/wrongCheckbox.svg';
 
-const passwordChange = () => {
+const passwordChange = ({ query }: MyPageProps) => {
   const [pass1, setPass1] = useState('');
   const [pass2, setPass2] = useState('');
   const [visible1, setVisible1] = useState(false);
   const [visible2, setVisible2] = useState(false);
   const [open, setOpen] = useState(false);
   const [type, setType] = useState(0);
+  const [errors, setErrors] = useState<CustomError[]>([]);
+  const [message, setMessage] = useState('');
   const router = useRouter();
-  const { id } = router.query;
+  const id = query.id;
+
+  const putPass = useMutation({
+    mutationFn: updatePassword,
+    onSuccess: user => {
+      setType(1);
+      setOpen(true);
+    },
+    onError: (err: any) => {
+      setType(2);
+      setErrors(err.response.data.errors);
+      setOpen(true);
+    },
+  });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (pass1 === pass2 && typeof id === 'string') {
-      updatePassword(id, pass1)
-        .then(() => {
-          setType(1);
-          setOpen(true);
-        })
-        .catch(e => {
-          setType(2);
-          setOpen(true);
-        });
-      } else {
-        setType(3)
-        setOpen(true);
+      putPass.mutate({ id, pass: pass1 });
+    } else {
+      setMessage('Las contraseñas deben coincidir');
+      setType(3);
+      setOpen(true);
     }
   };
 
@@ -47,7 +54,6 @@ const passwordChange = () => {
 
   return (
     <div className='h-screen bg-cruceBackground'>
-      <Navbar />
       <div className='flex justify-center'>
         <div className='flex flex-col w-3/4 max-w-screen-md h-3/5 mt-12 p-10 pb-8 border rounded-xl shadow-navbar bg-white'>
           <p className='mb-4 font-bold text-xb'>Cambiar contraseña</p>
@@ -67,11 +73,7 @@ const passwordChange = () => {
                 required
               ></input>
               <div className='absolute inset-y-0 right-2 pl-3 flex items-center'>
-                <button
-                  type='button'
-                  className='h-5 w-5 object-cover'
-                  onClick={() => setVisible1(!visible1)}
-                >
+                <button type='button' className='h-5 w-5 object-cover' onClick={() => setVisible1(!visible1)}>
                   <Image src={openEye} alt='ojito' className='w-4 h-4'></Image>
                 </button>
               </div>
@@ -91,11 +93,7 @@ const passwordChange = () => {
                 required
               ></input>
               <div className='absolute inset-y-0 right-2 pl-3 flex items-center'>
-                <button
-                  type='button'
-                  className='h-5 w-5 object-cover'
-                  onClick={() => setVisible2(!visible2)}
-                >
+                <button type='button' className='h-5 w-5 object-cover' onClick={() => setVisible2(!visible2)}>
                   <Image src={openEye} alt='ojito' className='w-4 h-4'></Image>
                 </button>
               </div>
@@ -109,43 +107,8 @@ const passwordChange = () => {
               </button>
             </div>
           </form>
-          <Modal open={open} onClose={() => setOpen(false)}>
-            <div className='flex flex-col items-center'>
-              {type === 1 ? (
-                <>
-                  <Image
-                    src={rightCheckbox}
-                    alt='success'
-                    className='w-10 h-10 mb-7'
-                  />
-                  <p>Su contraseña ha sido actualizada satisfactoriamente</p>
-                </>
-              ) : type === 2 ? (
-                <>
-                  <Image
-                    src={wrongCheckbox}
-                    alt='error'
-                    className='w-10 h-10 mb-7'
-                  />
-                  <>
-                    <h1>Ha ocurrido un error al modificar su contraseña</h1>
-                    <p>Intente nuevamente</p>
-                  </>
-                </>
-              ) : type === 3 ? (
-                <>
-                  <Image
-                    src={wrongCheckbox}
-                    alt='error'
-                    className='w-10 h-10 mb-7'
-                  />
-                  <>
-                    <h1>Las contraseñas deben coincidir</h1>
-                    <p>Intente nuevamente</p>
-                  </>
-                </>
-              ) : null}
-            </div>
+          <Modal type={type} errors={errors} open={open} type3Message={message} onClose={() => setOpen(false)}>
+            <h1>Su contraseña ha sido actualizada correctamente</h1>
           </Modal>
         </div>
       </div>
@@ -154,3 +117,14 @@ const passwordChange = () => {
 };
 
 export default passwordChange;
+
+interface MyPageProps {
+  query: {
+    [key: string]: string;
+  };
+}
+
+passwordChange.getInitialProps = async ({ query }: NextPageContext): Promise<MyPageProps> => {
+  const castedQuery = query as unknown as MyPageProps['query'];
+  return { query: castedQuery };
+};
