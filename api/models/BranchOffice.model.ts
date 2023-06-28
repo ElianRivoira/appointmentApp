@@ -41,8 +41,11 @@ export interface BranchOfficeDoc extends mongoose.Document {
     date: Date,
     shifts: {
       [key: string]: string[];
-    }
-  ): void;
+    },
+    returnObj?: boolean
+  ): {
+    [key: string]: string[];
+  };
 }
 
 const branchOfficeSchema = new mongoose.Schema({
@@ -91,30 +94,38 @@ branchOfficeSchema.methods.setShifts = function (
   date: Date,
   shifts: {
     [key: string]: string[];
-  }
-) {
+  },
+  returnObj?: boolean
+): {
+  [key: string]: string[];
+} {
   const shiftsArray = calculateShifts(this.openHour, this.closeHour);
   const day = date.getDate();
   const month = date.getMonth();
   const year = date.getFullYear();
+  let returnShifts: {
+    [key: string]: string[];
+  } = {};
 
   if (!(month % 2 === 0)) {
     if (month === 3) {
       for (let i = day; i < 29; i++) {
         const dateFormatted = new Date(year, month, i).toLocaleString().split(',')[0];
-        shifts[dateFormatted] = shiftsArray;
+        returnObj ? (returnShifts[dateFormatted] = shiftsArray) : (shifts[dateFormatted] = shiftsArray);
       }
-    }
-    for (let i = day; i < 31; i++) {
-      const dateFormatted = new Date(year, month, i).toLocaleString().split(',')[0];
-      shifts[dateFormatted] = shiftsArray;
+    } else {
+      for (let i = day; i < 31; i++) {
+        const dateFormatted = new Date(year, month, i).toLocaleString().split(',')[0];
+        returnObj ? (returnShifts[dateFormatted] = shiftsArray) : (shifts[dateFormatted] = shiftsArray);
+      }
     }
   } else {
     for (let i = day; i < 32; i++) {
       const dateFormatted = new Date(year, month, i).toLocaleString().split(',')[0];
-      shifts[dateFormatted] = shiftsArray;
+      returnObj ? (returnShifts[dateFormatted] = shiftsArray) : (shifts[dateFormatted] = shiftsArray);
     }
   }
+  return returnShifts;
 };
 
 branchOfficeSchema.pre('save', async function (next) {

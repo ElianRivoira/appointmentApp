@@ -42,13 +42,12 @@ interface reserveUser {
   id: string;
   date: Date;
   creationDate: Date;
-  branch: {
-    name: string;
-  };
+  branch: Branch;
   name: string;
   email: string;
   phone: number;
-  confirmed: boolean;
+  status: string;
+  cancelReason: string;
 }
 
 interface ReserveResponse {
@@ -134,4 +133,40 @@ interface PutReserve {
   phone: string,
   email: string,
   reserveId: string
+}
+
+interface ILineChart {
+  reserved: number[];
+  canceled: number[];
+  labels: string[];
+}
+interface IPieChart {
+  monthly: {
+    reserved: number;
+    assisted: number;
+    labels: string[];
+  };
+  annual: {
+    reserved: number;
+    assisted: number;
+    labels: string[];
+  };
+}
+
+interface IAdvanceReserves {
+  reservesInAdvance: number;
+  reservesWithoutAdvance: number;
+}
+
+interface IMetrics {
+  total: number;
+  canceled: number;
+  asisted: number;
+  lineChart: ILineChart;
+  pieChart: IPieChart;
+  advanceReserves: IAdvanceReserves;
+}
+
+interface IAllBranchesMetrics {
+  [key: string]: IMetrics;
 }

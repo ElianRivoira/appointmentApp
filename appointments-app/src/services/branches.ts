@@ -17,7 +17,7 @@ export async function getBranches(): Promise<Branch[]> {
   return res.data;
 }
 
-export async function getBranch(id: string): Promise<Branch> {
+export async function getBranch(id: string | undefined): Promise<Branch> {
   const res = await api.get(`/branches/${id}`);
   return res.data;
 }

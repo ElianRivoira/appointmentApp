@@ -6,8 +6,9 @@ import openEye from '@/assets/icons/openEye.svg';
 import flechitaIzq from '@/assets/icons/flechitaIzq.svg';
 import rightCheckbox from '@/assets/icons/rightCheckbox.svg';
 import wrongCheckbox from '@/assets/icons/wrongCheckbox.svg';
-import Modal from '@/components/Modal';
+import Modal from '@/components/General/Modal';
 import { postUser } from '../services/users';
+import { useMutation } from '@tanstack/react-query';
 
 const Register = () => {
   const [name, setName] = useState('');
@@ -21,9 +22,10 @@ const Register = () => {
   const [minus, setMinus] = useState(0);
   const [numb, setNumb] = useState(0);
   const [length, setLength] = useState(0);
-  const [isOpen, setIsOpen] = useState(false);
+  const [open, setOpen] = useState(false);
   const [type, setType] = useState(0);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errors, setErrors] = useState<CustomError[]>([]);
+  const [message, setMessage] = useState('');
 
   useEffect(() => {
     const hasUppercase = (str: string) => {
@@ -68,29 +70,34 @@ const Register = () => {
     }
   }, [password]);
 
+  const createUser = useMutation({
+    mutationFn: postUser,
+    onSuccess: reserve => {
+      setType(1);
+      setOpen(true);
+    },
+    onError: (err: any) => {
+      setType(2);
+      setErrors(err.response.data.errors);
+      setOpen(true);
+    },
+  });
+
   const registerButton = (e: React.FormEvent) => {
     e.preventDefault();
     if (mayus === 2 && minus === 2 && numb === 2 && length === 2) {
       if (password !== passwordTwo) {
-        setType(1);
-        setIsOpen(true);
+        setMessage('Las contraseñas deben coincidir');
+        setType(3);
+        setOpen(true);
       } else {
         let numberDni = Number(dni);
-        postUser(name, numberDni, email, password)
-          .then(() => {
-            setType(2);
-            setIsOpen(true);
-          })
-          .catch(e => {
-            console.log(e);
-            setErrorMessage(e.response.data.errors[0].msg);
-            setType(4);
-            setIsOpen(true);
-          });
+        createUser.mutate({ name, dni: numberDni, email, password });
       }
     } else {
+      setMessage('Tiene que cumplir las condiciones primero');
       setType(3);
-      setIsOpen(true);
+      setOpen(true);
     }
   };
 
@@ -120,11 +127,7 @@ const Register = () => {
         <div className='flex w-full ml-5 text-cruce font-semibold'>
           <Link href={'login'}>
             <button className='flex'>
-              <Image
-                src={flechitaIzq}
-                alt='flechitaIzq'
-                className='w-4 h-4 mr-1'
-              ></Image>
+              <Image src={flechitaIzq} alt='flechitaIzq' className='w-4 h-4 mr-1'></Image>
               <p className='flex -mt-1'>Atrás</p>
             </button>
           </Link>
@@ -132,7 +135,6 @@ const Register = () => {
         <div className='flex justify-center mt-1'>
           <h3 className='font-semibold text-2xl mb-5'>Crear cuenta</h3>
         </div>
-
         <form onSubmit={registerButton}>
           <div className='flex justify-center mb-3'>
             <div className='flex flex-col mr-4'>
@@ -184,16 +186,8 @@ const Register = () => {
                   required
                 ></input>
                 <div className='absolute inset-y-0 right-2 pl-3 flex items-center'>
-                  <button
-                    type='button'
-                    className='h-5 w-5 object-cover'
-                    onClick={() => setVisibleOne(!visibleOne)}
-                  >
-                    <Image
-                      src={openEye}
-                      alt='ojito'
-                      className='w-4 h-4'
-                    ></Image>
+                  <button type='button' className='h-5 w-5 object-cover' onClick={() => setVisibleOne(!visibleOne)}>
+                    <Image src={openEye} alt='ojito' className='w-4 h-4'></Image>
                   </button>
                 </div>
               </div>
@@ -211,16 +205,8 @@ const Register = () => {
                   required
                 ></input>
                 <div className='absolute inset-y-0 right-2 pl-3 flex items-center'>
-                  <button
-                    type='button'
-                    className='h-5 w-5 object-cover'
-                    onClick={() => setVisibleTwo(!visibleTwo)}
-                  >
-                    <Image
-                      src={openEye}
-                      alt='ojito'
-                      className='w-4 h-4'
-                    ></Image>
+                  <button type='button' className='h-5 w-5 object-cover' onClick={() => setVisibleTwo(!visibleTwo)}>
+                    <Image src={openEye} alt='ojito' className='w-4 h-4'></Image>
                   </button>
                 </div>
               </div>
@@ -237,47 +223,25 @@ const Register = () => {
                   <p className='mr-28 mb-2'>ABC Una letra mayúscula</p>
                 ) : mayus === 2 ? (
                   <>
-                    <Image
-                      src={rightCheckbox}
-                      alt='x'
-                      className='w-4 h-4 mr-2'
-                    ></Image>
-                    <p className='mr-24 mb-2 text-green-500'>
-                      ABC Una letra mayúscula
-                    </p>
+                    <Image src={rightCheckbox} alt='x' className='w-4 h-4 mr-2'></Image>
+                    <p className='mr-24 mb-2 text-green-500'>ABC Una letra mayúscula</p>
                   </>
                 ) : (
                   <>
-                    <Image
-                      src={wrongCheckbox}
-                      alt='x'
-                      className='w-4 h-4 mr-2'
-                    ></Image>
-                    <p className='mr-24 mb-2 text-red-500'>
-                      ABC Una letra mayúscula
-                    </p>
+                    <Image src={wrongCheckbox} alt='x' className='w-4 h-4 mr-2'></Image>
+                    <p className='mr-24 mb-2 text-red-500'>ABC Una letra mayúscula</p>
                   </>
                 )}
                 {minus === 0 ? (
                   <p className='mb-2'>abc Una letra minúscula</p>
                 ) : minus === 2 ? (
                   <>
-                    <Image
-                      src={rightCheckbox}
-                      alt='x'
-                      className='w-4 h-4 mr-2'
-                    ></Image>
-                    <p className='mb-2 text-green-500'>
-                      abc Una letra minúscula
-                    </p>
+                    <Image src={rightCheckbox} alt='x' className='w-4 h-4 mr-2'></Image>
+                    <p className='mb-2 text-green-500'>abc Una letra minúscula</p>
                   </>
                 ) : (
                   <>
-                    <Image
-                      src={wrongCheckbox}
-                      alt='x'
-                      className='w-4 h-4 mr-2'
-                    ></Image>
+                    <Image src={wrongCheckbox} alt='x' className='w-4 h-4 mr-2'></Image>
                     <p className='mb-2 text-red-500'>abc Una letra minúscula</p>
                   </>
                 )}
@@ -287,20 +251,12 @@ const Register = () => {
                   <p className='mr-[162px]'>123 Un número</p>
                 ) : numb === 2 ? (
                   <>
-                    <Image
-                      src={rightCheckbox}
-                      alt='x'
-                      className='w-4 h-4 mr-2'
-                    ></Image>
+                    <Image src={rightCheckbox} alt='x' className='w-4 h-4 mr-2'></Image>
                     <p className='mr-[148px] text-green-500'>123 Un número</p>
                   </>
                 ) : (
                   <>
-                    <Image
-                      src={wrongCheckbox}
-                      alt='x'
-                      className='w-4 h-4 mr-2'
-                    ></Image>
+                    <Image src={wrongCheckbox} alt='x' className='w-4 h-4 mr-2'></Image>
                     <p className='mr-[148px] text-red-500'>123 Un número</p>
                   </>
                 )}
@@ -308,20 +264,12 @@ const Register = () => {
                   <p>*** Mínimo 8 caracteres</p>
                 ) : length === 2 ? (
                   <>
-                    <Image
-                      src={rightCheckbox}
-                      alt='x'
-                      className='w-4 h-4 mr-2'
-                    ></Image>
+                    <Image src={rightCheckbox} alt='x' className='w-4 h-4 mr-2'></Image>
                     <p className=' text-green-500'>*** Mínimo 8 caracteres</p>
                   </>
                 ) : (
                   <>
-                    <Image
-                      src={wrongCheckbox}
-                      alt='x'
-                      className='w-4 h-4 mr-2'
-                    ></Image>
+                    <Image src={wrongCheckbox} alt='x' className='w-4 h-4 mr-2'></Image>
                     <p className=' text-red-500'>*** Mínimo 8 caracteres</p>
                   </>
                 )}
@@ -337,53 +285,8 @@ const Register = () => {
             </button>
           </div>
         </form>
-        <Modal open={isOpen} onClose={() => setIsOpen(false)}>
-          {type === 1 ? (
-            <div className='flex flex-col items-center'>
-              <Image
-                src={wrongCheckbox}
-                alt='error'
-                className='w-10 h-10 mb-7'
-              />
-              <h1 className='text-ln font-bold'>
-                Las contraseñas deben coincidir
-              </h1>
-            </div>
-          ) : type === 2 ? (
-            <div className='flex flex-col items-center'>
-              <Image
-                src={rightCheckbox}
-                alt='success'
-                className='w-10 h-10 mb-7'
-              />
-              <h1 className='text-ln font-bold'>
-                Tu usuario ha sido creado satisfactoriamente
-              </h1>
-            </div>
-          ) : type === 3 ? (
-            <div className='flex flex-col items-center'>
-              <Image
-                src={wrongCheckbox}
-                alt='error'
-                className='w-10 h-10 mb-7'
-              />
-              <h1 className='text-ln font-bold'>
-                Tiene que cumplir las condiciones primero
-              </h1>
-            </div>
-          ) : type === 4 ? (
-            <div className='flex flex-col items-center'>
-              <Image
-                src={wrongCheckbox}
-                alt='error'
-                className='w-10 h-10 mb-7'
-              />
-              <h1 className='text-ln font-bold mb-2'>
-                Ha ocurrido un error al crear su usuario
-              </h1>
-              <p className='text-sm font-normal'>{errorMessage}</p>
-            </div>
-          ) : null}
+        <Modal type={type} errors={errors} open={open} type3Message={message} onClose={() => setOpen(false)}>
+          <h1>Tu usuario ha sido creado satisfactoriamente</h1>
         </Modal>
         <hr className='mx-4 mb-5' />
         <Link className='mr-9' href='/login'>

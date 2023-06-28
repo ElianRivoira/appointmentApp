@@ -14,7 +14,7 @@
 }
 .ldsEllipsis div:nth-child(1) {
   left: 8px;
-  background: rgba(12, 9, 146, 0.8);
+  background: #A442F1;
   animation: ldsEllipsis1 0.6s infinite;
 }
 .ldsEllipsis div:nth-child(2) {
@@ -24,7 +24,7 @@
 }
 .ldsEllipsis div:nth-child(3) {
   left: 32px;
-  background: rgba(12, 9, 146, 0.8);
+  background: #A442F1;
   animation: ldsEllipsis2 0.6s infinite;
 }
 .ldsEllipsis div:nth-child(4) {

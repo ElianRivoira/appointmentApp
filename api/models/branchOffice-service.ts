@@ -7,10 +7,12 @@ const postBranch = async (data: BranchOfficeAttrs) => {
 };
 
 const getAllBranches = async () => {
-  const branches = await Branch.find({}, { __v: 0 }).populate({
-    path: 'appointments',
-    options: { populate: { path: 'branch' } },
-  });
+  const branches = await Branch.find({}, { __v: 0 })
+    .populate({
+      path: 'appointments',
+      options: { populate: { path: 'branch' } },
+    })
+    .sort({ name: 1 });
   return branches;
 };
 

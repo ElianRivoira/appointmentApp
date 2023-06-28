@@ -2,7 +2,14 @@ import { ServerError } from '../errors/server-error';
 import Appointment, { AppointmentAttrs, AppointmentDoc } from './Appointment.model';
 import BranchOffice from './BranchOffice.model';
 
-const postReserve = async ({ userId, date, branch, name, phone, email }: AppointmentAttrs) => {
+const postReserve = async ({
+  userId,
+  date,
+  branch,
+  name,
+  phone,
+  email,
+}: AppointmentAttrs): Promise<AppointmentDoc | undefined> => {
   try {
     const ap = await Appointment.find().sort({ _id: -1 }).limit(1);
     const branchOffice = await BranchOffice.findOne({ name: branch });
@@ -44,17 +51,37 @@ const postReserve = async ({ userId, date, branch, name, phone, email }: Appoint
   }
 };
 
-const getAllAppointmentsFromUser = async (userId: string) => {
+const getAllAppointments = async (): Promise<AppointmentDoc[]> => {
   try {
-    const appointments = await Appointment.find({ userId }, { __v: 0, phone: 0, userId: 0 }).populate('branch');
-
+    const appointments = await Appointment.find().populate('branch');
     return appointments;
   } catch (e) {
     throw new ServerError(e);
   }
 };
 
-const getOneAppointment = async (id: string) => {
+const getAllAppointmentsFromUser = async (userId: string): Promise<AppointmentDoc[]> => {
+  try {
+    const appointments = await Appointment.find(
+      {
+        $and: [
+          {
+            userId,
+          },
+          {
+            $or: [{ status: 'confirmed' }, { status: 'pending' }],
+          },
+        ],
+      },
+      { __v: 0, phone: 0, userId: 0 }
+    ).populate('branch');
+    return appointments;
+  } catch (e) {
+    throw new ServerError(e);
+  }
+};
+
+const getOneAppointment = async (id: string): Promise<AppointmentDoc | null> => {
   try {
     const appointment = await Appointment.findOne({ _id: id }, { __v: 0, userId: 0 }).populate('branch');
     return appointment;
@@ -63,7 +90,7 @@ const getOneAppointment = async (id: string) => {
   }
 };
 
-const putAppointment = async (id: string, data: object) => {
+const putAppointment = async (id: string, data: object): Promise<AppointmentDoc | null> => {
   try {
     const appointment = await Appointment.findByIdAndUpdate(id, data, {
       new: true,
@@ -74,9 +101,10 @@ const putAppointment = async (id: string, data: object) => {
   }
 };
 
-const deleteAppointment = async (id: string) => {
+const cancelAppointment = async (id: string, cancelReason: string): Promise<AppointmentDoc | null> => {
   try {
-    await Appointment.findByIdAndDelete(id);
+    const appointment = await Appointment.findByIdAndUpdate(id, { status: 'canceled', cancelReason });
+    return appointment;
   } catch (e) {
     throw new ServerError(e);
   }
@@ -85,7 +113,8 @@ const deleteAppointment = async (id: string) => {
 export default {
   postReserve,
   getAllAppointmentsFromUser,
+  getAllAppointments,
   getOneAppointment,
   putAppointment,
-  deleteAppointment,
+  cancelAppointment,
 };

@@ -57,6 +57,17 @@ module.exports = {
         8.5: '34px',
         62: '248px',
       },
+      screens: {
+        'sd': '466px',
+        'ml': '830px',
+        'xb': '1160px',
+        'xc': '1315px',
+        'xd': '1390px',
+        'smMax': {'max': '640px'},
+        'mdMax': {'max': '768px'},
+        'lgMax': {'max': '1024px'},
+        'xlMax': {'max': '1300px'},
+      },
       backgroundImage: {
         'doneIcon': "url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cGF0aCBmaWxsPSIjYTU0MmYxIiBkPSJNMTczLjg5OCA0MzkuNDA0bC0xNjYuNC0xNjYuNGMtOS45OTctOS45OTctOS45OTctMjYuMjA2IDAtMzYuMjA0bDM2LjIwMy0zNi4yMDRjOS45OTctOS45OTggMjYuMjA3LTkuOTk4IDM2LjIwNCAwTDE5MiAzMTIuNjkgNDMyLjA5NSA3Mi41OTZjOS45OTctOS45OTcgMjYuMjA3LTkuOTk3IDM2LjIwNCAwbDM2LjIwMyAzNi4yMDRjOS45OTcgOS45OTcgOS45OTcgMjYuMjA2IDAgMzYuMjA0bC0yOTQuNCAyOTQuNDAxYy05Ljk5OCA5Ljk5Ny0yNi4yMDcgOS45OTctMzYuMjA0LS4wMDF6Ii8+PC9zdmc+')",
       },

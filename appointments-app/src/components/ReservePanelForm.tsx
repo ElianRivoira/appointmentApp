@@ -53,7 +53,7 @@ const ReservePanelForm: React.FC<ReservePanelProps> = ({
         }}
       >
         {branches?.map(branchOffice => (
-          <option value={branchOffice.name} key={branchOffice._id} hidden={branchOffice.name === ''}>
+          <option value={branchOffice.name} key={branchOffice._id} hidden={branchOffice.name === 'Todas' || branchOffice.name === ''}>
             {branchOffice.name}
           </option>
         ))}

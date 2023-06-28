@@ -54,7 +54,7 @@ const OperatorsForm: React.FC<OperatorFormProps> = ({
         value={name}
         onChange={e => setName(e.target.value)}
         required
-        className='w-full border border-solid border-grey-500 focus:border-cruce rounded-lg h-11 mb-3 outline-none p-3'
+        className='w-full border border-solid border-grey-500 hover:border-grey5 focus:border-cruce rounded-lg h-11 mb-3 outline-none p-3'
       />
       <label htmlFor='email' className='text-sm font-medium'>
         Correo electrónico
@@ -66,7 +66,7 @@ const OperatorsForm: React.FC<OperatorFormProps> = ({
         value={email}
         onChange={e => setEmail(e.target.value)}
         required
-        className='w-full border border-solid border-grey-500 focus:border-cruce rounded-lg h-11 mb-3 outline-none p-3'
+        className='w-full border border-solid border-grey-500 hover:border-grey5 focus:border-cruce rounded-lg h-11 mb-3 outline-none p-3'
       />
       <label htmlFor='phone' className='text-sm font-medium'>
         Teléfono
@@ -78,7 +78,7 @@ const OperatorsForm: React.FC<OperatorFormProps> = ({
         value={phone}
         onChange={e => setPhone(Number(e.target.value))}
         required
-        className='w-full border border-solid border-grey-500 focus:border-cruce rounded-lg h-11 mb-3 outline-none p-3'
+        className='w-full border border-solid border-grey-500 hover:border-grey5 focus:border-cruce rounded-lg h-11 mb-3 outline-none p-3'
       />
       <div className='flex mb-3'>
         <div className='w-1/2 mr-4'>
@@ -92,7 +92,7 @@ const OperatorsForm: React.FC<OperatorFormProps> = ({
             value={dni}
             onChange={e => setDni(Number(e.target.value))}
             required
-            className='w-full border border-solid border-grey-500 focus:border-cruce rounded-lg h-11 outline-none p-3'
+            className='w-full border border-solid border-grey-500 hover:border-grey5 focus:border-cruce rounded-lg h-11 outline-none p-3'
           />
         </div>
         <div className='w-1/2'>
@@ -110,7 +110,7 @@ const OperatorsForm: React.FC<OperatorFormProps> = ({
             }}
           >
             {branches?.map(branchOffice => (
-              <option value={branchOffice.name} key={branchOffice._id} hidden={branchOffice.name === ''}>
+              <option value={branchOffice.name} key={branchOffice._id} hidden={branchOffice.name === 'Todas'}>
                 {branchOffice.name}
               </option>
             ))}
@@ -132,7 +132,7 @@ const OperatorsForm: React.FC<OperatorFormProps> = ({
                   value={password}
                   onChange={e => setPassword(e.target.value)}
                   required
-                  className='w-full border border-solid border-grey-500 focus:border-cruce rounded-lg h-11 outline-none p-3'
+                  className='w-full border border-solid border-grey-500 hover:border-grey5 focus:border-cruce rounded-lg h-11 outline-none p-3'
                 />
                 <div className='absolute inset-y-0 right-2 pl-3 flex items-center'>
                   <button type='button' className='h-5 w-5 object-cover' onClick={() => setVisibleOne(!visibleOne)}>
@@ -153,7 +153,7 @@ const OperatorsForm: React.FC<OperatorFormProps> = ({
                   value={repeatPassword}
                   onChange={e => setRepeatPassword(e.target.value)}
                   required
-                  className='w-full border border-solid border-grey-500 focus:border-cruce rounded-lg h-11 outline-none p-3'
+                  className='w-full border border-solid border-grey-500 hover:border-grey5 focus:border-cruce rounded-lg h-11 outline-none p-3'
                 />
                 <div className='absolute inset-y-0 right-2 pl-3 flex items-center'>
                   <button type='button' className='h-5 w-5 object-cover' onClick={() => setVisibleTwo(!visibleTwo)}>

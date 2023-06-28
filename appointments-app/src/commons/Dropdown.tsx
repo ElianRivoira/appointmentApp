@@ -1,24 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
+import { UseQueryResult, useMutation } from '@tanstack/react-query';
 
 import editIcon from '@/assets/icons/edit.svg';
 import { cancelReserv, confirmReserve } from '@/services/appointments';
-import Modal from '@/components/Modal';
-import { useMutation } from '@tanstack/react-query';
+import Modal from '@/components/General/Modal';
+import Spinner from '@/components/General/Spinner';
+import Spinner3 from '@/components/Spinner3';
+import Spinner2 from '@/components/Spinner2';
 
 interface Props {
   reserveId: string;
   view: string;
+  refetchFunc: UseQueryResult<Branch, any>;
 }
 
-const Dropdown: React.FC<Props> = ({ reserveId, view }) => {
+const Dropdown: React.FC<Props> = ({ reserveId, view, refetchFunc }) => {
+  const [openDrop, setOpenDrop] = useState(false);
   const [open, setOpen] = useState(false);
   const [type, setType] = useState(0);
   const [errors, setErrors] = useState<CustomError[]>([]);
   const [message, setMessage] = useState('');
-  const router = useRouter();
 
   const confirm = useMutation({
     mutationFn: confirmReserve,
@@ -48,10 +51,20 @@ const Dropdown: React.FC<Props> = ({ reserveId, view }) => {
   });
 
   useEffect(() => {
-    if ((type === 1 && open === false) || (type === 2 && open === false)) {
-      router.reload();
+    if ((type === 1 && open === false) || (type === 3 && open === false)) {
+      refetchFunc.refetch();
     }
   }, [open]);
+
+  if (finish.isLoading || confirm.isLoading)
+    return (
+      <>
+        <div className='fixed inset-0 bg-black/[.75] z-50' />
+        <div className='fixed top-2/4 lgMax:left-3 lgMax:right-3 lg:left-2/4 -translate-y-2/4 lg:-translate-x-2/4 z-50'>
+          <Spinner2 />
+        </div>
+      </>
+    );
 
   return (
     <div className='relative'>
@@ -59,7 +72,7 @@ const Dropdown: React.FC<Props> = ({ reserveId, view }) => {
         className={`bg-grey1 hover:bg-grey2 text-cruce font-semibold text-lb rounded-lg ${
           view === 'user' ? 'w-[100px]' : view === 'operator' ? 'w-[150px]' : null
         } h-12 flex justify-center items-center active:shadow-active relative z-10`}
-        onClick={() => setOpen(!open)}
+        onClick={() => setOpenDrop(!openDrop)}
       >
         <div className='ml-2 mr-3 font-semibold text-[15px]'>
           {view === 'user' ? 'Editar' : view === 'operator' ? 'Confirmación' : null}
@@ -67,10 +80,13 @@ const Dropdown: React.FC<Props> = ({ reserveId, view }) => {
         <Image src={editIcon} alt='editIcon' className='w-4 h-4 mr-1'></Image>
       </button>
 
-      {open ? (
+      {openDrop ? (
         <>
-          <button className='fixed w-full h-full inset-0 cursor-default' onClick={() => setOpen(false)}></button>
-          <ul className='absolute z-20 left-0 w-32 mt-2 border rounded-lg bg-white shadow-xl'>
+          <button
+            className='fixed w-full h-full inset-0 cursor-default z-20'
+            onClick={() => setOpenDrop(false)}
+          ></button>
+          <ul className='absolute z-20 left-0 w-32 mt-2 mb-10 border rounded-lg bg-white shadow-xl'>
             {view === 'user' ? (
               <>
                 <Link href={`./reservePanel/edit/${reserveId}`}>
@@ -86,18 +102,20 @@ const Dropdown: React.FC<Props> = ({ reserveId, view }) => {
               </>
             ) : view === 'operator' ? (
               <>
-                <li className='py-1.5 px-4 hover:bg-cruceHover hover:text-white rounded-lg text-sm font-semibold'>
+                <li className='py-2.5 px-4 hover:bg-cruceHover hover:text-white rounded-lg text-sm font-semibold cursor-pointer'>
                   <button onClick={() => confirm.mutate(reserveId)}>Confirmar</button>
                 </li>
-                <li className='py-1.5 px-4 hover:bg-cruceHover hover:text-white rounded-lg text-sm font-semibold'>
-                  <button onClick={() => finish.mutate(reserveId)}>Finalizar</button>
+                <li className='py-2.5 px-4 hover:bg-cruceHover hover:text-white rounded-lg text-sm font-semibold cursor-pointer'>
+                  <button onClick={() => finish.mutate({ id: reserveId, cancelReason: 'Finished by an operator' })}>
+                    Finalizar
+                  </button>
                 </li>
-                <Modal type={type} type3Message={message} errors={errors} open={open} onClose={() => setOpen(false)}>
-                  <h1>Turno confirmado con éxito</h1>
-                </Modal>
               </>
             ) : null}
           </ul>
+          <Modal type={type} type3Message={message} errors={errors} open={open} onClose={() => setOpen(false)}>
+            <h1>Turno confirmado con éxito</h1>
+          </Modal>
         </>
       ) : null}
     </div>

@@ -6,7 +6,7 @@ import { useMutation } from '@tanstack/react-query';
 
 import { updatePassword } from '@/services/users';
 import openEye from '@/assets/icons/openEye.svg';
-import Modal from '@/components/Modal';
+import Modal from '@/components/General/Modal';
 
 const passwordChange = ({ query }: MyPageProps) => {
   const [pass1, setPass1] = useState('');
@@ -53,64 +53,62 @@ const passwordChange = ({ query }: MyPageProps) => {
   }, [open]);
 
   return (
-    <div className='h-screen bg-cruceBackground'>
-      <div className='flex justify-center'>
-        <div className='flex flex-col w-3/4 max-w-screen-md h-3/5 mt-12 p-10 pb-8 border rounded-xl shadow-navbar bg-white'>
-          <p className='mb-4 font-bold text-xb'>Cambiar contraseña</p>
-          <form onSubmit={handleSubmit}>
-            <label htmlFor='pass1' className='text-sm font-medium'>
-              Contraseña
-            </label>
-            <div className='relative mb-3'>
-              {}
-              <input
-                onChange={e => setPass1(e.target.value)}
-                type={visible1 ? 'text' : 'password'}
-                id='pass1'
-                name='pass1'
-                value={pass1}
-                className='w-full border border-solid border-grey-500 focus:border-cruce rounded-lg h-11 outline-none p-3'
-                required
-              ></input>
-              <div className='absolute inset-y-0 right-2 pl-3 flex items-center'>
-                <button type='button' className='h-5 w-5 object-cover' onClick={() => setVisible1(!visible1)}>
-                  <Image src={openEye} alt='ojito' className='w-4 h-4'></Image>
-                </button>
-              </div>
-            </div>
-            <label htmlFor='pass2' className='text-sm font-medium'>
-              Repetir contraseña
-            </label>
-            <div className='relative mb-5'>
-              {}
-              <input
-                onChange={e => setPass2(e.target.value)}
-                type={visible2 ? 'text' : 'password'}
-                id='pass2'
-                name='pass2'
-                value={pass2}
-                className='w-full border border-solid border-grey-500 focus:border-cruce rounded-lg h-11 outline-none p-3'
-                required
-              ></input>
-              <div className='absolute inset-y-0 right-2 pl-3 flex items-center'>
-                <button type='button' className='h-5 w-5 object-cover' onClick={() => setVisible2(!visible2)}>
-                  <Image src={openEye} alt='ojito' className='w-4 h-4'></Image>
-                </button>
-              </div>
-            </div>
-            <div className='flex mt-4'>
-              <button
-                type='submit'
-                className='active:shadow-active bg-cruce hover:bg-cruceHover text-white font-semibold text-lb rounded-lg h-11 w-full'
-              >
-                Aceptar
+    <div className='flex justify-center'>
+      <div className='flex flex-col w-3/4 max-w-screen-md h-3/5 mt-12 p-10 pb-8 border rounded-xl shadow-navbar bg-white'>
+        <p className='mb-4 font-bold text-xb'>Cambiar contraseña</p>
+        <form onSubmit={handleSubmit}>
+          <label htmlFor='pass1' className='text-sm font-medium'>
+            Contraseña
+          </label>
+          <div className='relative mb-3'>
+            {}
+            <input
+              onChange={e => setPass1(e.target.value)}
+              type={visible1 ? 'text' : 'password'}
+              id='pass1'
+              name='pass1'
+              value={pass1}
+              className='w-full border border-solid border-grey-500 focus:border-cruce rounded-lg h-11 outline-none p-3'
+              required
+            ></input>
+            <div className='absolute inset-y-0 right-2 pl-3 flex items-center'>
+              <button type='button' className='h-5 w-5 object-cover' onClick={() => setVisible1(!visible1)}>
+                <Image src={openEye} alt='ojito' className='w-4 h-4'></Image>
               </button>
             </div>
-          </form>
-          <Modal type={type} errors={errors} open={open} type3Message={message} onClose={() => setOpen(false)}>
-            <h1>Su contraseña ha sido actualizada correctamente</h1>
-          </Modal>
-        </div>
+          </div>
+          <label htmlFor='pass2' className='text-sm font-medium'>
+            Repetir contraseña
+          </label>
+          <div className='relative mb-5'>
+            {}
+            <input
+              onChange={e => setPass2(e.target.value)}
+              type={visible2 ? 'text' : 'password'}
+              id='pass2'
+              name='pass2'
+              value={pass2}
+              className='w-full border border-solid border-grey-500 focus:border-cruce rounded-lg h-11 outline-none p-3'
+              required
+            ></input>
+            <div className='absolute inset-y-0 right-2 pl-3 flex items-center'>
+              <button type='button' className='h-5 w-5 object-cover' onClick={() => setVisible2(!visible2)}>
+                <Image src={openEye} alt='ojito' className='w-4 h-4'></Image>
+              </button>
+            </div>
+          </div>
+          <div className='flex mt-4'>
+            <button
+              type='submit'
+              className='active:shadow-active bg-cruce hover:bg-cruceHover text-white font-semibold text-lb rounded-lg h-11 w-full'
+            >
+              Aceptar
+            </button>
+          </div>
+        </form>
+        <Modal type={type} errors={errors} open={open} type3Message={message} onClose={() => setOpen(false)}>
+          <h1>Su contraseña ha sido actualizada correctamente</h1>
+        </Modal>
       </div>
     </div>
   );

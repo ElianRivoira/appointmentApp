@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useRouter } from 'next/router';
 import { hasCookie } from 'cookies-next';
 import { useQuery } from '@tanstack/react-query';
 import { getLoggedUser } from '@/services/users';
-import Spinner from '@/components/Spinner';
+import Spinner2 from '@/components/General/Spinner2';
 
 const Index = () => {
   const router = useRouter();
@@ -12,19 +12,9 @@ const Index = () => {
     queryKey: ['loggedUser'],
     enabled: hasCookie('session'),
     queryFn: getLoggedUser,
-
   });
 
-  // useEffect(() => {
-  //   if (!hasCookie('session')) {
-  //     router.push('/login');
-  //   }
-  // }, []);
-
-  if (loggedUser.isLoading) return <Spinner />;
-  // if (loggedUser.isError) {
-  //   return <h1>{(loggedUser.error as any)?.response.data.errors[0].message}</h1>;
-  // }
+  if (loggedUser.isLoading) return <Spinner2 />;
   if (loggedUser.isSuccess) {
     if (loggedUser.data.role === 'user') {
       router.push('reservePanel');

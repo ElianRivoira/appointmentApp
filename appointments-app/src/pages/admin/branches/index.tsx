@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import List from '@/components/List';
 import { getBranches } from '@/services/branches';
-import Modal from '@/components/Modal';
+import Modal from '@/components/General/Modal';
 
 const branches = () => {
   const [open, setOpen] = useState(false);
@@ -27,9 +27,7 @@ const branches = () => {
       <div className='mt-12 mx-24'>
         <h1 className='font-semibold text-xl mb-6'>Sucursales</h1>
         <div>
-          {branches.data?.map(branch => (
-            <List branch={branch} key={branch._id} />
-          ))}
+          {branches.data?.map(branch => (branch.name === '' ? <></> : <List branch={branch} key={branch._id} />))}
         </div>
         <Modal type={type} errors={errors} open={open} onClose={() => setOpen(false)} />
       </div>

@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { postBranch } from '@/services/branches';
 import { useMutation } from '@tanstack/react-query';
-import Modal from '@/components/Modal';
+import Modal from '@/components/General/Modal';
+import { useRouter } from 'next/router';
 
 const createBranch = () => {
   const [name, setName] = useState('');
@@ -13,6 +14,7 @@ const createBranch = () => {
   const [open, setOpen] = useState(false);
   const [type, setType] = useState(0);
   const [errors, setErrors] = useState<CustomError[]>([]);
+  const router = useRouter();
 
   const postBranchOffice = useMutation({
     mutationFn: postBranch,
@@ -32,6 +34,10 @@ const createBranch = () => {
     postBranchOffice.mutate({ name, email, phone, capacity, openHour, closeHour });
   };
 
+  useEffect(() => {
+    if (!open && type === 1) router.push('/admin/branches');
+  }, [open]);
+
   return (
     <div className='h-screen bg-cruceBackground'>
       <div className='flex justify-center'>
@@ -48,7 +54,7 @@ const createBranch = () => {
               value={name}
               onChange={e => setName(e.target.value)}
               required
-              className='w-full border border-solid border-grey-500 focus:border-cruce rounded-lg h-11 mb-3 outline-none p-3'
+              className='w-full border border-solid border-grey-500 hover:border-grey5 focus:border-cruce rounded-lg h-11 mb-3 outline-none p-3'
             />
             <label htmlFor='email' className='text-sm font-medium'>
               Correo electrónico
@@ -60,7 +66,7 @@ const createBranch = () => {
               value={email}
               onChange={e => setEmail(e.target.value)}
               required
-              className='w-full border border-solid border-grey-500 focus:border-cruce rounded-lg h-11 mb-3 outline-none p-3'
+              className='w-full border border-solid border-grey-500 hover:border-grey5 focus:border-cruce rounded-lg h-11 mb-3 outline-none p-3'
             />
             <div className='flex mb-3'>
               <div className='w-1/2 mr-4'>
@@ -74,7 +80,7 @@ const createBranch = () => {
                   value={phone}
                   onChange={e => setPhone(Number(e.target.value))}
                   required
-                  className='w-full border border-solid border-grey-500 focus:border-cruce rounded-lg h-11 outline-none p-3'
+                  className='w-full border border-solid border-grey-500 hover:border-grey5 focus:border-cruce rounded-lg h-11 outline-none p-3'
                 />
               </div>
               <div className='w-1/2'>
@@ -88,7 +94,7 @@ const createBranch = () => {
                   value={capacity}
                   onChange={e => setCapacity(Number(e.target.value))}
                   required
-                  className='w-full border border-solid border-grey-500 focus:border-cruce rounded-lg h-11 outline-none p-3'
+                  className='w-full border border-solid border-grey-500 hover:border-grey5 focus:border-cruce rounded-lg h-11 outline-none p-3'
                 />
               </div>
             </div>
@@ -106,7 +112,7 @@ const createBranch = () => {
                   placeholder='08:00'
                   onChange={e => setOpenHour(e.target.value)}
                   required
-                  className='w-full border border-solid border-grey-500 focus:border-cruce rounded-lg h-11 outline-none p-3'
+                  className='w-full border border-solid border-grey-500 hover:border-grey5 focus:border-cruce rounded-lg h-11 outline-none p-3'
                 />
               </div>
               <div className='w-1/2'>
@@ -122,18 +128,27 @@ const createBranch = () => {
                   placeholder='17:00'
                   onChange={e => setCloseHour(e.target.value)}
                   required
-                  className='w-full border border-solid border-grey-500 focus:border-cruce rounded-lg h-11 outline-none p-3'
+                  className='w-full border border-solid border-grey-500 hover:border-grey5 focus:border-cruce rounded-lg h-11 outline-none p-3'
                 />
               </div>
             </div>
             <div className='flex mt-4'>
-              <button
-                type='submit'
-                className=' bg-cruce hover:bg-cruceHover text-white font-semibold text-lb rounded-lg h-11 w-full'
-                onClick={() => {}}
-              >
-                Enviar
-              </button>
+              {name && email && phone && capacity && openHour && closeHour ? (
+                <button
+                  type='submit'
+                  className=' bg-cruce hover:bg-cruceHover text-white font-semibold text-lb rounded-lg h-11 w-full'
+                >
+                  Enviar
+                </button>
+              ) : (
+                <button
+                  type='submit'
+                  className='bg-grey3 text-grey6 font-semibold text-lb rounded-lg h-11 w-full'
+                  disabled
+                >
+                  Enviar
+                </button>
+              )}
             </div>
           </form>
         </div>

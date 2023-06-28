@@ -9,7 +9,7 @@ import Step from '@/commons/Step';
 import ReservePanelForm from '@/components/ReservePanelForm';
 import { postReserve } from '@/services/appointments';
 import CountDown from '@/components/CountDown';
-import Modal from '@/components/Modal';
+import Modal from '@/components/General/Modal';
 import { getBranchByName, getBranches } from '@/services/branches';
 import { getLoggedUser } from '@/services/users';
 import formatTime from '@/utils/formatTime';
@@ -18,6 +18,7 @@ const ReservePanel = () => {
   const [date, setDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(false);
   const [branch, setBranch] = useState('');
+  const [dbBranches, setDbBranches] = useState<Branch[]>([]);
   const [branchObject, setBranchObject] = useState<Branch>();
   const [name, setName] = useState('');
   const [shifts, setShifts] = useState<string[]>([]);
@@ -51,6 +52,22 @@ const ReservePanel = () => {
       setType(2);
       setErrors((error as any).response.data.errors);
       setOpen(true);
+    },
+    onSuccess: branches => {
+      setDbBranches([
+        ...branches,
+        {
+          _id: '',
+          name: '',
+          email: '',
+          phone: 0,
+          capacity: 0,
+          openHour: '',
+          closeHour: '',
+          shifts: {},
+          appointments: [],
+        },
+      ]);
     },
   });
 
@@ -99,9 +116,6 @@ const ReservePanel = () => {
   useEffect(() => {
     let findDate = date.toLocaleDateString();
     if (branchObject) {
-      // console.log(branchObject)
-      // console.log(findDate)
-      // console.log(branchObject.shifts[findDate])
       setShifts(branchObject.shifts[findDate]);
     }
   }, [date]);
@@ -154,7 +168,7 @@ const ReservePanel = () => {
             )}
             <ReservePanelForm
               handleSubmit={handleSubmit}
-              branches={branches.data}
+              branches={dbBranches}
               branch={branch}
               shifts={shifts}
               setBranch={setBranch}

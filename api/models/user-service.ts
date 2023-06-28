@@ -3,8 +3,9 @@ import bcrypt from 'bcrypt';
 import User, { UserAttrs } from './User.model';
 import { generateToken } from '../utils/tokens';
 import { ServerError } from '../errors/server-error';
-import UserLogin from '../interfaces/userLogin';
+import UserLogin from '../interfaces/UserLogin';
 import { BranchOfficeDoc } from './BranchOffice.model';
+import { BadRequestError } from '../errors/bad-request-error';
 
 const signUp = async (data: UserAttrs) => {
   try {
@@ -80,9 +81,12 @@ async function userLogin(user: UserLogin) {
           token,
         };
       }
+    } else {
+      throw new BadRequestError('Email o contraseña incorrectos')
     }
   } catch (e) {
-    throw new ServerError(e);
+    // throw new ServerError(e);
+    throw new BadRequestError('Email o contraseña incorrectos')
   }
 }
 
