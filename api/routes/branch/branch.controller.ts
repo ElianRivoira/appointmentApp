@@ -1,7 +1,9 @@
 import { Request, Response } from 'express';
+import cron from 'node-cron';
 
 import branchService from '../../models/branchOffice-service';
 import { ServerError } from '../../errors/server-error';
+import BranchOffice from '../../models/BranchOffice.model';
 
 const httpPostBranch = async (req: Request, res: Response) => {
   try {
@@ -54,6 +56,27 @@ const httpGetBranchByName = async (req: Request, res: Response) => {
     throw new ServerError(e);
   }
 };
+
+cron.schedule(
+  //programado cada 30 dias
+  '0 0 */30 * *',
+  async () => {
+    let date = new Date();
+    const month = date.getMonth();
+    date.setMonth(month + 2);
+    date.setDate(1);
+    const branches = await branchService.getAllBranches();
+    branches.forEach(async branch => {
+      const shifts = branch.setShifts(date, branch.shifts, true);
+      await branch.updateOne({ shifts: { ...branch.shifts, ...shifts } });
+      // await branch.save();
+    });
+    console.log('cron branches executed');
+  },
+  {
+    timezone: 'America/Buenos_Aires',
+  }
+);
 
 export default {
   httpPostBranch,

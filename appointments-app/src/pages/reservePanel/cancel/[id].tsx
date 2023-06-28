@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from 'react';
+import { NextPageContext } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { hasCookie } from 'cookies-next';
+import { useMutation, useQuery } from '@tanstack/react-query';
 
 import flechitaIzq from '@/assets/icons/flechitaIzq.svg';
 import CancelOption from '@/components/CancelOption';
 import { getOneReserve, cancelReserv } from '@/services/appointments';
-import Modal from '@/components/Modal';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { hasCookie } from 'cookies-next';
-import { NextPageContext } from 'next';
+import Modal from '@/components/General/Modal';
+import cancelReasons from '@/utils/cancelReasons';
 
 const cancelReserve = ({ query }: MyPageProps) => {
+  const [cancelReason, setCancelReason] = useState('');
   const [open, setOpen] = useState(false);
   const [type, setType] = useState(0);
   const [errors, setErrors] = useState<CustomError[]>([]);
@@ -33,7 +35,7 @@ const cancelReserve = ({ query }: MyPageProps) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    cancelReserve.mutate(reserveId);
+    cancelReserve.mutate({ id: reserveId, cancelReason });
   };
 
   useEffect(() => {
@@ -56,12 +58,12 @@ const cancelReserve = ({ query }: MyPageProps) => {
   });
 
   return (
-    <div className='h-screen'>
+    <>
       <div className='flex mx-24 mt-6'>
         <div className='w-2/3'>
           <div className='flex w-full text-cruce font-semibold text-ss items-center'>
-            <Link href={'login'} className='flex items-center'>
-              <Image src={flechitaIzq} alt='flechitaIzq' className='w-3 h-3 mr-1.5'></Image>
+            <Link href={'/reserves'} className='flex items-center'>
+              <Image src={flechitaIzq} alt='flechitaIzq' className='w-3 h-3 mr-1.5' />
               <p className='flex'>Atrás</p>
             </Link>
           </div>
@@ -69,15 +71,21 @@ const cancelReserve = ({ query }: MyPageProps) => {
           <p className='mt-8 font-normal text-ss'>Hola {reserve.data?.name}</p>
           <p className='mt-3 mb-6 font-semibold text-lb'>¿Por qué desea cancelar su reserva?</p>
           <form onSubmit={handleSubmit}>
-            <CancelOption id='1'>Ya no quiero ir</CancelOption>
-            <CancelOption id='2'>Me equivoqué de horario</CancelOption>
-            <CancelOption id='3'>Encontré un lugar mejor</CancelOption>
-            <CancelOption id='4'>Me cancelaron</CancelOption>
-            <CancelOption id='5'>Otro</CancelOption>
+            <fieldset>
+              {cancelReasons.map((reason, index) => (
+                <CancelOption
+                  key={index}
+                  id={index.toString()}
+                  cancelReason={cancelReason}
+                  setCancelReason={setCancelReason}
+                  label={reason}
+                />
+              ))}
+            </fieldset>
           </form>
         </div>
         <div className='w-1/3 ml-[115px] mt-6'>
-          <p className='text-xm'>Informacion de la reserva</p>
+          <p className='text-xm'>Información de la reserva</p>
           <h1 className='mt-2 mb-4 font-bold text-lx'>{reserve.data?.name}</h1>
           <p className='text-ss font-semibold'>
             Día:{' '}
@@ -96,12 +104,14 @@ const cancelReserve = ({ query }: MyPageProps) => {
           </p>
           <hr className='mt-4' />
         </div>
+        {/* <div className='flex items-center justify-center'> */}
+        {/* </div> */}
       </div>
       <Modal type={type} open={open} errors={errors} onClose={() => setOpen(false)}>
         <h1 className='text-ln font-bold'>Turno eliminado con éxito</h1>
         <p className='text-sm font-normal mt-1'>Esperamos recibirlo en otra oportunidad</p>
       </Modal>
-    </div>
+    </>
   );
 };
 

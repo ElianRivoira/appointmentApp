@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { AppDispatch, RootState } from '@/store';
 import { login } from '../services/users';
-import Modal from '@/components/Modal';
+import Modal from '@/components/General/Modal';
 import { fetchUser } from '@/store/slices/userSlice';
 import { useMutation } from '@tanstack/react-query';
 
@@ -60,7 +60,7 @@ const Login = () => {
   }, [open]);
 
   return (
-    <div className='min-h-screen bg-cruceBackground'>
+    <div className='min-h-screen'>
       <div className='flex justify-center'>
         <div className='flex flex-col w-3/4 max-w-screen-sm h-3/5 mt-32 px-8 pt-10 pb-8 border rounded-xl shadow-xg bg-white'>
           <p className='text-center mb-8 font-bold text-2xl'>Iniciar Sesión</p>

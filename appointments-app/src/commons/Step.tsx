@@ -20,11 +20,11 @@ const Step: React.FC<stepValue> = ({ icon, text, bgColor, textColor }) => {
             <Image alt='check' src={check} className='w-8 h-8' />
             <hr className='w-5/12 h-0.5 border-none bg-exito' />
           </div>
-          <div
-            className='block text-center text-sb font-normal mt-2 text-exito'
+          <p
+            className='block text-center text-sb font-normal mt-2 h-12 text-exito'
           >
             {text}
-          </div>
+          </p>
         </>
       ) : icon === 'error' ? (
         <>
@@ -33,11 +33,11 @@ const Step: React.FC<stepValue> = ({ icon, text, bgColor, textColor }) => {
             <Image alt='error' src={error} className='w-8 h-8' />
             <hr className='w-5/12 h-0.5 border-none bg-error' />
           </div>
-          <div
-            className='block text-center text-sb font-normal mt-2 text-error'
+          <p
+            className='block text-center text-sb font-normal mt-2 h-12 text-error'
           >
             {text}
-          </div>
+          </p>
         </>
       ) : (
         <>
@@ -50,11 +50,11 @@ const Step: React.FC<stepValue> = ({ icon, text, bgColor, textColor }) => {
             </div>
             <hr className={`w-5/12 h-0.5 border-none ${bgColor}`} />
           </div>
-          <div
-            className={`block text-center text-sb font-normal mt-2 ${textColor}`}
+          <p
+            className={`block text-center text-sb font-normal mt-2 ${textColor} h-12`}
           >
             {text}
-          </div>
+          </p>
         </>
       )}
     </div>

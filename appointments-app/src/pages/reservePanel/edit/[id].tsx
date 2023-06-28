@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import Calendar from 'react-calendar';
 import { useRouter } from 'next/router';
+import { NextPageContext } from 'next';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { hasCookie } from 'cookies-next';
 
 import { CalendarContainer, CalendarContainerDisabled } from '@/components/Calendar';
 import Step from '@/commons/Step';
 import ReservePanelForm from '@/components/ReservePanelForm';
 import { editReserve, getOneReserve } from '@/services/appointments';
 import CountDown from '@/components/CountDown';
-import Modal from '@/components/Modal';
+import Modal from '@/components/General/Modal';
 import { getBranchByName, getBranches } from '@/services/branches';
-import { NextPageContext } from 'next';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { hasCookie } from 'cookies-next';
 import formatTime from '@/utils/formatTime';
 
 const ReservePanel = ({ query }: MyPageProps) => {
@@ -107,7 +107,7 @@ const ReservePanel = ({ query }: MyPageProps) => {
   }, [reserve.isSuccess, reserve.isRefetching]);
 
   return (
-    <div className='h-screen bg-cruceBackground'>
+    <>
       <div className='flex flex-col lg:mx-32 2xl:mx-44'>
         <div className='mt-12 mb-6 flex justify-around lg:justify-between'>
           <div className='w-3/6'>
@@ -221,7 +221,7 @@ const ReservePanel = ({ query }: MyPageProps) => {
         <h1 className='text-ln font-bold'>Turno modificado con éxito</h1>
         <p className='text-sm font-normal mt-1'>Gracias por confiar en nuestro servicio</p>
       </Modal>
-    </div>
+    </>
   );
 };
 

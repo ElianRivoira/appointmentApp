@@ -56,7 +56,7 @@ const Navbar = () => {
   return (
     <>
       {router.pathname !== '/login' && router.pathname !== '/register' && router.pathname !== '/' && (
-        <div className='flex justify-center shadow-navbar bg-white'>
+        <div className='fixed z-20 top-0 right-0 w-full flex justify-center h-20 shadow-navbar bg-white'>
           <nav className='flex flex-row justify-between w-11/12 md:max-w-screen-2xl h-20 items-center'>
             {loggedUser.data?.role === 'user' ? (
               <>
@@ -181,6 +181,45 @@ const Navbar = () => {
                   ) : null}
                 </div>
               </>
+            ) : loggedUser.data?.role === 'operator' ? (
+              <div className='flex justify-end w-full'>
+                <div className='flex justify-between'>
+                  <Link href={'/operator/reserves'} className='mr-8'>
+                    <button
+                      className={`text-ss font-bold flex hover:text-cruceHover ${
+                        router.pathname === '/operator/reserves' ? 'text-cruce' : null
+                      }`}
+                    >
+                      Reservas
+                      <Image
+                        className='w-4 h-3.5 ml-1'
+                        alt='reservas'
+                        src={router.pathname === '/operator/reserves' ? misReservasIconActivo : misReservasIcon}
+                      ></Image>
+                    </button>
+                  </Link>
+                  <Link href={'/operator/myData'}>
+                    <button
+                      className={`text-ss font-bold flex hover:text-cruceHover ${
+                        router.pathname === '/operator/myData' ? 'text-cruce' : null
+                      }`}
+                    >
+                      Mi Cuenta
+                      <Image
+                        className='w-4 h-3.5 ml-1'
+                        alt='mi cuenta'
+                        src={router.pathname === '/operator/myData' ? miCuentaIconActivo : miCuentaIcon}
+                      ></Image>
+                    </button>
+                  </Link>
+                  {hasCookie('session') ? (
+                    <button className={`text-ss font-bold flex hover:text-cruceHover ml-8`} onClick={handleLogout}>
+                      Cerrar Sesión
+                      <Image className='w-4 h-4 ml-1' alt='logout' src={logoutIcon}></Image>
+                    </button>
+                  ) : null}
+                </div>
+              </div>
             ) : null}
           </nav>
         </div>

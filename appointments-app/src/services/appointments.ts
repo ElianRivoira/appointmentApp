@@ -30,7 +30,12 @@ export async function editReserve({
   return res.data;
 }
 
-export async function getReserves(id: string): Promise<reserveUser[]> {
+export async function calculateMetrics(): Promise<IAllBranchesMetrics> {
+  const res = await api.get(`/appointments/metrics`);
+  return res.data;
+}
+
+export async function getReserves(id: string | undefined): Promise<reserveUser[]> {
   const res = await api.get(`/appointments/all/${id}`);
   return res.data;
 }
@@ -40,10 +45,12 @@ export async function getOneReserve(id: string): Promise<reserveUser> {
   return res.data;
 }
 
-export async function cancelReserv(id: string): Promise<void> {
-  const res = await api.delete(`/appointments/${id}`);
+export async function cancelReserv({ id, cancelReason }: { id: string; cancelReason: string }): Promise<void> {
+  const res = await api.put(`/appointments/cancel/${id}`, { cancelReason });
+  return res.data;
 }
 
 export async function confirmReserve(id: string): Promise<void> {
   const res = await api.put(`/appointments/confirm/${id}`);
+  return res.data;
 }

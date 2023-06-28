@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { hasCookie } from 'cookies-next';
 
-import Modal from '@/components/Modal';
+import Modal from '@/components/General/Modal';
 import { createOperator } from '@/services/operators';
 import { getBranches } from '@/services/branches';
 import OperatorsForm from '@/components/OperatorsForm';

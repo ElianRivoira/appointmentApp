@@ -9,7 +9,7 @@ import llaveInglesa from '@/assets/icons/llaveInglesa.svg';
 import cruzRoja from '@/assets/icons/cruzRoja.svg';
 import { useQuery } from '@tanstack/react-query';
 import { hasCookie } from 'cookies-next';
-import Modal from '@/components/Modal';
+import Modal from '@/components/General/Modal';
 
 const confirmedReserve = ({ query }: MyPageProps) => {
   const [creationDate, setCreationDate] = useState<string[]>([]);
@@ -65,7 +65,7 @@ const confirmedReserve = ({ query }: MyPageProps) => {
           <div className='mb-7'>
             <Image src={bigCheck} alt='bigCheck'></Image>
           </div>
-          <div className='font-semibold text-2xl text-cruce mb-6'>!Gracias por tu reserva!</div>
+          <div className='font-semibold text-2xl text-cruce mb-6'>¡Gracias por tu reserva!</div>
           <div className='flex flex-col items-center text-[#505050] mb-6 font-normal text-sm'>
             <p>
               En hasta 5 minutos, recibirás un correo electrónico en
@@ -75,7 +75,7 @@ const confirmedReserve = ({ query }: MyPageProps) => {
           </div>
           <div>
             <button className=' bg-cruce hover:bg-cruceHover text-white w-96 font-semibold rounded-lg h-11'>
-              ¿Quéres imprimir tu comprobante?
+              ¿Querés imprimir tu comprobante?
             </button>
           </div>
         </div>

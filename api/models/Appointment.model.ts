@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { BranchOfficeDoc } from './BranchOffice.model';
 
 // An interface that describes the properties
 // that are requried to create a new Appointment
@@ -19,17 +20,18 @@ interface AppointmentModel extends mongoose.Model<AppointmentDoc> {
 }
 
 // An interface that describes the properties
-// that a Appointment Document has
+// that an Appointment Document has
 export interface AppointmentDoc extends mongoose.Document {
   userId: string;
   id: string;
   date: Date;
   creationDate: Date;
-  branch: string;
+  branch: BranchOfficeDoc;
   name: string;
   phone: number;
   email: string;
-  confirmed: boolean;
+  status: string;
+  cancelReason: string;
 }
 
 const appointmentSchema = new mongoose.Schema({
@@ -66,10 +68,14 @@ const appointmentSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  confirmed: {
-    type: Boolean,
-    default: false,
+  status: {
+    type: String,
+    enum: ['pending', 'confirmed', 'canceled'],
+    default: 'pending',
   },
+  cancelReason: {
+    type: String,
+  }
 });
 
 appointmentSchema.statics.build = (attrs: AppointmentAttrs) => {

@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useMutation, useQuery } from '@tanstack/react-query';
 
-import Modal from '@/components/Modal';
+import Modal from '@/components/General/Modal';
 import rightCheckbox from '@/assets/icons/rightCheckbox.svg';
 import wrongCheckbox from '@/assets/public/icons/wrongCheckbox.svg';
 import { getBranches } from '@/services/branches';

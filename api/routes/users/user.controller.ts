@@ -35,17 +35,6 @@ async function httpUserLogin(req: Request, res: Response) {
   try {
     const user = req.body;
 
-    if (!user.email) {
-      return res.status(401).json({
-        error: 'Required user property',
-      });
-    }
-    if (!user.password) {
-      return res.status(401).json({
-        error: 'Required password',
-      });
-    }
-
     const response = await userService.userLogin(user);
 
     if (req.session) {

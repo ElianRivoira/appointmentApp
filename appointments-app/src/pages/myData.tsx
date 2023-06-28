@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import Image from 'next/image';
-import { useRouter } from 'next/router';
 
 import { getLoggedUser, sendPassEmail, updateUser } from '@/services/users';
-import Modal from '@/components/Modal';
-import rightCheckbox from '@/assets/icons/rightCheckbox.svg';
+import Modal from '@/components/General/Modal';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { hasCookie } from 'cookies-next';
+import Spinner from '@/components/General/Spinner';
+import Spinner2 from '@/components/Spinner2';
+import Spinner3 from '@/components/Spinner3';
+import Spinner4 from '@/components/Spinner4';
 
 const myData = () => {
   const [name, setName] = useState('');
@@ -17,7 +18,6 @@ const myData = () => {
   const [type, setType] = useState(0);
   const [errors, setErrors] = useState<CustomError[]>([]);
   const [message, setMessage] = useState('');
-  const router = useRouter();
 
   const loggedUser = useQuery({
     queryKey: ['loggedUser'],
@@ -74,89 +74,89 @@ const myData = () => {
     }
   }, [loggedUser.isSuccess, loggedUser.isRefetching]);
 
+  if (loggedUser.isLoading) return <Spinner2 />;
+
   return (
-    <div className='h-screen bg-cruceBackground'>
-      <div className='flex justify-center'>
-        <div className='flex flex-col w-3/4 max-w-screen-md h-3/5 mt-12 p-10 pb-8 border rounded-xl shadow-navbar bg-white'>
-          <p className='mb-4 font-bold text-xb'>Mis Datos</p>
-          <form onSubmit={handleSubmit}>
-            <label htmlFor='username' className='text-sm font-medium'>
-              Nombre
-            </label>
-            <input
-              type='text'
-              name='username'
-              id='username'
-              value={name}
-              onChange={e => setName(e.target.value)}
-              required
-              className='w-full border border-solid border-grey-500 focus:border-cruce rounded-lg h-11 mb-3 outline-none p-3'
-            />
-            <label htmlFor='email' className='text-sm font-medium'>
-              Correo electrónico
-            </label>
-            <input
-              type='email'
-              name='email'
-              id='email'
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-              required
-              className='w-full border border-solid border-grey-500 focus:border-cruce rounded-lg h-11 mb-3 outline-none p-3'
-            />
-            <div className='flex mb-3'>
-              <div className='w-1/2 mr-4'>
-                <label htmlFor='dni' className='text-sm font-medium'>
-                  DNI
-                </label>
-                <input
-                  type='tel'
-                  name='dni'
-                  id='dni'
-                  value={dni}
-                  onChange={e => setDni(Number(e.target.value))}
-                  required
-                  className='w-full border border-solid border-grey-500 focus:border-cruce rounded-lg h-11 outline-none p-3'
-                />
-              </div>
-              <div className='w-1/2'>
-                <label htmlFor='phone' className='text-sm font-medium'>
-                  Teléfono
-                </label>
-                <input
-                  type='tel'
-                  name='phone'
-                  id='phone'
-                  value={phone}
-                  onChange={e => setPhone(Number(e.target.value))}
-                  required
-                  className='w-full border border-solid border-grey-500 focus:border-cruce rounded-lg h-11 outline-none p-3'
-                />
-              </div>
+    <div className='flex justify-center'>
+      <div className='flex flex-col w-3/4 max-w-screen-md h-3/5 mt-12 p-10 pb-8 border rounded-xl shadow-navbar bg-white'>
+        <p className='mb-4 font-bold text-xb'>Mis Datos</p>
+        <form onSubmit={handleSubmit}>
+          <label htmlFor='username' className='text-sm font-medium'>
+            Nombre
+          </label>
+          <input
+            type='text'
+            name='username'
+            id='username'
+            value={name}
+            onChange={e => setName(e.target.value)}
+            required
+            className='w-full border border-solid border-grey-500 focus:border-cruce rounded-lg h-11 mb-3 outline-none p-3'
+          />
+          <label htmlFor='email' className='text-sm font-medium'>
+            Correo electrónico
+          </label>
+          <input
+            type='email'
+            name='email'
+            id='email'
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+            required
+            className='w-full border border-solid border-grey-500 focus:border-cruce rounded-lg h-11 mb-3 outline-none p-3'
+          />
+          <div className='flex mb-3'>
+            <div className='w-1/2 mr-4'>
+              <label htmlFor='dni' className='text-sm font-medium'>
+                DNI
+              </label>
+              <input
+                type='tel'
+                name='dni'
+                id='dni'
+                value={dni}
+                onChange={e => setDni(Number(e.target.value))}
+                required
+                className='w-full border border-solid border-grey-500 focus:border-cruce rounded-lg h-11 outline-none p-3'
+              />
             </div>
-            <div className='flex justify-start'>
-              <button
-                type='button'
-                className='font-semibold text-ss text-cruce hover:text-cruceHover'
-                onClick={changePassword}
-              >
-                Editar contraseña
-              </button>
+            <div className='w-1/2'>
+              <label htmlFor='phone' className='text-sm font-medium'>
+                Teléfono
+              </label>
+              <input
+                type='tel'
+                name='phone'
+                id='phone'
+                value={phone}
+                onChange={e => setPhone(Number(e.target.value))}
+                required
+                className='w-full border border-solid border-grey-500 focus:border-cruce rounded-lg h-11 outline-none p-3'
+              />
             </div>
-            <div className='flex mt-4'>
-              <button
-                type='submit'
-                className=' bg-cruce hover:bg-cruceHover text-white font-semibold text-lb rounded-lg h-11 w-full'
-                onClick={() => {}}
-              >
-                Aceptar
-              </button>
-            </div>
-          </form>
-          <Modal type={type} errors={errors} open={open} onClose={() => setOpen(false)}>
-            <h1>Sus datos se han actualizado correctamente</h1>
-          </Modal>
-        </div>
+          </div>
+          <div className='flex justify-start'>
+            <button
+              type='button'
+              className='font-semibold text-ss text-cruce hover:text-cruceHover'
+              onClick={changePassword}
+            >
+              Editar contraseña
+            </button>
+          </div>
+          <div className='flex mt-4'>
+            <button
+              type='submit'
+              className=' bg-cruce hover:bg-cruceHover text-white font-semibold text-lb rounded-lg h-11 w-full'
+              onClick={() => {}}
+            >
+              Aceptar
+            </button>
+          </div>
+        </form>
+        <Modal type={type} errors={errors} type3Message={message} open={open} onClose={() => setOpen(false)}>
+          <h1>Sus datos se han actualizado correctamente</h1>
+        </Modal>
       </div>
     </div>
   );

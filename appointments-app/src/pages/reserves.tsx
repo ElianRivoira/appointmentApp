@@ -1,41 +1,50 @@
-import { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { useRouter } from 'next/router';
+import React, { useState } from 'react';
 
-import { AppDispatch, RootState } from '@/store';
-import { fetchUser } from '@/store/slices/userSlice';
 import { getReserves } from '@/services/appointments';
 import Reserve from '@/components/Reserve';
+import { useQuery } from '@tanstack/react-query';
+import { hasCookie } from 'cookies-next';
+import { getLoggedUser } from '@/services/users';
+import Modal from '@/components/General/Modal';
 
 const Reserves = () => {
-  const { user } = useSelector((state: RootState) => state.user);
-  const [reservesFromUser, setReservesFromUser] = useState<reserveUser[]>([]);
-  const dispatch = useDispatch<AppDispatch>();
-  const router = useRouter();
+  const [open, setOpen] = useState(false);
+  const [type, setType] = useState(0);
+  const [errors, setErrors] = useState<CustomError[]>([]);
+  // const [reservesFromUser, setReservesFromUser] = useState<reserveUser[]>([]);
 
-  useEffect(() => {
-    dispatch(fetchUser());
-  }, []);
-  
-  useEffect(() => {
-    const getReserve = async () => {
-      if (user) {
-        const reservas = await getReserves(user._id);
-        setReservesFromUser(reservas);
-      }
-    };
-    getReserve();
-  }, [user])
+  const loggedUser = useQuery({
+    queryKey: ['loggedUser'],
+    enabled: hasCookie('session'),
+    queryFn: getLoggedUser,
+    onError: error => {
+      setType(2);
+      setErrors((error as any).response.data.errors);
+      setOpen(true);
+    },
+  });
+
+  const reserves = useQuery({
+    queryKey: ['reserves user'],
+    queryFn: () => getReserves(loggedUser.data?._id),
+    enabled: loggedUser.isSuccess,
+    onError: (err: any) => {
+      setType(2);
+      setErrors(err.response.data.errors);
+      setOpen(true);
+    },
+  });
 
   return (
-    <>
-      <div className='mt-12 mx-24'>
-        <div className='font-semibold text-xl mb-6'>Reservas</div>
-        {reservesFromUser.map((reserve) => (
-          <Reserve data={reserve} key={reserve._id} operatorView={false} />
+    <div className='mt-12 mx-24'>
+      <div className='font-semibold text-xl mb-6'>Reservas</div>
+      <div>
+        {reserves.data?.map(reserve => (
+          <Reserve data={reserve} key={reserve._id} operatorView={false} refetchFunc={reserves} />
         ))}
       </div>
-    </>
+      <Modal type={type} errors={errors} open={open} onClose={() => setOpen(false)} />
+    </div>
   );
 };
 

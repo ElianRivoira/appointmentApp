@@ -6,7 +6,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { hasCookie } from 'cookies-next';
 
 import { store } from '../store/index';
-import Navbar from '@/components/Navbar';
+import Navbar from '@/components/General/Navbar';
 
 const App = ({ Component, pageProps }: any) => {
   const [queryClient] = React.useState(() => new QueryClient());
@@ -14,11 +14,13 @@ const App = ({ Component, pageProps }: any) => {
   return (
     <QueryClientProvider client={queryClient}>
       {/* <Hydrate state={pageProps.dehydratedState}> */}
-        <Provider store={store}>
-          <Navbar />
+      <Provider store={store}>
+        <Navbar />
+        <div className='pt-20 min-h-screen bg-cruceBackground'>
           <Component {...pageProps} />
-          <ReactQueryDevtools />
-        </Provider>
+        </div>
+        <ReactQueryDevtools />
+      </Provider>
       {/* </Hydrate> */}
     </QueryClientProvider>
   );
