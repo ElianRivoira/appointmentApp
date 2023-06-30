@@ -15,4 +15,6 @@ router.put('/:id', validateLoggedAdmin, branchController.httpEditBranch);
 
 router.get('/name/:name', validateLoggedUser, branchController.httpGetBranchByName);
 
+router.delete('/:id', validateLoggedAdmin, branchController.httpDeleteBranch);
+
 export default router;

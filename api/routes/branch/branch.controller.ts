@@ -57,6 +57,16 @@ const httpGetBranchByName = async (req: Request, res: Response) => {
   }
 };
 
+const httpDeleteBranch = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    await branchService.deleteBranch(id);
+    res.sendStatus(204);
+  } catch (e) {
+    throw new ServerError(e);
+  }
+}
+
 cron.schedule(
   //programado cada 30 dias
   '0 0 */30 * *',
@@ -84,4 +94,5 @@ export default {
   httpGetBranch,
   httpEditBranch,
   httpGetBranchByName,
+  httpDeleteBranch,
 };

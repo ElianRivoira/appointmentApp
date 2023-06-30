@@ -21,3 +21,7 @@ export async function getOneOperator(id: string): Promise<User> {
   const operator = await api.get(`/operators/${id}`);
   return operator.data;
 }
+
+export async function deleteOneOperator(id: string): Promise<void> {
+  await api.delete(`/operators/${id}`);
+}

@@ -4,7 +4,7 @@ import userService from '../../models/user-service';
 import branchService from '../../models/branchOffice-service';
 import { ServerError } from '../../errors/server-error';
 
-const createOperator = async (req: Request, res: Response) => {
+const httpCreateOperator = async (req: Request, res: Response) => {
   try {
     const { name, email, dni, password, branch, phone } = req.body;
     const branchOffice = await branchService.getBranchByName(branch);
@@ -23,7 +23,7 @@ const createOperator = async (req: Request, res: Response) => {
   }
 };
 
-const getOperators = async (req: Request, res: Response) => {
+const httpGetOperators = async (req: Request, res: Response) => {
   try {
     const operators = await userService.getOperators();
     res.send(operators);
@@ -32,7 +32,7 @@ const getOperators = async (req: Request, res: Response) => {
   }
 };
 
-const getOneOperator = async (req: Request, res: Response) => {
+const httpGetOneOperator = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const operator = await userService.getOneOperator(id);
@@ -42,8 +42,19 @@ const getOneOperator = async (req: Request, res: Response) => {
   }
 };
 
+const httpDeleteOperator = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    await userService.deleteUser(id);
+    res.sendStatus(204);
+  } catch (e) {
+    throw new ServerError(e)
+  }
+}
+
 export default {
-  createOperator,
-  getOperators,
-  getOneOperator,
+  httpCreateOperator,
+  httpGetOperators,
+  httpGetOneOperator,
+  httpDeleteOperator,
 };

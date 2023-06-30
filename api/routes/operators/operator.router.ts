@@ -5,10 +5,12 @@ import { validateLoggedAdmin, validateLoggedUser } from '../../middlewares/userV
 
 const router = express.Router();
 
-router.post('/', validateLoggedAdmin, operatorController.createOperator);
+router.post('/', validateLoggedAdmin, operatorController.httpCreateOperator);
 
-router.get('/', validateLoggedUser, operatorController.getOperators);
+router.get('/', validateLoggedUser, operatorController.httpGetOperators);
 
-router.get('/:id', validateLoggedUser, operatorController.getOneOperator);
+router.get('/:id', validateLoggedUser, operatorController.httpGetOneOperator);
 
-export default router
+router.delete('/:id', validateLoggedAdmin, operatorController.httpDeleteOperator);
+
+export default router;

@@ -31,3 +31,7 @@ export async function getBranchByName(name: string): Promise<Branch> {
   const res = await api.get(`/branches/name/${name}`);
   return res.data;
 }
+
+export async function deleteOneBranch(id: string): Promise<void> {
+  await api.delete(`/branches/${id}`);
+}

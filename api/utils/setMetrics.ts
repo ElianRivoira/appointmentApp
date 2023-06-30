@@ -39,7 +39,7 @@ const setLineChart = (reserves: AppointmentDoc[], status: string, branchName?: s
   let loopCondition = lineLabels.indexOf(dayNow) * oneDay;
 
   while (loopCondition >= 0) {
-    const targetDate = j ? dateNow : new Date(dateNow.getTime() - oneDay);
+    const targetDate = !j ? dateNow : new Date(dateNow.getTime() - oneDay * j);
     // dateNow converted to a string without time, only day, month and year
     const stringTargetDate = targetDate.toLocaleDateString('es-ES', {
       year: 'numeric',
@@ -55,8 +55,9 @@ const setLineChart = (reserves: AppointmentDoc[], status: string, branchName?: s
           return (
             reserve.branch.name === branchName && stringTargetDate === reserveDate && reserve.status === 'canceled'
           );
-      } else if (status === statusOptions.reserved) return stringTargetDate === reserveDate;
-      else if (status === statusOptions.canceled)
+      } else if (status === statusOptions.reserved) {
+        return stringTargetDate === reserveDate;
+      } else if (status === statusOptions.canceled)
         return stringTargetDate === reserveDate && reserve.status === 'canceled';
     });
     data.push(filteredReserves.length);
@@ -120,7 +121,10 @@ const setPieChart = (reserves: AppointmentDoc[], period: string, branchName?: st
     returnData = {
       reserved: reserved,
       assisted: assisted,
-      labels: [`${pieLabels[0]} ${assisted === 0 ? 0 : assistedPercentage}%`, `${pieLabels[1]} ${reserved === 0 ? 0 : reservedPercentage}%`],
+      labels: [
+        `${pieLabels[0]} ${assisted === 0 ? 0 : assistedPercentage}%`,
+        `${pieLabels[1]} ${reserved === 0 ? 0 : reservedPercentage}%`,
+      ],
     };
   } else if (period === periodOptions.annual) {
     const annualReserves = reserves.filter(reserve => {
@@ -140,7 +144,10 @@ const setPieChart = (reserves: AppointmentDoc[], period: string, branchName?: st
     returnData = {
       reserved: reserved,
       assisted: assisted,
-      labels: [`${pieLabels[0]} ${assisted === 0 ? 0 : assistedPercentage}%`, `${pieLabels[1]} ${reserved === 0 ? 0 : reservedPercentage}%`],
+      labels: [
+        `${pieLabels[0]} ${assisted === 0 ? 0 : assistedPercentage}%`,
+        `${pieLabels[1]} ${reserved === 0 ? 0 : reservedPercentage}%`,
+      ],
     };
   }
   return returnData;

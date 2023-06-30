@@ -69,7 +69,7 @@ const Modal: React.FC<ModalProps> = ({
           </>
         ) : type === 4 ? (
           <>
-            <p className='text-lb font-normal mt-1'>{deleteMessage}</p>
+            <p className='text-lb font-medium mt-1'>{deleteMessage}</p>
             <div className='flex gap-5 justify-center mt-6'>
               <button
                 className='border flex items-center text-lb p-4 rounded-md w-fit bg-cruce text-white h-10 hover:bg-cruceHover active:shadow-active transition-colors'
@@ -78,7 +78,7 @@ const Modal: React.FC<ModalProps> = ({
                 Cancelar
               </button>
               <button
-                className='border flex items-center text-lb p-4 rounded-md w-fit bg-redLogout text-white h-10 hover:bg-redLogout/[.9] active:shadow-active transition-colors'
+                className='border flex items-center text-lb p-4 rounded-md w-fit bg-error text-white h-10 hover:bg-error/[.9] active:shadow-active transition-colors'
                 onClick={deleteFunc}
               >
                 Confirmar
