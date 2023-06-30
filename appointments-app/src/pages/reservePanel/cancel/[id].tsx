@@ -104,8 +104,6 @@ const cancelReserve = ({ query }: MyPageProps) => {
           </p>
           <hr className='mt-4' />
         </div>
-        {/* <div className='flex items-center justify-center'> */}
-        {/* </div> */}
       </div>
       <Modal type={type} open={open} errors={errors} onClose={() => setOpen(false)}>
         <h1 className='text-ln font-bold'>Turno eliminado con éxito</h1>

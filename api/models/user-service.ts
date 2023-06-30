@@ -130,6 +130,15 @@ const updatePassword = async (id: string, pass: string) => {
   }
 };
 
+const deleteUser = async (id: string) => {
+  try {
+    const user = User.findByIdAndDelete(id);
+    return user;
+  } catch (e) {
+    throw new ServerError(e);
+  }
+}
+
 export default {
   signUp,
   postOperator,
@@ -140,4 +149,5 @@ export default {
   getLoggedUser,
   updateUser,
   updatePassword,
+  deleteUser,
 };

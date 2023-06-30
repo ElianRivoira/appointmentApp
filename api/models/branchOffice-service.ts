@@ -42,10 +42,15 @@ const putBranch = async (id: string, data: any) => {
   return branch;
 };
 
+const deleteBranch = async (id: string) => {
+  await Branch.findByIdAndDelete(id);
+}
+
 export default {
   postBranch,
   getAllBranches,
   getBranch,
   getBranchByName,
   putBranch,
+  deleteBranch,
 };
