@@ -5,10 +5,8 @@ import { UseQueryResult, useMutation } from '@tanstack/react-query';
 
 import editIcon from '@/assets/icons/edit.svg';
 import { cancelReserv, confirmReserve } from '@/services/appointments';
-import Modal from '@/components/General/Modal';
-import Spinner from '@/components/General/Spinner';
-import Spinner3 from '@/components/Spinner3';
-import Spinner2 from '@/components/Spinner2';
+import Modal from '@/commons/Modal';
+import Spinner2 from '@/components/General/Spinner2';
 
 interface Props {
   reserveId: string;

@@ -7,7 +7,7 @@ import ReportsCard from '@/components/Reports/ReportsCard';
 import reportesReservas from '@/assets/icons/reportesReservas.svg';
 import reportesCancelaciones from '@/assets/icons/reportesCancelaciones.svg';
 import reportesAsistencias from '@/assets/icons/reportesAsistencias.svg';
-import Modal from '@/components/General/Modal';
+import Modal from '@/commons/Modal';
 import { calculateMetrics } from '@/services/appointments';
 import LineChart from '@/components/Reports/LineChart';
 import styles from '@/styles/Reports.module.css';
@@ -147,7 +147,10 @@ const reports = () => {
                 <option value='Mensual'>Mensual</option>
                 <option value='Anual'>Anual</option>
               </select>
-              <button type='button' className='absolute bottom-[22px] w-[84%] active:shadow-active bg-cruceSecondary hover:bg-cruceSecondaryHover text-cruce font-semibold text-lb rounded-lg h-11'>
+              <button
+                type='button'
+                className='absolute bottom-[22px] w-[84%] active:shadow-active bg-cruceSecondary hover:bg-cruceSecondaryHover text-cruce font-semibold text-lb rounded-lg h-11'
+              >
                 Ver reporte
               </button>
               <div className='h-full w-full'>

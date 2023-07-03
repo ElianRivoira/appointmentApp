@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import { AppDispatch, RootState } from '@/store';
 import { fetchUser } from '@/store/slices/userSlice';
 import { sendPassEmail, updateUser } from '@/services/users';
-import Modal from '@/components/General/Modal';
+import Modal from '@/commons/Modal';
 import { useMutation } from '@tanstack/react-query';
 
 const myData = () => {

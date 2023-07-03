@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { hasCookie } from 'cookies-next';
 
 import { getReserves } from '@/services/appointments';
 import Reserve from '@/components/Reserve';
-import { useQuery } from '@tanstack/react-query';
-import { hasCookie } from 'cookies-next';
 import { getLoggedUser } from '@/services/users';
-import Modal from '@/components/General/Modal';
+import Modal from '@/commons/Modal';
 
 const Reserves = () => {
   const [open, setOpen] = useState(false);
   const [type, setType] = useState(0);
   const [errors, setErrors] = useState<CustomError[]>([]);
-  // const [reservesFromUser, setReservesFromUser] = useState<reserveUser[]>([]);
 
   const loggedUser = useQuery({
     queryKey: ['loggedUser'],

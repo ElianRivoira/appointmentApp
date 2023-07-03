@@ -4,12 +4,12 @@ import { useRouter } from 'next/router';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { hasCookie } from 'cookies-next';
 
-import { CalendarContainer, CalendarContainerDisabled } from '@/components/Calendar';
-import Step from '@/commons/Step';
-import ReservePanelForm from '@/components/ReservePanelForm';
+import { CalendarContainer, CalendarContainerDisabled } from '@/components/ReservePanel/Calendar';
+import Step from '@/components/ReservePanel/Step';
+import ReservePanelForm from '@/components/ReservePanel/ReservePanelForm';
 import { postReserve } from '@/services/appointments';
-import CountDown from '@/components/CountDown';
-import Modal from '@/components/General/Modal';
+import CountDown from '@/components/ReservePanel/CountDown';
+import Modal from '@/commons/Modal';
 import { getBranchByName, getBranches } from '@/services/branches';
 import { getLoggedUser } from '@/services/users';
 import formatTime from '@/utils/formatTime';
@@ -213,23 +213,13 @@ const ReservePanel = () => {
             </CalendarContainerDisabled>
           )}
         </div>
-        {selectedDate === true ? (
-          <CountDown
-            start={start}
-            countDown={countDown}
-            setCountDown={setCountDown}
-            formatTime={formatTime}
-            margin={false}
-          />
-        ) : (
-          <CountDown
-            start={start}
-            countDown={countDown}
-            setCountDown={setCountDown}
-            formatTime={formatTime}
-            margin={true}
-          />
-        )}
+        <CountDown
+          start={start}
+          countDown={countDown}
+          setCountDown={setCountDown}
+          formatTime={formatTime}
+          margin={selectedDate ? true : false}
+        />
       </div>
       <Modal type={type} errors={errors} open={open} onClose={() => setOpen(false)}>
         <h1 className='text-ln font-bold'>Turno reservado con éxito</h1>

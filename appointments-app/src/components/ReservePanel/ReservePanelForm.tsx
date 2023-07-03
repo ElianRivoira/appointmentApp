@@ -85,6 +85,7 @@ const ReservePanelForm: React.FC<ReservePanelProps> = ({
                 type='text'
                 name='name'
                 id='name'
+                placeholder='Juan Perez'
                 value={name}
                 onChange={e => setName(e.target.value)}
                 className='border text-sm font-semibold w-full h-11 rounded-lg p-3 border-grey3 hover:border-grey5 focus:border-cruce outline-none'
@@ -98,6 +99,7 @@ const ReservePanelForm: React.FC<ReservePanelProps> = ({
                 type='tel'
                 name='phone'
                 id='phone'
+                placeholder='5493426203598'
                 value={phone}
                 onChange={e => setPhone(e.target.value)}
                 className='border text-sm font-semibold w-full h-11 rounded-lg p-3 border-grey3 hover:border-grey5 focus:border-cruce outline-none'
@@ -111,6 +113,7 @@ const ReservePanelForm: React.FC<ReservePanelProps> = ({
             type='text'
             name='email'
             id='email'
+            placeholder='cruce@gmail.com'
             value={email}
             onChange={e => setEmail(e.target.value)}
             className='border w-full text-sm font-semibold rounded-lg h-11 p-3 border-grey3 hover:border-grey5 focus:border-cruce outline-none'

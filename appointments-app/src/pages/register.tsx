@@ -6,7 +6,7 @@ import openEye from '@/assets/icons/openEye.svg';
 import flechitaIzq from '@/assets/icons/flechitaIzq.svg';
 import rightCheckbox from '@/assets/icons/rightCheckbox.svg';
 import wrongCheckbox from '@/assets/icons/wrongCheckbox.svg';
-import Modal from '@/components/General/Modal';
+import Modal from '@/commons/Modal';
 import { postUser } from '../services/users';
 import { useMutation } from '@tanstack/react-query';
 
