@@ -9,7 +9,7 @@ import llaveInglesa from '@/assets/icons/llaveInglesa.svg';
 import cruzRoja from '@/assets/icons/cruzRoja.svg';
 import { useQuery } from '@tanstack/react-query';
 import { hasCookie } from 'cookies-next';
-import Modal from '@/components/General/Modal';
+import Modal from '@/commons/Modal';
 
 const confirmedReserve = ({ query }: MyPageProps) => {
   const [creationDate, setCreationDate] = useState<string[]>([]);

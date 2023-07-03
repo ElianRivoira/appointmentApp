@@ -5,12 +5,12 @@ import { NextPageContext } from 'next';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { hasCookie } from 'cookies-next';
 
-import { CalendarContainer, CalendarContainerDisabled } from '@/components/Calendar';
-import Step from '@/commons/Step';
-import ReservePanelForm from '@/components/ReservePanelForm';
+import { CalendarContainer, CalendarContainerDisabled } from '@/components/ReservePanel/Calendar';
+import Step from '@/components/ReservePanel/Step';
+import ReservePanelForm from '@/components/ReservePanel/ReservePanelForm';
 import { editReserve, getOneReserve } from '@/services/appointments';
-import CountDown from '@/components/CountDown';
-import Modal from '@/components/General/Modal';
+import CountDown from '@/components/ReservePanel/CountDown';
+import Modal from '@/commons/Modal';
 import { getBranchByName, getBranches } from '@/services/branches';
 import formatTime from '@/utils/formatTime';
 

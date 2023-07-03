@@ -2,10 +2,11 @@ import express from 'express';
 
 import branchController from './branch.controller';
 import { validateLoggedAdmin, validateLoggedUser } from '../../middlewares/userValidator';
+import { validatePostBranch } from '../../middlewares/branchValidator';
 
 const router = express.Router();
 
-router.post('/', validateLoggedAdmin, branchController.httpPostBranch);
+router.post('/', validateLoggedAdmin, validatePostBranch, branchController.httpPostBranch);
 
 router.get('/', validateLoggedUser, branchController.httpGetAllBranches);
 

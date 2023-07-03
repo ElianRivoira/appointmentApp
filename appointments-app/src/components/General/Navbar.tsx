@@ -17,7 +17,7 @@ import reporteActivo from '@/assets/icons/reporteActivo.svg';
 import operadores from '@/assets/icons/operadores.svg';
 import reportes from '@/assets/icons/reportes.svg';
 import { getLoggedUser } from '@/services/users';
-import Modal from './Modal';
+import Modal from '../../commons/Modal';
 
 const Navbar = () => {
   const router = useRouter();

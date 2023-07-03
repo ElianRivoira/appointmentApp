@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { AppDispatch, RootState } from '@/store';
 import { login } from '../services/users';
-import Modal from '@/components/General/Modal';
+import Modal from '@/commons/Modal';
 import { fetchUser } from '@/store/slices/userSlice';
 import { useMutation } from '@tanstack/react-query';
 

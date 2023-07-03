@@ -1,11 +1,11 @@
 import express from 'express';
 
 import operatorController from './operator.controller';
-import { validateLoggedAdmin, validateLoggedUser } from '../../middlewares/userValidator';
+import { validateLoggedAdmin, validateLoggedUser, validateSignUp } from '../../middlewares/userValidator';
 
 const router = express.Router();
 
-router.post('/', validateLoggedAdmin, operatorController.httpCreateOperator);
+router.post('/', validateLoggedAdmin, validateSignUp, operatorController.httpCreateOperator);
 
 router.get('/', validateLoggedUser, operatorController.httpGetOperators);
 

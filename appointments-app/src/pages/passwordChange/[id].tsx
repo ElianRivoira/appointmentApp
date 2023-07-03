@@ -6,7 +6,7 @@ import { useMutation } from '@tanstack/react-query';
 
 import { updatePassword } from '@/services/users';
 import openEye from '@/assets/icons/openEye.svg';
-import Modal from '@/components/General/Modal';
+import Modal from '@/commons/Modal';
 
 const passwordChange = ({ query }: MyPageProps) => {
   const [pass1, setPass1] = useState('');

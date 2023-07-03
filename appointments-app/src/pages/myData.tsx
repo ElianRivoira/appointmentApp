@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { hasCookie } from 'cookies-next';
+import { useMutation, useQuery } from '@tanstack/react-query';
 
 import { getLoggedUser, sendPassEmail, updateUser } from '@/services/users';
-import Modal from '@/components/General/Modal';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { hasCookie } from 'cookies-next';
-import Spinner from '@/components/General/Spinner';
-import Spinner2 from '@/components/Spinner2';
-import Spinner3 from '@/components/Spinner3';
-import Spinner4 from '@/components/Spinner4';
+import Modal from '@/commons/Modal';
+import Spinner2 from '@/components/General/Spinner2';
 
 const myData = () => {
   const [name, setName] = useState('');

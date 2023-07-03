@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { getLoggedUser, sendPassEmail, updateUser } from '@/services/users';
-import Modal from '@/components/General/Modal';
+import Modal from '@/commons/Modal';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { hasCookie } from 'cookies-next';
 

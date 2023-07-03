@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useMutation, useQuery } from '@tanstack/react-query';
 
-import Modal from '@/components/General/Modal';
+import Modal from '@/commons/Modal';
 import { getBranches } from '@/services/branches';
 import { deleteOneOperator, getOneOperator } from '@/services/operators';
 import OperatorsForm from '@/components/OperatorsForm';

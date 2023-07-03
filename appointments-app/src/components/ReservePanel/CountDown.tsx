@@ -29,19 +29,11 @@ const CountDown: React.FC<CountDownProps> = ({start, countDown, setCountDown, fo
   }, [start]);
 
   return (
-    margin ? (
-      <div className='flex w-full justify-end mt-62'>
+      <div className={`flex w-full justify-end ${margin ? '' : 'mt-10'}`}>
         <div className='rounded-lg h-11 bg-cruceHover p-3 text-lb font-bold text-white w-30 shadow-timer'>
           {countDown}
         </div>
       </div>
-    ) : (
-      <div className='flex w-full justify-end'>
-        <div className='rounded-lg h-11 bg-cruceHover p-3 text-lb font-bold text-white w-30 shadow-timer'>
-          {countDown}
-        </div>
-      </div>
-    )
   );
 };
 

@@ -13,7 +13,7 @@ const validateSignUp = [
     .bail()
     .custom(async value => {
       const userExists = await User.findOne({ email: value });
-      if (userExists) throw new Error('Ya existe una cuenta con ese email');
+      if (userExists) throw new Error('Hemos detectado que el email ya está en uso');
     }),
   check('dni')
     .notEmpty()
@@ -21,7 +21,7 @@ const validateSignUp = [
     .bail()
     .custom(async value => {
       const userExists = await User.findOne({ dni: value });
-      if (userExists) throw new Error('Ya existe una cuenta con ese dni');
+      if (userExists) throw new Error('Hemos detectado una cuenta con ese DNI');
     }),
   (req: Request, res: Response, next: NextFunction) => {
     const errors = validationResult(req);
@@ -93,4 +93,24 @@ const validateLoggedAdmin = [
   },
 ];
 
-export { validateSignUp, validateLogin, validateLoggedUser, validateLoggedAdmin, validateUpdateUser };
+const validateLoggedOperator = [
+  cookie('session').custom((value, { req }) => {
+    if (!req.session.token) {
+      throw new Error('Debe estar logueado en la aplicación');
+    } else {
+      const { user } = validateToken(req.session.token);
+      if (user.role !== 'operator') {
+        throw new Error('Debe tener permisos de operador');
+      } else return true;
+    }
+  }),
+  (req: Request, res: Response, next: NextFunction) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      throw new RequestValidationError(errors.array());
+    }
+    next();
+  },
+];
+
+export { validateSignUp, validateLogin, validateLoggedUser, validateLoggedAdmin, validateUpdateUser, validateLoggedOperator };

@@ -9,7 +9,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import flechitaIzq from '@/assets/icons/flechitaIzq.svg';
 import CancelOption from '@/components/CancelOption';
 import { getOneReserve, cancelReserv } from '@/services/appointments';
-import Modal from '@/components/General/Modal';
+import Modal from '@/commons/Modal';
 import cancelReasons from '@/utils/cancelReasons';
 
 const cancelReserve = ({ query }: MyPageProps) => {

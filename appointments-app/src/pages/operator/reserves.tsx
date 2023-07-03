@@ -5,7 +5,7 @@ import { getBranch } from '@/services/branches';
 import { useQuery } from '@tanstack/react-query';
 import { hasCookie } from 'cookies-next';
 import { getLoggedUser } from '@/services/users';
-import Modal from '@/components/General/Modal';
+import Modal from '@/commons/Modal';
 import Spinner from '@/components/General/Spinner';
 import Spinner3 from '@/components/Spinner3';
 import Spinner2 from '@/components/Spinner2';

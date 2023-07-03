@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import List from '@/components/List';
 import { getOperators } from '@/services/operators';
-import Modal from '@/components/General/Modal';
+import Modal from '@/commons/Modal';
 
 const Operators = () => {
   // const { user } = useSelector((state: RootState) => state.user);
