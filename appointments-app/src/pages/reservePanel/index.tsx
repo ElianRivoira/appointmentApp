@@ -7,12 +7,13 @@ import { hasCookie } from 'cookies-next';
 import { CalendarContainer, CalendarContainerDisabled } from '@/components/ReservePanel/Calendar';
 import Step from '@/components/ReservePanel/Step';
 import ReservePanelForm from '@/components/ReservePanel/ReservePanelForm';
-import { postReserve } from '@/services/appointments';
+import { createProof, postReserve } from '@/services/appointments';
 import CountDown from '@/components/ReservePanel/CountDown';
 import Modal from '@/commons/Modal';
 import { getBranchByName, getBranches } from '@/services/branches';
 import { getLoggedUser } from '@/services/users';
 import formatTime from '@/utils/formatTime';
+import { generateAppointmentProof } from '@/utils/generatePDF/appointmentProof';
 
 const ReservePanel = () => {
   const [date, setDate] = useState(new Date());
@@ -71,12 +72,24 @@ const ReservePanel = () => {
     },
   });
 
+  const postProof = useMutation({
+    mutationFn: createProof,
+    onSuccess: proof => {
+      setType(1);
+      setOpen(true);
+    },
+    onError: (err: any) => {
+      setType(2);
+      setErrors(err.response.data.errors);
+      setOpen(true);
+    },
+  });
+
   const createReserve = useMutation({
     mutationFn: postReserve,
     onSuccess: reserve => {
       setReserveId(reserve._id);
-      setType(1);
-      setOpen(true);
+      generateAppointmentProof(reserve, branch, postProof)
     },
     onError: (err: any) => {
       setType(2);
@@ -91,7 +104,9 @@ const ReservePanel = () => {
     const minutes = time.split(':')[1];
     date.setHours(Number(hours));
     date.setMinutes(Number(minutes));
-    loggedUser.data && createReserve.mutate({ date, branch, name, phone, email, userId: loggedUser.data._id });
+    if (loggedUser.data) {
+      createReserve.mutate({ date, branch, name, phone, email, userId: loggedUser.data._id });
+    }
   };
 
   useEffect(() => {
@@ -117,6 +132,7 @@ const ReservePanel = () => {
     let findDate = date.toLocaleDateString();
     if (branchObject) {
       setShifts(branchObject.shifts[findDate]);
+      setTime(branchObject.shifts[findDate][0]);
     }
   }, [date]);
 

@@ -52,7 +52,9 @@ interface reserveUser {
 
 interface ReserveResponse {
   _id: string;
+  id: string;
   date: Date;
+  creationDate: Date;
   branch: string;
   name: string;
   email: string;

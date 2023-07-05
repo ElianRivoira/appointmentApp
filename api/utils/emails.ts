@@ -1,5 +1,6 @@
 const nodemailer = require('nodemailer');
 import dotenv from 'dotenv';
+import { AppointmentDoc } from '../models/Appointment.model';
 
 dotenv.config();
 
@@ -43,4 +44,18 @@ const sendPasswordChangerEmail = (data: any) => {
   send(mailOptions);
 };
 
-export { sendPasswordChangerEmail }
+const sendAppointmentProof = (reserve: AppointmentDoc) => {
+  const mailOptions = {
+    to: reserve.email,
+    subject: 'Reserve Proof',
+    text: 'Reserve Proof',
+    html: `
+    <h1>COMPROBANTE DE TURNO</h1>
+    <h3>¡Gracias por tu reserva!</h3>
+    <p>Presentate con este <a href='http://localhost:8000/proofs/${reserve.name}_proof_${reserve.id}.pdf' target='_blank'>comprobante</a> en la sucursal indicada.</p>
+    `,
+  };
+  send(mailOptions);
+};
+
+export { sendPasswordChangerEmail, sendAppointmentProof }

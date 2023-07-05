@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { NextPageContext } from 'next';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
+import { useQuery } from '@tanstack/react-query';
+import { hasCookie } from 'cookies-next';
 
-import { getOneReserve } from '@/services/appointments';
+import { getOneReserve, printProof } from '@/services/appointments';
 import bigCheck from '@/assets/icons/bigCheck.svg';
 import llaveInglesa from '@/assets/icons/llaveInglesa.svg';
 import cruzRoja from '@/assets/icons/cruzRoja.svg';
-import { useQuery } from '@tanstack/react-query';
-import { hasCookie } from 'cookies-next';
 import Modal from '@/commons/Modal';
 
 const confirmedReserve = ({ query }: MyPageProps) => {
@@ -33,14 +33,14 @@ const confirmedReserve = ({ query }: MyPageProps) => {
 
   useEffect(() => {
     if (reserve.data?.creationDate) {
-      let currentDate: string = new Date(reserve.data.creationDate).toLocaleString('en-GB', {
+      let currentDate = new Date(reserve.data.creationDate).toLocaleString('en-GB', {
         year: 'numeric',
         month: '2-digit',
         day: '2-digit',
         hour: '2-digit',
         minute: '2-digit',
       });
-      let todayArray: string[] = currentDate.split(',');
+      let todayArray = currentDate.split(',');
       setCreationDate(todayArray);
     }
 
@@ -52,8 +52,7 @@ const confirmedReserve = ({ query }: MyPageProps) => {
         hour: '2-digit',
         minute: '2-digit',
       });
-
-      let newDateArray: string[] = newDate?.split(',');
+      let newDateArray = newDate?.split(',');
       setReserveDate(newDateArray);
     }
   }, [reserve.isSuccess, reserve.isRefetching]);
@@ -74,7 +73,10 @@ const confirmedReserve = ({ query }: MyPageProps) => {
             <p>Recordá revisar tu buzón de correo no deseado o promociones.</p>
           </div>
           <div>
-            <button className=' bg-cruce hover:bg-cruceHover text-white w-96 font-semibold rounded-lg h-11'>
+            <button
+              onClick={() => printProof(reserve.data)}
+              className='bg-cruce hover:bg-cruceHover text-white w-96 font-semibold rounded-lg h-11'
+            >
               ¿Querés imprimir tu comprobante?
             </button>
           </div>
