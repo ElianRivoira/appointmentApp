@@ -9,6 +9,8 @@ import dotenv from 'dotenv';
 import api from'./routes/api';
 import { NotFoundError } from './errors/not-found-error';
 import { errorHandler } from './middlewares/error-handler';
+import { validateLoggedUser } from './middlewares/userValidator';
+import path from 'path';
 
 dotenv.config();
 
@@ -31,6 +33,8 @@ app.use(
   })
 );
 app.use(morgan('dev'));
+
+app.use('/proofs', express.static(path.join(__dirname, './proofs')));
 
 app.use('/api', api);
 

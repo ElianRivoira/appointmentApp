@@ -1,6 +1,6 @@
-import { api } from './axiosInstance';
+import { api, apiForm } from './axiosInstance';
 
-export async function postReserve({ date, branch, name, phone, email, userId }: PostReserve): Promise<ReserveResponse> {
+export async function postReserve({ date, branch, name, phone, email, userId }: PostReserve): Promise<reserveUser> {
   const res = await api.post('/appointments', {
     date,
     branch,
@@ -53,4 +53,13 @@ export async function cancelReserv({ id, cancelReason }: { id: string; cancelRea
 export async function confirmReserve(id: string): Promise<void> {
   const res = await api.put(`/appointments/confirm/${id}`);
   return res.data;
+}
+
+export async function createProof(form: FormData): Promise<void> {
+  const res = await apiForm.put(`/appointments/createProof`, form);
+  return res.data;
+}
+
+export function printProof(reserve: reserveUser | undefined) {
+  window.open(`http://localhost:8000/proofs/${reserve?.name}_proof_${reserve?.id}.pdf`);
 }

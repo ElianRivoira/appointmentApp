@@ -8,6 +8,7 @@ import { ServerError } from '../../errors/server-error';
 import { RequestValidationError } from '../../errors/request-validation-error';
 import setReservesMetrics from '../../utils/setMetrics';
 import { IAllBranchesMetrics } from '../../interfaces/IMetrics';
+import { sendAppointmentProof } from '../../utils/emails';
 
 const httpPostReserve = async (req: Request, res: Response) => {
   const errors = validationResult(req);
@@ -23,6 +24,7 @@ const httpPostReserve = async (req: Request, res: Response) => {
       phone: req.body.phone,
       email: req.body.email,
     });
+    reserve && sendAppointmentProof(reserve)
     res.status(201).send(reserve);
   } catch (e) {
     throw new ServerError(e);
@@ -104,6 +106,14 @@ const httpCancelAppointment = async (req: Request, res: Response) => {
   }
 };
 
+const httpCreateProof = async (req: Request, res: Response) => {
+  try {
+    res.sendStatus(201);
+  } catch (e) {
+    throw new ServerError(e);
+  }
+};
+
 export default {
   httpPostReserve,
   httpGetAllAppointmentsFromUser,
@@ -112,4 +122,5 @@ export default {
   httpEditAppointment,
   httpConfirmAppointment,
   httpCancelAppointment,
+  httpCreateProof,
 };
