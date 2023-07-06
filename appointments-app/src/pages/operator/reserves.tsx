@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
+import { hasCookie } from 'cookies-next';
 
 import Reserve from '@/components/Reserve';
 import { getBranch } from '@/services/branches';
 import { useQuery } from '@tanstack/react-query';
-import { hasCookie } from 'cookies-next';
 import { getLoggedUser } from '@/services/users';
 import Modal from '@/commons/Modal';
 import Spinner2 from '@/components/General/Spinner2';
