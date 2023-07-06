@@ -17,15 +17,15 @@ dotenv.config();
 const app = express();
 
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: 'https://appointment-bp5hszhpf-elianrivoira.vercel.app',
   credentials: true,
 }));
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(
   cookieSession({
-    name: 'session', // Replace with your own secret key
-    secret: process.env.TOKEN_PASSPHRASE,
+    name: 'session', 
+    secret: process.env.TOKEN_PASSPHRASE, // Replace with your own secret key
     maxAge: 24 * 60 * 60 * 1000, // Set the cookie to expire after 24 hours
     secure: false, // Set to true if using HTTPS
     httpOnly: false,

@@ -39,7 +39,7 @@ const sendPasswordChangerEmail = (data: any) => {
     text: 'Password change',
     html: `
     <p>To follow the password change process click in the link below</p>
-    <a href='http://localhost:3000/passwordChange/${data.id}'>Change password</a>`,
+    <a href='${process.env.FRONT_IP_PUBLIC}/passwordChange/${data.id}'>Change password</a>`,
   };
   send(mailOptions);
 };
