@@ -52,7 +52,7 @@ const sendAppointmentProof = (reserve: AppointmentDoc) => {
     html: `
     <h1>COMPROBANTE DE TURNO</h1>
     <h3>¡Gracias por tu reserva!</h3>
-    <p>Presentate con este <a href='http://localhost:8000/proofs/${reserve.name}_proof_${reserve.id}.pdf' target='_blank'>comprobante</a> en la sucursal indicada.</p>
+    <p>Presentate con este <a href='${process.env.NEXT_PUBLIC_DOWNLOAD}/proofs/${reserve.name}_proof_${reserve.id}.pdf' target='_blank'>comprobante</a> en la sucursal indicada.</p>
     `,
   };
   send(mailOptions);
