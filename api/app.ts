@@ -17,7 +17,7 @@ dotenv.config();
 const app = express();
 
 app.use(cors({
-  origin: 'https://appointment-bp5hszhpf-elianrivoira.vercel.app',
+  origin: `${process.env.FRONT_IP_PUBLIC}`,
   credentials: true,
 }));
 app.use(express.json());
