@@ -61,5 +61,5 @@ export async function createProof(form: FormData): Promise<void> {
 }
 
 export function printProof(reserve: reserveUser | undefined) {
-  window.open(`http://localhost:8000/proofs/${reserve?.name}_proof_${reserve?.id}.pdf`);
+  window.open(`${process.env.NEXT_PUBLIC_DOWNLOAD}/proofs/${reserve?.name}_proof_${reserve?.id}.pdf`);
 }
