@@ -6,9 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import { hasCookie } from 'cookies-next';
 import { getLoggedUser } from '@/services/users';
 import Modal from '@/commons/Modal';
-import Spinner from '@/components/General/Spinner';
-import Spinner3 from '@/components/Spinner3';
-import Spinner2 from '@/components/Spinner2';
+import Spinner2 from '@/components/General/Spinner2';
 
 const Reserves = () => {
   const [open, setOpen] = useState(false);
