@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 import User, { UserAttrs } from './User.model';
 import { generateToken } from '../utils/tokens';
 import { ServerError } from '../errors/server-error';
-import UserLogin from '../interfaces/UserLogin';
+import UserLogin from '../interfaces/userLogin';
 import { BranchOfficeDoc } from './BranchOffice.model';
 import { BadRequestError } from '../errors/bad-request-error';
 
