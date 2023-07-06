@@ -28,7 +28,7 @@ app.use(
     secret: process.env.TOKEN_PASSPHRASE, // Replace with your own secret key
     maxAge: 24 * 60 * 60 * 1000, // Set the cookie to expire after 24 hours
     secure: true, // Set to true if using HTTPS
-    httpOnly: false,
+    httpOnly: true,
     sameSite: 'none',
   })
 );
