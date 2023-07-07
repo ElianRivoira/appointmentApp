@@ -29,7 +29,7 @@ app.use(
     maxAge: 24 * 60 * 60 * 1000, // Set the cookie to expire after 24 hours
     secure: true, // Set to true if using HTTPS
     httpOnly: true,
-    sameSite: 'none',
+    sameSite: false,
     domain: '.vercel.app'
   })
 );
