@@ -15,12 +15,7 @@ import path from 'path';
 dotenv.config();
 
 const app = express();
-app.set("trust proxy", 1);
 
-app.use(cors({
-  origin: `${process.env.FRONT_IP_PUBLIC}`,
-  credentials: true,
-}));
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(
@@ -30,10 +25,17 @@ app.use(
     maxAge: 24 * 60 * 60 * 1000, // Set the cookie to expire after 24 hours
     secure: true, // Set to true if using HTTPS
     httpOnly: true,
-    sameSite: false,
-    domain: '.vercel.app'
+    sameSite: 'none',
   })
-);
+  );
+
+app.enable('trust proxy');
+
+app.use(cors({
+  origin: `${process.env.FRONT_IP_PUBLIC}`,
+  credentials: true,
+}));
+
 app.use(morgan('dev'));
 
 app.use('/proofs', express.static(path.join(__dirname, './proofs')));
