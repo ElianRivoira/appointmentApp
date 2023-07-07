@@ -29,7 +29,7 @@ app.use(
   })
   );
 
-app.enable('trust proxy');
+// app.enable('trust proxy');
 
 app.use(cors({
   origin: `${process.env.FRONT_IP_PUBLIC}`,
