@@ -26,6 +26,7 @@ app.use(
     secure: true, // Set to true if using HTTPS
     httpOnly: true,
     sameSite: 'none',
+    domain: 'appointmentapp-api.onrender.com'
   })
   );
 
