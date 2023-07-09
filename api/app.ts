@@ -17,24 +17,26 @@ dotenv.config();
 const app = express();
 
 app.use(express.json());
+
+app.use(cors({
+  origin: `${process.env.FRONT_IP_PUBLIC}`,
+  credentials: true,
+}));
+
 app.use(bodyParser.json());
+
 app.use(
   cookieSession({
-    name: 'session', 
-    secret: process.env.TOKEN_PASSPHRASE, // Replace with your own secret key
-    maxAge: 24 * 60 * 60 * 1000, // Set the cookie to expire after 24 hours
-    secure: true, // Set to true if using HTTPS
+    name: 'session',
+    secret: process.env.TOKEN_PASSPHRASE,
+    maxAge: 24 * 60 * 60 * 1000,
+    secure: true,
     httpOnly: true,
     sameSite: 'none',
   })
   );
 
 // app.enable('trust proxy');
-
-app.use(cors({
-  origin: `${process.env.FRONT_IP_PUBLIC}`,
-  credentials: true,
-}));
 
 // app.use(function(req, res, next) {
 //   res.header("Access-Control-Allow-Origin", `${process.env.FRONT_IP_PUBLIC}`); // update to match the domain you will make the request from
