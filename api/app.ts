@@ -15,6 +15,7 @@ import path from 'path';
 dotenv.config();
 
 const app = express();
+app.enable('trust proxy');
 
 app.use(express.json());
 
@@ -24,6 +25,12 @@ app.use(cors({
 }));
 
 app.use(bodyParser.json());
+
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", `${process.env.FRONT_IP_PUBLIC}`); // update to match the domain you will make the request from
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 app.use(
   cookieSession({
@@ -36,13 +43,6 @@ app.use(
   })
   );
 
-// app.enable('trust proxy');
-
-// app.use(function(req, res, next) {
-//   res.header("Access-Control-Allow-Origin", `${process.env.FRONT_IP_PUBLIC}`); // update to match the domain you will make the request from
-//   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-//   next();
-// });
 
 app.use(morgan('dev'));
 
