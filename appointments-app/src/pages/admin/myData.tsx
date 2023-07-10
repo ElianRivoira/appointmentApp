@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
+import { useMutation, useQuery } from '@tanstack/react-query';
 
-import { AppDispatch, RootState } from '@/store';
-import { fetchUser } from '@/store/slices/userSlice';
-import { sendPassEmail, updateUser } from '@/services/users';
+import { getLoggedUser, sendPassEmail, updateUser } from '@/services/users';
 import Modal from '@/commons/Modal';
-import { useMutation } from '@tanstack/react-query';
+import { checkLocalStorage } from '@/utils/localStorage';
 
 const myData = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  const { user } = useSelector((state: RootState) => state.user);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [dni, setDni] = useState(0);
@@ -18,6 +14,24 @@ const myData = () => {
   const [type, setType] = useState(0);
   const [errors, setErrors] = useState<CustomError[]>([]);
   const [message, setMessage] = useState('');
+
+  const loggedUser = useQuery({
+    queryKey: ['loggedUser'],
+    enabled: checkLocalStorage('session'),
+    queryFn: getLoggedUser,
+    onError: error => {
+      setType(2);
+      setErrors((error as any).response.data.errors);
+      setOpen(true);
+    },
+    onSuccess: user => {
+      if (user) {
+        setName(user.name);
+        setDni(user.dni);
+        setEmail(user.email);
+      }
+    },
+  });
 
   const putUser = useMutation({
     mutationFn: updateUser,
@@ -48,27 +62,15 @@ const myData = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (user) {
+    if (loggedUser.data) {
       putUser.mutate({
-        id: user._id,
+        id: loggedUser.data._id,
         name,
         email,
         dni,
       });
     }
   };
-
-  useEffect(() => {
-    if (user) {
-      setName(user.name);
-      setDni(user.dni);
-      setEmail(user.email);
-    }
-  }, [user]);
-
-  useEffect(() => {
-    dispatch(fetchUser());
-  }, []);
 
   return (
     <div className='h-screen bg-cruceBackground'>
@@ -117,7 +119,7 @@ const myData = () => {
                 type='button'
                 className='font-semibold text-ss text-cruce hover:text-cruceHover'
                 onClick={() => {
-                  user && passEmail.mutate({ id: user._id, email: email });
+                  loggedUser.data && passEmail.mutate({ id: loggedUser.data._id, email: email });
                 }}
               >
                 Editar contraseña

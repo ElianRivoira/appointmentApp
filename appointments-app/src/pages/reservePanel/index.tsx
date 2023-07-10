@@ -56,20 +56,22 @@ const ReservePanel = () => {
       setOpen(true);
     },
     onSuccess: branches => {
-      setDbBranches([
-        ...branches,
-        {
-          _id: '',
-          name: '',
-          email: '',
-          phone: 0,
-          capacity: 0,
-          openHour: '',
-          closeHour: '',
-          shifts: {},
-          appointments: [],
-        },
-      ]);
+      if(branches){
+        setDbBranches([
+          ...branches,
+          {
+            _id: '',
+            name: '',
+            email: '',
+            phone: 0,
+            capacity: 0,
+            openHour: '',
+            closeHour: '',
+            shifts: {},
+            appointments: [],
+          },
+        ]);
+      }
     },
   });
 
@@ -89,8 +91,10 @@ const ReservePanel = () => {
   const createReserve = useMutation({
     mutationFn: postReserve,
     onSuccess: reserve => {
-      setReserveId(reserve._id);
-      generateAppointmentProof(reserve, branch, postProof);
+      if(reserve){
+        setReserveId(reserve._id);
+        generateAppointmentProof(reserve, branch, postProof);
+      }
     },
     onError: (err: any) => {
       setType(2);

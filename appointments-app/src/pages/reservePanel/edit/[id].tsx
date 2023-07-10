@@ -88,7 +88,7 @@ const ReservePanel = ({ query }: MyPageProps) => {
       setStart(true);
       const branchByName = async () => {
         let branchByName = await getBranchByName(branch);
-        setShifts(branchByName.shifts[date.toLocaleDateString()]);
+        branchByName && setShifts(branchByName.shifts[date.toLocaleDateString()]);
       };
       branchByName();
     }

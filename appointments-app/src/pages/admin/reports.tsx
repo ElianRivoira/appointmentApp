@@ -85,8 +85,10 @@ const reports = () => {
       setOpen(true);
     },
     onSuccess: allReservesMetrics => {
-      setMetrics(allReservesMetrics.all);
-      calcBarsWidth(allReservesMetrics.all.advanceReserves);
+      if(allReservesMetrics){
+        setMetrics(allReservesMetrics.all);
+        calcBarsWidth(allReservesMetrics.all.advanceReserves);
+      }
     },
   });
 
