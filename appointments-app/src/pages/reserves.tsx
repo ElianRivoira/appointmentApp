@@ -7,6 +7,7 @@ import Reserve from '@/components/Reserve';
 import { getLoggedUser } from '@/services/users';
 import Modal from '@/commons/Modal';
 import { checkLocalStorage } from '@/utils/localStorage';
+import Spinner2 from '@/components/General/Spinner2';
 
 const Reserves = () => {
   const [open, setOpen] = useState(false);
@@ -34,6 +35,8 @@ const Reserves = () => {
       setOpen(true);
     },
   });
+
+  if(loggedUser.isLoading || reserves.isLoading) return <Spinner2 />
 
   return (
     <div className='mt-12 mx-24 pb-16'>
