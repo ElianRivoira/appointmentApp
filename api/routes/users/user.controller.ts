@@ -37,11 +37,14 @@ async function httpUserLogin(req: Request, res: Response) {
 
     const response = await userService.userLogin(user);
 
-    if (req.session) {
-      req.session.token = response?.token;
-    }
+    response &&
+      res.cookie('session', response.token, {
+        sameSite: 'none',
+        secure: true,
+        path: '/api',
+      });
 
-    res.send(response?.user);
+    res.send(response);
   } catch (e) {
     throw new ServerError(e);
   }
