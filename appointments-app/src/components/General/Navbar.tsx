@@ -30,7 +30,7 @@ const Navbar = () => {
   const loggedUser = useQuery({
     queryKey: ['loggedUser'],
     retry: 1,
-    enabled: router.pathname !== '/login' && router.pathname !== '/register',
+    enabled: router.pathname !== '/login' && router.pathname !== '/register' && router.pathname !== '/',
     queryFn: getLoggedUser,
     onError: error => {
       setType(2);

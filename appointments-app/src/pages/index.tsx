@@ -1,19 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { hasCookie } from 'cookies-next';
 import { useQuery } from '@tanstack/react-query';
 
 import { getLoggedUser } from '@/services/users';
 import Spinner2 from '@/components/General/Spinner2';
-import { checkLocalStorage } from '@/utils/localStorage';
 
 const Index = () => {
   const router = useRouter();
+  const [cookieError, setCookieError] = useState(false);
 
   const loggedUser = useQuery({
-    queryKey: ['loggedUser'],
-    enabled: checkLocalStorage('session'),
+    queryKey: ['loggedUser index'],
+    retry: 1,
     queryFn: getLoggedUser,
+    onError: error => {
+      setCookieError(true);
+    },
   });
 
   if (loggedUser.isLoading) return <Spinner2 />;
@@ -26,6 +29,7 @@ const Index = () => {
       router.push('admin/operators');
     }
   }
+  if (cookieError) router.push('/login');
 
   return <></>;
 };
