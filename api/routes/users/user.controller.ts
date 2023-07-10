@@ -41,6 +41,7 @@ async function httpUserLogin(req: Request, res: Response) {
       res.cookie('session', response.token, {
         sameSite: 'none',
         secure: true,
+        httpOnly: true,
         path: '/api',
       });
 
