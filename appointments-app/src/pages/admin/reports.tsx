@@ -14,6 +14,7 @@ import styles from '@/styles/Reports.module.css';
 import PieChart from '@/components/Reports/PieChart';
 import ReportModal from '@/components/Reports/ReportModal';
 import { checkLocalStorage } from '@/utils/localStorage';
+import Spinner2 from '@/components/General/Spinner2';
 
 const reports = () => {
   const bar1 = useRef<HTMLDivElement>(null);
@@ -103,6 +104,8 @@ const reports = () => {
       }
     }
   }, [branch]);
+
+  if(reservesMetrics.isLoading || branches.isLoading) return <Spinner2 />
 
   return (
     <div className='bg-cruceBackground justify-center'>

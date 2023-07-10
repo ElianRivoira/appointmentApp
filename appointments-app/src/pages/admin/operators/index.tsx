@@ -6,6 +6,7 @@ import List from '@/components/List';
 import { getOperators } from '@/services/operators';
 import Modal from '@/commons/Modal';
 import { checkLocalStorage } from '@/utils/localStorage';
+import Spinner2 from '@/components/General/Spinner2';
 
 const Operators = () => {
   const [open, setOpen] = useState(false);
@@ -22,6 +23,8 @@ const Operators = () => {
       setOpen(true);
     },
   });
+
+  if(operators.isLoading) return <Spinner2 />
 
   return (
     <>

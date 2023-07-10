@@ -6,6 +6,7 @@ import List from '@/components/List';
 import { getBranches } from '@/services/branches';
 import Modal from '@/commons/Modal';
 import { checkLocalStorage } from '@/utils/localStorage';
+import Spinner2 from '@/components/General/Spinner2';
 
 const branches = () => {
   const [open, setOpen] = useState(false);
@@ -22,6 +23,8 @@ const branches = () => {
       setOpen(true);
     },
   });
+
+  if(branches.isLoading) return <Spinner2 />
 
   return (
     <>

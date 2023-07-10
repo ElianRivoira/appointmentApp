@@ -15,6 +15,7 @@ import { getLoggedUser } from '@/services/users';
 import formatTime from '@/utils/formatTime';
 import { generateAppointmentProof } from '@/utils/generatePDF/appointmentProof';
 import { checkLocalStorage } from '@/utils/localStorage';
+import Spinner2 from '@/components/General/Spinner2';
 
 const ReservePanel = () => {
   const [date, setDate] = useState(new Date());
@@ -140,6 +141,8 @@ const ReservePanel = () => {
       setTime(branchObject.shifts[findDate][0]);
     }
   }, [date]);
+
+  if(loggedUser.isLoading || branches.isLoading) return <Spinner2 />
 
   return (
     <div className='h-screen bg-cruceBackground'>

@@ -7,6 +7,7 @@ import Modal from '@/commons/Modal';
 import { checkLocalStorage } from '@/utils/localStorage';
 import Input from '@/commons/Input';
 import Button from '@/commons/Button';
+import Spinner2 from '@/components/General/Spinner2';
 
 const myData = () => {
   const [name, setName] = useState('');
@@ -75,6 +76,8 @@ const myData = () => {
       if (loggedUser.data.phone) setPhone(loggedUser.data.phone);
     }
   }, [loggedUser.isSuccess, loggedUser.isRefetching]);
+
+  if(loggedUser.isLoading) return <Spinner2 />
 
   return (
     <div className='flex justify-center'>
