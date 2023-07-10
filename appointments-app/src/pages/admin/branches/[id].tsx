@@ -102,7 +102,7 @@ const EditBranch = ({ query }: MyPageProps) => {
   }, [open]);
 
   return (
-    <div className='h-screen bg-cruceBackground'>
+    <div className='bg-cruceBackground'>
       <div className='flex justify-center'>
         <div className='flex flex-col w-3/4 max-w-screen-md h-3/5 mt-12 p-10 pb-8 border rounded-xl shadow-navbar bg-white'>
           <div className='flex justify-between items-center mb-4'>

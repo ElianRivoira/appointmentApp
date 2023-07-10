@@ -36,7 +36,7 @@ const Reserves = () => {
   });
 
   return (
-    <div className='mt-12 mx-24'>
+    <div className='mt-12 mx-24 pb-16'>
       <div className='font-semibold text-xl mb-6'>Reservas</div>
       <div>
         {reserves.data?.map(reserve => (

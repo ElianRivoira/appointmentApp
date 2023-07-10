@@ -140,12 +140,12 @@ const ReservePanel = () => {
       setShifts(branchObject.shifts[findDate]);
       setTime(branchObject.shifts[findDate][0]);
     }
-  }, [date]);
+  }, [date, branchObject]);
 
   if(loggedUser.isLoading || branches.isLoading) return <Spinner2 />
 
   return (
-    <div className='h-screen bg-cruceBackground'>
+    <div className='bg-cruceBackground'>
       <div className='flex flex-col lg:mx-32 2xl:mx-44'>
         <div className='mt-12 mb-6 flex justify-around lg:justify-between'>
           <div className='w-3/6'>

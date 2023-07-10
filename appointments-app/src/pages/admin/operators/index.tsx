@@ -28,7 +28,7 @@ const Operators = () => {
 
   return (
     <>
-      <div className='mt-12 mx-24'>
+      <div className='mt-12 mx-24 pb-16'>
         <h1 className='font-semibold text-xl mb-6'>Operadores</h1>
         <div>
           {operators.data?.map(oper => (

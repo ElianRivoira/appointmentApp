@@ -28,7 +28,7 @@ const branches = () => {
 
   return (
     <>
-      <div className='mt-12 mx-24'>
+      <div className='mt-12 mx-24 pb-16'>
         <h1 className='font-semibold text-xl mb-6'>Sucursales</h1>
         <div>
           {branches.data?.map(branch => (branch.name === '' ? <></> : <List branch={branch} key={branch._id} />))}

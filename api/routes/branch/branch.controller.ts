@@ -79,7 +79,6 @@ cron.schedule(
     branches.forEach(async branch => {
       const shifts = branch.setShifts(date, branch.shifts, true);
       await branch.updateOne({ shifts: { ...branch.shifts, ...shifts } });
-      // await branch.save();
     });
     console.log('cron branches executed');
   },

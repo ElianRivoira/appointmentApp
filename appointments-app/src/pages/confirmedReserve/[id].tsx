@@ -59,7 +59,7 @@ const confirmedReserve = ({ query }: MyPageProps) => {
   }, [reserve.isSuccess, reserve.isRefetching]);
 
   return (
-    <div className='min-h-screen'>
+    <div className=''>
       <div className='mx-24'>
         <div className='flex flex-col items-center mt-9 mb-14'>
           <div className='mb-7'>
