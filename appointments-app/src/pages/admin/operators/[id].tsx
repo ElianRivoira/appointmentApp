@@ -10,6 +10,7 @@ import { deleteOneOperator, getOneOperator } from '@/services/operators';
 import OperatorsForm from '@/components/OperatorsForm';
 import { updateUser } from '@/services/users';
 import { checkLocalStorage } from '@/utils/localStorage';
+import Button from '@/commons/Button';
 
 const EditOperators = ({ query }: MyPageProps) => {
   const [open, setOpen] = useState(false);
@@ -121,12 +122,9 @@ const EditOperators = ({ query }: MyPageProps) => {
         <div className='flex flex-col w-3/4 max-w-screen-md h-3/5 mt-12 p-10 pb-8 border rounded-xl shadow-navbar bg-white'>
           <div className='flex justify-between items-center mb-4'>
             <p className='font-bold text-xb'>Edición de operador</p>
-            <button
-              onClick={handleDelete}
-              className='h-11 px-6 py-3 rounded-lg bg-error font-semibold text-ls text-white active:shadow-active hover:bg-errorHover'
-            >
+            <Button type='button' onClick={handleDelete} style='bg-error hover:bg-errorHover w-fit px-6'>
               Eliminar
-            </button>
+            </Button>
           </div>
           <OperatorsForm
             handleSubmit={handleSubmit}

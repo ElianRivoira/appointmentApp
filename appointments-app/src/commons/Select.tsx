@@ -28,7 +28,7 @@ const Select: React.FC<selectProps> = ({
   console.log(data);
   return (
     <>
-      <label htmlFor='phone' className='text-sm font-medium'>
+      <label htmlFor={id} className='text-sm font-medium'>
         {label}
       </label>
       <select

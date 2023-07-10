@@ -13,6 +13,7 @@ interface ModalProps {
   type: number;
   deleteMessage?: string;
   type3Message?: string;
+  type3Img?: string;
 }
 
 const Modal: React.FC<ModalProps> = ({
@@ -24,6 +25,7 @@ const Modal: React.FC<ModalProps> = ({
   type,
   deleteMessage,
   type3Message,
+  type3Img,
 }) => {
   if (!open) return null;
   return (
@@ -32,11 +34,7 @@ const Modal: React.FC<ModalProps> = ({
       <div className='text-center fixed top-2/4 lgMax:left-3 lgMax:right-3 lg:left-2/4 -translate-y-2/4 lg:-translate-x-2/4 bg-white p-8 z-50 rounded-md font-semibold text-ln flex flex-col items-center'>
         {type === 1 ? (
           <>
-            <Image
-              src={rightCheckbox}
-              alt='success'
-              className='w-12 h-12 mb-7'
-            />
+            <Image src={rightCheckbox} alt='success' className='w-12 h-12 mb-7' />
             {children}
           </>
         ) : type === 2 ? (
@@ -46,13 +44,9 @@ const Modal: React.FC<ModalProps> = ({
               {errors?.map((err, index) => (
                 <li key={index}>
                   <h1>{err.message.split(/[.:]/)[0]}</h1>
-                  <p className='text-sm font-normal mt-1'>
-                    {err.message.split(/[.:]/)[1]}
-                  </p>
+                  <p className='text-sm font-normal mt-1'>{err.message.split(/[.:]/)[1]}</p>
                   {err.message.split(/[.:]/)[2] && (
-                    <p className='text-sm font-normal mt-1'>
-                      {err.message.split(/[.:]/)[2]}
-                    </p>
+                    <p className='text-sm font-normal mt-1'>{err.message.split(/[.:]/)[2]}</p>
                   )}
                 </li>
               ))}
@@ -61,8 +55,8 @@ const Modal: React.FC<ModalProps> = ({
         ) : type === 3 ? (
           <>
             <Image
-              src={rightCheckbox}
-              alt='success'
+              src={type3Img === 'error' ? wrongCheckbox : rightCheckbox}
+              alt={type3Img === 'error' ? 'error' : 'success'}
               className='w-12 h-12 mb-7'
             />
             <h1>{type3Message}</h1>

@@ -17,7 +17,7 @@ const PasswordInput: React.FC<PasswordInputProps> = ({ label, name, id, value, o
 
   return (
     <>
-      <label htmlFor='password' className='text-sm font-medium'>
+      <label htmlFor={id} className='text-sm font-medium'>
         {label}
       </label>
       <div className='relative'>

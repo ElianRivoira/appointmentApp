@@ -5,6 +5,9 @@ import { useRouter } from 'next/router';
 import { login } from '../services/users';
 import Modal from '@/commons/Modal';
 import { useMutation } from '@tanstack/react-query';
+import Button from '@/commons/Button';
+import PasswordInput from '@/commons/PasswordInput';
+import Input from '@/commons/Input';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -59,51 +62,36 @@ const Login = () => {
         <div className='flex flex-col w-3/4 max-w-screen-sm h-3/5 mt-32 px-8 pt-10 pb-8 border rounded-xl shadow-xg bg-white'>
           <p className='text-center mb-8 font-bold text-2xl'>Iniciar Sesión</p>
           <form onSubmit={handleSubmit}>
-            <label htmlFor='email' className='text-sm font-medium'>
-              Email
-            </label>
-            <input
-              type='text'
+            <Input
+              label='Email'
+              type='email'
               name='email'
               id='email'
+              pattern='[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$'
               value={email}
               onChange={e => setEmail(e.target.value)}
               required
-              className='w-full border border-solid border-grey-500 focus:border-cruce rounded-lg h-11 mb-3 outline-none p-3'
             />
-            <label htmlFor='password' className='text-sm font-medium'>
-              Contraseña
-            </label>
-            <input
-              type='password'
+            <PasswordInput
+              label='Contraseña'
               name='password'
               id='password'
               value={password}
               onChange={e => setPassword(e.target.value)}
               required
-              className='w-full border border-solid border-grey-500 focus:border-cruce rounded-lg h-11 mb-6 outline-none p-3'
             />
-            <div className='flex justify-center'>
+            <div className='flex justify-center mt-6'>
               <button className='font-bold text-ss mb-5 text-cruce hover:text-cruceHover'>
                 ¿Olvidaste tu contraseña?
               </button>
             </div>
             <div className='flex flex-col justify-center'>
               {email && password.length >= 8 ? (
-                <button
-                  type='submit'
-                  className='mb-5 bg-cruce text-white h-11 rounded-lg font-semibold text-lb hover:bg-cruceHover active:shadow-active'
-                >
-                  Ingresar
-                </button>
+                <Button type='submit'>Ingresar</Button>
               ) : (
-                <button
-                  type='submit'
-                  className='mb-5 bg-grey3 text-grey6 h-11 rounded-lg font-semibold text-lb'
-                  disabled
-                >
+                <Button type='submit' disabled>
                   Ingresar
-                </button>
+                </Button>
               )}
               <hr className='border-grey3' />
               <Link href={'register'} className='mt-5 '>

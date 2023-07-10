@@ -5,6 +5,8 @@ import { hasCookie } from 'cookies-next';
 import { getLoggedUser, sendPassEmail, updateUser } from '@/services/users';
 import Modal from '@/commons/Modal';
 import { checkLocalStorage } from '@/utils/localStorage';
+import Input from '@/commons/Input';
+import Button from '@/commons/Button';
 
 const myData = () => {
   const [name, setName] = useState('');
@@ -79,70 +81,67 @@ const myData = () => {
       <div className='flex flex-col w-3/4 max-w-screen-md h-3/5 mt-12 p-10 pb-8 border rounded-xl shadow-navbar bg-white'>
         <p className='mb-4 font-bold text-xb'>Mis Datos</p>
         <form onSubmit={handleSubmit}>
-          <label htmlFor='username' className='text-sm font-medium'>
-            Nombre
-          </label>
-          <input
+          <Input
+            label='Nombre'
             type='text'
             name='username'
             id='username'
             value={name}
             onChange={e => setName(e.target.value)}
             required
-            className='w-full border border-solid border-grey-500 focus:border-cruce rounded-lg h-11 mb-3 outline-none p-3'
           />
-          <label htmlFor='email' className='text-sm font-medium'>
-            Correo electrónico
-          </label>
-          <input
+          <Input
+            label='Correo electrónico'
             type='email'
             name='email'
             id='email'
             value={email}
             onChange={e => setEmail(e.target.value)}
             required
-            className='w-full border border-solid border-grey-500 focus:border-cruce rounded-lg h-11 mb-3 outline-none p-3'
           />
-          <label htmlFor='phone' className='text-sm font-medium'>
-            Teléfono
-          </label>
-          <input
+          <Input
+            label='Teléfono'
             type='tel'
             name='phone'
             id='phone'
             value={phone}
             onChange={e => setPhone(Number(e.target.value))}
             required
-            className='w-full border border-solid border-grey-500 focus:border-cruce rounded-lg h-11 mb-3 outline-none p-3'
           />
           <div className='flex mb-3'>
             <div className='w-1/2 mr-4'>
-              <label htmlFor='dni' className='text-sm font-medium'>
-                DNI
-              </label>
-              <input
+              <Input
+                label='DNI'
                 type='tel'
                 name='dni'
                 id='dni'
                 value={dni}
                 onChange={e => setDni(Number(e.target.value))}
                 required
-                className='w-full border border-solid border-grey-500 focus:border-cruce rounded-lg h-11 outline-none p-3'
               />
             </div>
             <div className='w-1/2'>
-              <label htmlFor='branch' className='text-sm font-medium'>
+              <Input
+                label='Sucursal'
+                type='text'
+                name='branch'
+                id='branch'
+                value={branch}
+                onChange={e => setBranch(e.target.value)}
+                disabled
+              />
+              {/* <label htmlFor='branch' className='text-sm font-medium'>
                 Sucursal
               </label>
               <input
-                type='tel'
+                type='tex'
                 name='branch'
                 id='branch'
                 value={branch}
                 onChange={e => setBranch(e.target.value)}
                 className='w-full border border-solid border-grey-500 focus:border-cruce rounded-lg h-11 outline-none p-3 text-grey5'
                 disabled
-              />
+              /> */}
             </div>
           </div>
           <div className='flex justify-start'>
@@ -155,13 +154,7 @@ const myData = () => {
             </button>
           </div>
           <div className='flex mt-4'>
-            <button
-              type='submit'
-              className=' bg-cruce hover:bg-cruceHover text-white font-semibold text-lb rounded-lg h-11 w-full'
-              onClick={() => {}}
-            >
-              Aceptar
-            </button>
+            <Button type='submit'>Aceptar</Button>
           </div>
         </form>
         <Modal type={type} errors={errors} type3Message={message} open={open} onClose={() => setOpen(false)}>

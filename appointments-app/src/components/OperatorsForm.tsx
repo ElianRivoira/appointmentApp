@@ -94,6 +94,7 @@ const OperatorsForm: React.FC<OperatorFormProps> = ({
             }}
             required
             data={branches}
+            dataType='object'
             width='full'
           />
         </div>

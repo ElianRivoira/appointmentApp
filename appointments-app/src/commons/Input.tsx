@@ -11,12 +11,13 @@ interface inputProps {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   required?: boolean;
   width?: string;
+  disabled?: boolean;
 }
 
-const Input: React.FC<inputProps> = ({ label, type, name, id, placeholder, pattern, value, onChange, required, width }) => {
+const Input: React.FC<inputProps> = ({ label, type, name, id, placeholder, pattern, value, onChange, required, width, disabled }) => {
   return (
     <>
-      <label htmlFor='username' className='text-sm font-medium'>
+      <label htmlFor={id} className='text-sm font-medium'>
         {label}
       </label>
       <input
@@ -29,6 +30,7 @@ const Input: React.FC<inputProps> = ({ label, type, name, id, placeholder, patte
         onChange={onChange}
         required={required}
         className={`${width ? `w-${width}` : 'w-full'} border border-solid border-grey-500 hover:border-grey5 focus:border-cruce rounded-lg h-11 mb-3 outline-none p-3`}
+        disabled={disabled}
       />
     </>
   );

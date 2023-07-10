@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import openEye from '@/assets/icons/openEye.svg';
 import flechitaIzq from '@/assets/icons/flechitaIzq.svg';
 import rightCheckbox from '@/assets/icons/rightCheckbox.svg';
 import wrongCheckbox from '@/assets/icons/wrongCheckbox.svg';
@@ -12,6 +11,7 @@ import { useMutation } from '@tanstack/react-query';
 import Input from '@/commons/Input';
 import PasswordInput from '@/commons/PasswordInput';
 import Button from '@/commons/Button';
+import { useRouter } from 'next/router';
 
 const Register = () => {
   const [name, setName] = useState('');
@@ -19,8 +19,6 @@ const Register = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordTwo, setPasswordTwo] = useState('');
-  const [visibleOne, setVisibleOne] = useState(false);
-  const [visibleTwo, setVisibleTwo] = useState(false);
   const [mayus, setMayus] = useState(0);
   const [minus, setMinus] = useState(0);
   const [numb, setNumb] = useState(0);
@@ -29,6 +27,9 @@ const Register = () => {
   const [type, setType] = useState(0);
   const [errors, setErrors] = useState<CustomError[]>([]);
   const [message, setMessage] = useState('');
+  const [type3Img, setType3Img] = useState('');
+
+  const router = useRouter();
 
   useEffect(() => {
     const hasUppercase = (str: string) => {
@@ -50,26 +51,14 @@ const Register = () => {
       setLength(0);
     }
     if (password.length > 0) {
-      if (hasUppercase(password)) {
-        setMayus(2);
-      } else {
-        setMayus(1);
-      }
-      if (hasLowercase(password)) {
-        setMinus(2);
-      } else {
-        setMinus(1);
-      }
-      if (hasNumber(password)) {
-        setNumb(2);
-      } else {
-        setNumb(1);
-      }
-      if (enoughLength(password)) {
-        setLength(2);
-      } else {
-        setLength(1);
-      }
+      if (hasUppercase(password)) setMayus(1);
+      else setMayus(0);
+      if (hasLowercase(password)) setMinus(1);
+      else setMinus(0);
+      if (hasNumber(password)) setNumb(1);
+      else setNumb(0);
+      if (enoughLength(password)) setLength(1);
+      else setLength(0);
     }
   }, [password]);
 
@@ -88,18 +77,20 @@ const Register = () => {
 
   const registerButton = (e: React.FormEvent) => {
     e.preventDefault();
-    if (mayus === 2 && minus === 2 && numb === 2 && length === 2) {
+    if (mayus === 1 && minus === 1 && numb === 1 && length === 1) {
       if (password !== passwordTwo) {
         setMessage('Las contraseñas deben coincidir');
         setType(3);
+        setType3Img('error');
         setOpen(true);
       } else {
         let numberDni = Number(dni);
         createUser.mutate({ name, dni: numberDni, email, password });
       }
     } else {
-      setMessage('Tiene que cumplir las condiciones primero');
+      setMessage('La contraseña debe cumplir las condiciones');
       setType(3);
+      setType3Img('error');
       setOpen(true);
     }
   };
@@ -123,6 +114,14 @@ const Register = () => {
   const handlePasswordTwo = (e: any) => {
     setPasswordTwo(e.target.value);
   };
+
+  useEffect(() => {
+    if (type === 1 && !open) {
+      router.push({
+        pathname: `/login`,
+      });
+    }
+  }, [open]);
 
   return (
     <div className='flex justify-center'>
@@ -152,20 +151,12 @@ const Register = () => {
               />
             </div>
             <div className='w-1/2 flex flex-col'>
-              <Input
-                label='DNI'
-                type='tel'
-                name='dni'
-                id='dni'
-                value={dni}
-                onChange={handleDni}
-                required
-              />
+              <Input label='DNI' type='tel' name='dni' id='dni' value={dni} onChange={handleDni} required />
             </div>
           </div>
           <div className='flex flex-col'>
             <Input
-              label='Mail'
+              label='Email'
               type='email'
               name='email'
               id='email'
@@ -202,66 +193,36 @@ const Register = () => {
               <p className='mb-0.5'>La contraseña debe contener:</p>
               <hr />
             </div>
-            <div>
-              <div className='flex text-xs'>
-                {mayus === 0 ? (
-                  <p className='mr-28 mb-2'>ABC Una letra mayúscula</p>
-                ) : mayus === 2 ? (
-                  <>
-                    <Image src={rightCheckbox} alt='x' className='w-4 h-4 mr-2'></Image>
-                    <p className='mr-24 mb-2 text-green-500'>ABC Una letra mayúscula</p>
-                  </>
-                ) : (
-                  <>
-                    <Image src={wrongCheckbox} alt='x' className='w-4 h-4 mr-2'></Image>
-                    <p className='mr-24 mb-2 text-red-500'>ABC Una letra mayúscula</p>
-                  </>
-                )}
-                {minus === 0 ? (
-                  <p className='mb-2'>abc Una letra minúscula</p>
-                ) : minus === 2 ? (
-                  <>
-                    <Image src={rightCheckbox} alt='x' className='w-4 h-4 mr-2'></Image>
-                    <p className='mb-2 text-green-500'>abc Una letra minúscula</p>
-                  </>
-                ) : (
-                  <>
-                    <Image src={wrongCheckbox} alt='x' className='w-4 h-4 mr-2'></Image>
-                    <p className='mb-2 text-red-500'>abc Una letra minúscula</p>
-                  </>
-                )}
+            <div className='w-full flex flex-col'>
+              <div className='flex text-xs w-full mb-2'>
+                <div className='w-1/2 flex'>
+                  <Image src={mayus > 0 ? rightCheckbox : wrongCheckbox} alt='x' className='w-4 h-4 mr-2'></Image>
+                  <span className={`${mayus > 0 ? 'text-green-500' : 'text-red-500'}`}>ABC Una letra mayúscula</span>
+                </div>
+                <div className='w-1/2 flex'>
+                  <Image src={minus > 0 ? rightCheckbox : wrongCheckbox} alt='x' className='w-4 h-4 mr-2'></Image>
+                  <span className={`${minus > 0 ? 'text-green-500' : 'text-red-500'}`}>ABC Una letra minúscula</span>
+                </div>
               </div>
               <div className='flex text-xs'>
-                {numb === 0 ? (
-                  <p className='mr-[162px]'>123 Un número</p>
-                ) : numb === 2 ? (
-                  <>
-                    <Image src={rightCheckbox} alt='x' className='w-4 h-4 mr-2'></Image>
-                    <p className='mr-[148px] text-green-500'>123 Un número</p>
-                  </>
-                ) : (
-                  <>
-                    <Image src={wrongCheckbox} alt='x' className='w-4 h-4 mr-2'></Image>
-                    <p className='mr-[148px] text-red-500'>123 Un número</p>
-                  </>
-                )}
-                {length === 0 ? (
-                  <p>*** Mínimo 8 caracteres</p>
-                ) : length === 2 ? (
-                  <>
-                    <Image src={rightCheckbox} alt='x' className='w-4 h-4 mr-2'></Image>
-                    <p className=' text-green-500'>*** Mínimo 8 caracteres</p>
-                  </>
-                ) : (
-                  <>
-                    <Image src={wrongCheckbox} alt='x' className='w-4 h-4 mr-2'></Image>
-                    <p className=' text-red-500'>*** Mínimo 8 caracteres</p>
-                  </>
-                )}
+                <div className='w-1/2 flex'>
+                  <Image src={numb > 0 ? rightCheckbox : wrongCheckbox} alt='x' className='w-4 h-4 mr-2'></Image>
+                  <span className={`${numb > 0 ? 'text-green-500' : 'text-red-500'}`}>123 Un número</span>
+                </div>
+                <div className='w-1/2 flex'>
+                  <Image src={length > 0 ? rightCheckbox : wrongCheckbox} alt='x' className='w-4 h-4 mr-2'></Image>
+                  <span className={`${length > 0 ? 'text-green-500' : 'text-red-500'}`}>*** Mínimo 8 caracteres</span>
+                </div>
               </div>
             </div>
           </div>
-          <Button type='submit'>Registrarme</Button>
+          {name && dni && email && password.length >= 8 && passwordTwo.length >= 8 ? (
+            <Button type='submit'>Registrarme</Button>
+          ) : (
+            <Button type='submit' disabled>
+              Registrarme
+            </Button>
+          )}
         </form>
         <hr className='w-full border-grey3 my-5' />
         <Link href='/login'>
@@ -270,7 +231,14 @@ const Register = () => {
           </button>
         </Link>
       </div>
-      <Modal type={type} errors={errors} open={open} type3Message={message} onClose={() => setOpen(false)}>
+      <Modal
+        type={type}
+        errors={errors}
+        open={open}
+        type3Message={message}
+        type3Img={type3Img}
+        onClose={() => setOpen(false)}
+      >
         <h1>Tu usuario ha sido creado satisfactoriamente</h1>
       </Modal>
     </div>

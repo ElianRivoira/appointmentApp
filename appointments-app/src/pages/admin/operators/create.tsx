@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { hasCookie } from 'cookies-next';
 
@@ -7,6 +7,7 @@ import { createOperator } from '@/services/operators';
 import { getBranches } from '@/services/branches';
 import OperatorsForm from '@/components/OperatorsForm';
 import { checkLocalStorage } from '@/utils/localStorage';
+import { useRouter } from 'next/router';
 
 const CreateOperators = () => {
   const [open, setOpen] = useState(false);
@@ -18,6 +19,8 @@ const CreateOperators = () => {
   const [dni, setDni] = useState(0);
   const [phone, setPhone] = useState(0);
   const [password, setPassword] = useState('');
+
+  const router = useRouter();
 
   const postOperator = useMutation({
     mutationFn: createOperator,
@@ -47,6 +50,14 @@ const CreateOperators = () => {
       setOpen(true);
     },
   });
+
+  useEffect(() => {
+      if ((type === 1 && !open)) {
+        router.push({
+          pathname: `/admin/operators`,
+        });
+      }
+    }, [open]);
 
   return (
     <div className='h-screen bg-cruceBackground'>
