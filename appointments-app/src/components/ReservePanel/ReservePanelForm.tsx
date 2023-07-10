@@ -70,7 +70,7 @@ const ReservePanelForm: React.FC<ReservePanelProps> = ({
             width='full'
             style='mb-4'
           />
-          <div className='flex mb-4'>
+          <div className='flex'>
             <div className='w-1/2 mr-4'>
               <Input
                 label='Nombre y Apellido'
@@ -89,7 +89,7 @@ const ReservePanelForm: React.FC<ReservePanelProps> = ({
                 type='tel'
                 name='phone'
                 id='phone'
-                placeholder='Juan Perez'
+                placeholder='5493425203404'
                 value={phone}
                 onChange={e => setPhone(e.target.value)}
                 required
@@ -97,11 +97,11 @@ const ReservePanelForm: React.FC<ReservePanelProps> = ({
             </div>
           </div>
           <Input
-            label='Mail'
+            label='Email'
             type='text'
             name='email'
             id='email'
-            placeholder='Juan Perez'
+            placeholder='juanperez@gmail.com'
             value={email}
             onChange={e => setEmail(e.target.value)}
             required
