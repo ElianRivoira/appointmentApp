@@ -74,7 +74,7 @@ const myData = () => {
     }
   };
 
-  if(loggedUser.isLoading) return <Spinner2 />
+  if(loggedUser.isLoading || !name) return <Spinner2 />
 
   return (
     <div className='h-screen bg-cruceBackground'>

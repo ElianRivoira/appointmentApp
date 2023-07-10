@@ -133,18 +133,6 @@ const myData = () => {
                 onChange={e => setBranch(e.target.value)}
                 disabled
               />
-              {/* <label htmlFor='branch' className='text-sm font-medium'>
-                Sucursal
-              </label>
-              <input
-                type='tex'
-                name='branch'
-                id='branch'
-                value={branch}
-                onChange={e => setBranch(e.target.value)}
-                className='w-full border border-solid border-grey-500 focus:border-cruce rounded-lg h-11 outline-none p-3 text-grey5'
-                disabled
-              /> */}
             </div>
           </div>
           <div className='flex justify-start'>
