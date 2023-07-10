@@ -37,13 +37,13 @@ async function httpUserLogin(req: Request, res: Response) {
 
     const response = await userService.userLogin(user);
 
-    response &&
-      res.cookie('session', response.token, {
-        sameSite: 'none',
-        secure: true,
-        httpOnly: true,
-        path: '/api',
-      });
+    // response &&
+    //   res.cookie('session', response.token, {
+    //     sameSite: 'none',
+    //     secure: true,
+    //     httpOnly: true,
+    //     path: '/api',
+    //   });
 
     res.send(response);
   } catch (e) {

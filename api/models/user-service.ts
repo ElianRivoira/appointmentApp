@@ -54,7 +54,7 @@ const getOneOperator = async (id: string) => {
   }
 };
 
-const getOneUser = async (data: {[key: string]: string}) => {
+const getOneUser = async (data: { [key: string]: string }) => {
   try {
     const user = await User.findOne(data);
     return user;
@@ -80,13 +80,15 @@ async function userLogin(user: UserLogin) {
           user: loggedUser,
           token,
         };
+      } else {
+        throw new BadRequestError('Email o contraseña incorrectos');
       }
     } else {
-      throw new BadRequestError('Email o contraseña incorrectos')
+      throw new BadRequestError('Email o contraseña incorrectos');
     }
   } catch (e) {
     // throw new ServerError(e);
-    throw new BadRequestError('Email o contraseña incorrectos')
+    throw new BadRequestError('Email o contraseña incorrectos');
   }
 }
 
@@ -137,7 +139,7 @@ const deleteUser = async (id: string) => {
   } catch (e) {
     throw new ServerError(e);
   }
-}
+};
 
 export default {
   signUp,
