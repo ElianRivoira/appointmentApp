@@ -40,6 +40,9 @@ export async function getLoggedUser(): Promise<User | undefined> {
       },
     });
     return res.data;
+  } else {
+    const res = await api.get('/users/me');
+    return res.data;
   }
 }
 

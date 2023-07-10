@@ -11,7 +11,6 @@ const PieChart: React.FC<PieChartProps> = ({ propsData, period }) => {
   ChartJS.register(ArcElement, Tooltip, Legend);
 
   const periodData = period === 'Mensual' ? propsData.monthly : propsData.annual;
-  console.log(periodData)
 
   const options = {
     responsive: true,

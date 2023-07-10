@@ -105,7 +105,7 @@ const Login = () => {
                   Ingresar
                 </button>
               )}
-              <hr />
+              <hr className='border-grey3' />
               <Link href={'register'} className='mt-5 '>
                 <button className=' bg-cruceSecondary hover:bg-cruceSecondaryHover text-cruce font-semibold text-lb rounded-lg h-11 w-full active:shadow-active'>
                   ¿No tenés cuenta? Registrate

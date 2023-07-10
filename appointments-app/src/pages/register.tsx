@@ -9,6 +9,9 @@ import wrongCheckbox from '@/assets/icons/wrongCheckbox.svg';
 import Modal from '@/commons/Modal';
 import { postUser } from '../services/users';
 import { useMutation } from '@tanstack/react-query';
+import Input from '@/commons/Input';
+import PasswordInput from '@/commons/PasswordInput';
+import Button from '@/commons/Button';
 
 const Register = () => {
   const [name, setName] = useState('');
@@ -123,8 +126,8 @@ const Register = () => {
 
   return (
     <div className='flex justify-center'>
-      <div className='flex flex-col p-8 w-3/4 max-w-screen-sm h-3/5 border-2 mt-20 rounded-xl shadow-xg'>
-        <div className='flex w-full ml-5 text-cruce font-semibold'>
+      <div className='flex flex-col p-8 px-12 w-3/4 max-w-screen-sm h-3/5 border-2 mt-8 rounded-xl shadow-xg bg-white'>
+        <div className='flex w-full text-cruce font-semibold'>
           <Link href={'login'}>
             <button className='flex'>
               <Image src={flechitaIzq} alt='flechitaIzq' className='w-4 h-4 mr-1'></Image>
@@ -136,83 +139,65 @@ const Register = () => {
           <h3 className='font-semibold text-2xl mb-5'>Crear cuenta</h3>
         </div>
         <form onSubmit={registerButton}>
-          <div className='flex justify-center mb-3'>
-            <div className='flex flex-col mr-4'>
-              <label htmlFor='username'>Nombre y Apellido</label>
-              <input
-                onChange={handleName}
+          <div className='w-full flex gap-4'>
+            <div className='w-1/2 flex flex-col'>
+              <Input
+                label='Nombre y Apellido'
                 type='text'
-                id='username'
+                name='name'
+                id='name'
                 value={name}
-                className='pl-2 w-64 h-11 rounded-md border border-solid border-[#E1E1E1] focus:border-cruce outline-none'
+                onChange={handleName}
                 required
               />
             </div>
-            <div className='flex flex-col'>
-              <label htmlFor='dni '>DNI</label>
-              <input
-                onChange={handleDni}
+            <div className='w-1/2 flex flex-col'>
+              <Input
+                label='DNI'
                 type='tel'
+                name='dni'
                 id='dni'
                 value={dni}
-                min='0'
-                className='pl-2 w-64 h-11 rounded-md border border-solid border-[#E1E1E1] focus:border-cruce outline-none'
+                onChange={handleDni}
                 required
               />
             </div>
           </div>
-          <div className='flex flex-col ml-5 mb-3'>
-            <label htmlFor='email'>Mail</label>
-            <input
-              onChange={handleEmail}
+          <div className='flex flex-col'>
+            <Input
+              label='Mail'
               type='email'
+              name='email'
               id='email'
-              value={email}
               pattern='[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$'
-              className='pl-2 w-95 h-11 rounded-md border border-solid border-[#E1E1E1] focus:border-cruce outline-none mr-5'
+              value={email}
+              onChange={handleEmail}
               required
-            ></input>
+            />
           </div>
-          <div className='flex justify-center mb-3'>
-            <div className='flex flex-col mr-4'>
-              <label htmlFor='password'>Contraseña</label>
-              <div className='relative'>
-                <input
-                  onChange={handlePassword}
-                  type={visibleOne ? 'text' : 'password'}
-                  id='password'
-                  value={password}
-                  className='pl-2 w-64 h-11 rounded-md border border-solid border-[#E1E1E1] focus:border-cruce outline-none'
-                  required
-                ></input>
-                <div className='absolute inset-y-0 right-2 pl-3 flex items-center'>
-                  <button type='button' className='h-5 w-5 object-cover' onClick={() => setVisibleOne(!visibleOne)}>
-                    <Image src={openEye} alt='ojito' className='w-4 h-4'></Image>
-                  </button>
-                </div>
-              </div>
+          <div className='flex gap-4'>
+            <div className='w-1/2 flex flex-col'>
+              <PasswordInput
+                label='Contraseña'
+                name='password'
+                id='password'
+                value={password}
+                onChange={handlePassword}
+                required
+              />
             </div>
-            <div>
-              <label htmlFor='passwordTwo'>Repetir contraseña</label>
-              <div className='relative'>
-                {}
-                <input
-                  onChange={handlePasswordTwo}
-                  type={visibleTwo ? 'text' : 'password'}
-                  id='passwordTwo'
-                  value={passwordTwo}
-                  className='pl-2 w-64 h-11 rounded-md border border-solid border-[#E1E1E1] focus:border-cruce outline-none'
-                  required
-                ></input>
-                <div className='absolute inset-y-0 right-2 pl-3 flex items-center'>
-                  <button type='button' className='h-5 w-5 object-cover' onClick={() => setVisibleTwo(!visibleTwo)}>
-                    <Image src={openEye} alt='ojito' className='w-4 h-4'></Image>
-                  </button>
-                </div>
-              </div>
+            <div className='w-1/2 flex flex-col'>
+              <PasswordInput
+                label='Repetir Contraseña'
+                name='password2'
+                id='password2'
+                value={passwordTwo}
+                onChange={handlePasswordTwo}
+                required
+              />
             </div>
           </div>
-          <div className='flex flex-col ml-5 bg-[#F5F5F5] py-4 px-5 rounded-lg mr-5 mb-5'>
+          <div className='flex flex-col bg-[#F5F5F5] py-4 px-5 rounded-lg mt-4 mb-5'>
             <div className='font-medium text-xs mb-3'>
               <p className='mb-0.5'>La contraseña debe contener:</p>
               <hr />
@@ -276,25 +261,18 @@ const Register = () => {
               </div>
             </div>
           </div>
-          <div className='mr-9'>
-            <button
-              type='submit'
-              className=' bg-cruce h-11 text-white  hover:bg-cruceHover font-semibold rounded-lg w-full mb-5 mx-5 active:shadow-active'
-            >
-              Registrarme
-            </button>
-          </div>
+          <Button type='submit'>Registrarme</Button>
         </form>
-        <Modal type={type} errors={errors} open={open} type3Message={message} onClose={() => setOpen(false)}>
-          <h1>Tu usuario ha sido creado satisfactoriamente</h1>
-        </Modal>
-        <hr className='mx-4 mb-5' />
-        <Link className='mr-9' href='/login'>
-          <button className='active:shadow-active bg-cruceSecondary hover:bg-cruceSecondaryHover text-cruce w-full font-semibold rounded-lg mb-5 mx-5 h-11'>
+        <hr className='w-full border-grey3 my-5' />
+        <Link href='/login'>
+          <button className='active:shadow-active bg-cruceSecondary hover:bg-cruceSecondaryHover text-cruce w-full font-semibold rounded-lg mb-5 h-11'>
             ¿Ya tenés cuenta? Iniciá Sesión
           </button>
         </Link>
       </div>
+      <Modal type={type} errors={errors} open={open} type3Message={message} onClose={() => setOpen(false)}>
+        <h1>Tu usuario ha sido creado satisfactoriamente</h1>
+      </Modal>
     </div>
   );
 };

@@ -3,20 +3,21 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { hasCookie } from 'cookies-next';
+import { useRouter } from 'next/router';
 
 // import { store } from '../store/index';
 import Navbar from '@/components/General/Navbar';
 
 const App = ({ Component, pageProps }: any) => {
   const [queryClient] = React.useState(() => new QueryClient());
+  const router = useRouter();
 
   return (
     <QueryClientProvider client={queryClient}>
       {/* <Hydrate state={pageProps.dehydratedState}> */}
       {/* <Provider store={store}> */}
         <Navbar />
-        <div className='pt-20 min-h-screen bg-cruceBackground'>
+        <div className={`${router.asPath !== '/login' && router.asPath !== '/register' ? 'pt-20' : ''} min-h-screen bg-cruceBackground`}>
           <Component {...pageProps} />
         </div>
         <ReactQueryDevtools />

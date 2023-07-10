@@ -33,7 +33,7 @@ const httpPostReserve = async (req: Request, res: Response) => {
 
 let savedMetrics: IAllBranchesMetrics;
 cron.schedule(
-  '* * * * *',
+  '0 0 * * *',
   async () => {
     savedMetrics = await setReservesMetrics();
     console.log('cron metrics executed');

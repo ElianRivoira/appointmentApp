@@ -1,5 +1,6 @@
 import React from 'react';
 import Button from '../commons/Button';
+import Input from '@/commons/Input';
 
 interface BranchesFormProps {
   handleSubmit: (e: React.FormEvent) => void;
@@ -34,91 +35,73 @@ const BranchesForm: React.FC<BranchesFormProps> = ({
 }) => {
   return (
     <form onSubmit={handleSubmit}>
-      <label htmlFor='username' className='text-sm font-medium'>
-        Nombre
-      </label>
-      <input
+      <Input
+        label='Nombre'
         type='text'
         name='username'
         id='username'
         value={name}
         onChange={e => setName(e.target.value)}
         required
-        className='w-full border border-solid border-grey-500 hover:border-grey5 focus:border-cruce rounded-lg h-11 mb-3 outline-none p-3'
       />
-      <label htmlFor='email' className='text-sm font-medium'>
-        Correo electrónico
-      </label>
-      <input
+      <Input
+        label='Correo electrónico'
         type='email'
         name='email'
         id='email'
         value={email}
         onChange={e => setEmail(e.target.value)}
         required
-        className='w-full border border-solid border-grey-500 hover:border-grey5 focus:border-cruce rounded-lg h-11 mb-3 outline-none p-3'
       />
       <div className='flex mb-3'>
         <div className='w-1/2 mr-4'>
-          <label htmlFor='phone' className='text-sm font-medium'>
-            Teléfono
-          </label>
-          <input
+          <Input
+            label='Teléfono'
             type='tel'
             name='phone'
             id='phone'
             value={phone}
             onChange={e => setPhone(Number(e.target.value))}
             required
-            className='w-full border border-solid border-grey-500 hover:border-grey5 focus:border-cruce rounded-lg h-11 outline-none p-3'
           />
         </div>
         <div className='w-1/2'>
-          <label htmlFor='capacity' className='text-sm font-medium'>
-            Capacidad máxima
-          </label>
-          <input
+          <Input
+            label='Capacidad máxima'
             type='number'
             name='capacity'
             id='capacity'
             value={capacity}
             onChange={e => setCapacity(Number(e.target.value))}
             required
-            className='w-full border border-solid border-grey-500 hover:border-grey5 focus:border-cruce rounded-lg h-11 outline-none p-3'
           />
         </div>
       </div>
       <div className='flex mb-3'>
         <div className='w-1/2 mr-4'>
-          <label htmlFor='openHour' className='text-sm font-medium'>
-            Horario de Inicio
-          </label>
-          <input
-            type='string'
+          <Input
+            label='Horario de Inicio'
+            type='text'
             name='openHour'
             id='openHour'
             value={openHour}
-            pattern='^(?:[0-5][0-9]):[0-5][0-9]$'
             placeholder='08:00'
+            pattern='^(?:[0-5][0-9]):[0-5][0-9]$'
             onChange={e => setOpenHour(e.target.value)}
             required
-            className='w-full border border-solid border-grey-500 hover:border-grey5 focus:border-cruce rounded-lg h-11 outline-none p-3'
           />
         </div>
         <div className='w-1/2'>
-          <label htmlFor='closeHour' className='text-sm font-medium'>
-            Horario de Cierre
-          </label>
-          <input
-            type='string'
+          <Input
+            label='Horario de Cierre'
+            type='text'
             name='closeHour'
             id='closeHour'
             value={closeHour}
-            pattern='^(?:[0-5][0-9]):[0-5][0-9]$'
             placeholder='17:00'
+            pattern='^(?:[0-5][0-9]):[0-5][0-9]$'
             onChange={e => setCloseHour(e.target.value)}
             required
-            className='w-full border border-solid border-grey-500 hover:border-grey5 focus:border-cruce rounded-lg h-11 outline-none p-3'
           />
         </div>
       </div>
@@ -126,7 +109,7 @@ const BranchesForm: React.FC<BranchesFormProps> = ({
         {name && email && phone && capacity && openHour && closeHour ? (
           <Button type='submit'>Enviar</Button>
         ) : (
-          <Button type='submit' style='bg-grey3 text-grey6' disabled>
+          <Button type='submit' disabled>
             Enviar
           </Button>
         )}
