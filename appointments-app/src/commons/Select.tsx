@@ -25,7 +25,6 @@ const Select: React.FC<selectProps> = ({
   width,
   style,
 }) => {
-  console.log(data);
   return (
     <>
       <label htmlFor={id} className='text-sm font-medium'>
