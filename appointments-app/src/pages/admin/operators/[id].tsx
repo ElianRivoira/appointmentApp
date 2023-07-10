@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useMutation, useQuery } from '@tanstack/react-query';
+import { NextPageContext } from 'next';
+import { hasCookie } from 'cookies-next';
 
 import Modal from '@/commons/Modal';
 import { getBranches } from '@/services/branches';
 import { deleteOneOperator, getOneOperator } from '@/services/operators';
 import OperatorsForm from '@/components/OperatorsForm';
 import { updateUser } from '@/services/users';
-import { NextPageContext } from 'next';
-import { hasCookie } from 'cookies-next';
+import { checkLocalStorage } from '@/utils/localStorage';
 
 const EditOperators = ({ query }: MyPageProps) => {
   const [open, setOpen] = useState(false);
@@ -55,7 +56,7 @@ const EditOperators = ({ query }: MyPageProps) => {
   const branches = useQuery({
     queryKey: ['branches'],
     queryFn: getBranches,
-    enabled: hasCookie('session'),
+    enabled: checkLocalStorage('session'),
     onError: error => {
       setType(2);
       setErrors((error as any).response.data.errors);
@@ -66,7 +67,7 @@ const EditOperators = ({ query }: MyPageProps) => {
   const operator = useQuery({
     queryKey: ['operator', operatorId],
     queryFn: () => getOneOperator(operatorId),
-    enabled: hasCookie('session'),
+    enabled: checkLocalStorage('session'),
     onError: error => {
       setType(2);
       setErrors((error as any).response.data.errors);

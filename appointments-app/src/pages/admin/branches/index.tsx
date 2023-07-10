@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import List from '@/components/List';
 import { getBranches } from '@/services/branches';
 import Modal from '@/commons/Modal';
+import { checkLocalStorage } from '@/utils/localStorage';
 
 const branches = () => {
   const [open, setOpen] = useState(false);
@@ -14,7 +15,7 @@ const branches = () => {
   const branches = useQuery({
     queryKey: ['branches'],
     queryFn: getBranches,
-    enabled: hasCookie('session'),
+    enabled: checkLocalStorage('session'),
     onError: error => {
       setType(2);
       setErrors((error as any).response.data.errors);

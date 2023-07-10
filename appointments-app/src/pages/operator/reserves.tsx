@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { hasCookie } from 'cookies-next';
+import { useQuery } from '@tanstack/react-query';
 
 import Reserve from '@/components/Reserve';
 import { getBranch } from '@/services/branches';
-import { useQuery } from '@tanstack/react-query';
 import { getLoggedUser } from '@/services/users';
 import Modal from '@/commons/Modal';
 import Spinner2 from '@/components/General/Spinner2';
+import { checkLocalStorage } from '@/utils/localStorage';
 
 const Reserves = () => {
   const [open, setOpen] = useState(false);
@@ -15,7 +16,7 @@ const Reserves = () => {
 
   const loggedUser = useQuery({
     queryKey: ['loggedUser'],
-    enabled: hasCookie('session'),
+    enabled: checkLocalStorage('session'),
     queryFn: getLoggedUser,
     onError: error => {
       setType(2);

@@ -13,6 +13,7 @@ import LineChart from '@/components/Reports/LineChart';
 import styles from '@/styles/Reports.module.css';
 import PieChart from '@/components/Reports/PieChart';
 import ReportModal from '@/components/Reports/ReportModal';
+import { checkLocalStorage } from '@/utils/localStorage';
 
 const reports = () => {
   const bar1 = useRef<HTMLDivElement>(null);
@@ -65,7 +66,7 @@ const reports = () => {
   const branches = useQuery({
     queryKey: ['branches'],
     queryFn: getBranches,
-    enabled: hasCookie('session'),
+    enabled: checkLocalStorage('session'),
     onError: error => {
       setType(2);
       setErrors((error as any).response.data.errors);
@@ -76,7 +77,7 @@ const reports = () => {
   const reservesMetrics = useQuery({
     queryKey: ['reservesMetrics'],
     queryFn: calculateMetrics,
-    enabled: hasCookie('session'),
+    enabled: checkLocalStorage('session'),
     refetchOnWindowFocus: false,
     onError: error => {
       setType(2);

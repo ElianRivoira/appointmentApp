@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-
-import { deleteOneBranch, getBranch, updateBranch } from '@/services/branches';
 import { NextPageContext } from 'next';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { hasCookie } from 'cookies-next';
+
+import { deleteOneBranch, getBranch, updateBranch } from '@/services/branches';
 import Modal from '@/commons/Modal';
 import BranchesForm from '@/components/BranchesForm';
+import { checkLocalStorage } from '@/utils/localStorage';
 
 const EditBranch = ({ query }: MyPageProps) => {
   const [name, setName] = useState('');
@@ -52,7 +53,7 @@ const EditBranch = ({ query }: MyPageProps) => {
   const branch = useQuery({
     queryKey: ['branch', branchId],
     queryFn: () => getBranch(branchId),
-    enabled: hasCookie('session'),
+    enabled: checkLocalStorage('session'),
     onError: error => {
       setType(2);
       setErrors((error as any).response.data.errors);

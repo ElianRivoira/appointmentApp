@@ -14,6 +14,7 @@ import { getBranchByName, getBranches } from '@/services/branches';
 import { getLoggedUser } from '@/services/users';
 import formatTime from '@/utils/formatTime';
 import { generateAppointmentProof } from '@/utils/generatePDF/appointmentProof';
+import { checkLocalStorage } from '@/utils/localStorage';
 
 const ReservePanel = () => {
   const [date, setDate] = useState(new Date());
@@ -36,7 +37,7 @@ const ReservePanel = () => {
 
   const loggedUser = useQuery({
     queryKey: ['loggedUser'],
-    enabled: hasCookie('session'),
+    enabled: checkLocalStorage('session'),
     queryFn: getLoggedUser,
     onError: error => {
       setType(2);
@@ -48,7 +49,7 @@ const ReservePanel = () => {
   const branches = useQuery({
     queryKey: ['branches'],
     queryFn: getBranches,
-    enabled: hasCookie('session'),
+    enabled: checkLocalStorage('session'),
     onError: error => {
       setType(2);
       setErrors((error as any).response.data.errors);
@@ -89,7 +90,7 @@ const ReservePanel = () => {
     mutationFn: postReserve,
     onSuccess: reserve => {
       setReserveId(reserve._id);
-      generateAppointmentProof(reserve, branch, postProof)
+      generateAppointmentProof(reserve, branch, postProof);
     },
     onError: (err: any) => {
       setType(2);

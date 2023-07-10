@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { hasCookie } from 'cookies-next';
 
 import { getLoggedUser, sendPassEmail, updateUser } from '@/services/users';
 import Modal from '@/commons/Modal';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { hasCookie } from 'cookies-next';
+import { checkLocalStorage } from '@/utils/localStorage';
 
 const myData = () => {
   const [name, setName] = useState('');
@@ -18,7 +19,7 @@ const myData = () => {
 
   const loggedUser = useQuery({
     queryKey: ['loggedUser'],
-    enabled: hasCookie('session'),
+    enabled: checkLocalStorage('session'),
     queryFn: getLoggedUser,
     onError: error => {
       setType(2);

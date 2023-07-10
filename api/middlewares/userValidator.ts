@@ -58,8 +58,8 @@ const validateUpdateUser = [
 ];
 
 const validateLoggedUser = [
-  cookie('session').custom((value, { req }) => {
-    if (!req.session.token) {
+  check('Authorization').custom((value, { req }) => {
+    if (!req.headers?.authorization) {
       throw new Error('Debe estar logueado en la aplicación');
     }
     return true;
@@ -74,11 +74,11 @@ const validateLoggedUser = [
 ];
 
 const validateLoggedAdmin = [
-  cookie('session').custom((value, { req }) => {
-    if (!req.session.token) {
+  check('Authorization').custom((value, { req }) => {
+    if (!req.headers?.authorization) {
       throw new Error('Debe estar logueado en la aplicación');
     } else {
-      const { user } = validateToken(req.session.token);
+      const { user } = validateToken(req.headers.authorization);
       if (user.role !== 'admin') {
         throw new Error('Debe tener permisos de administrador');
       } else return true;

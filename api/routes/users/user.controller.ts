@@ -57,10 +57,13 @@ const httpGetUser = async (req: Request, res: Response) => {
     throw new RequestValidationError(errors.array());
   }
   try {
-    if (req.session) {
-      const { user } = validateToken(req.session.token);
-      const loggedUser = await userService.getLoggedUser(user.id);
-      res.send(loggedUser);
+    if (req.headers) {
+      const token = req.headers.authorization;
+      if(token){
+        const { user } = validateToken(token);
+        const loggedUser = await userService.getLoggedUser(user.id);
+        res.send(loggedUser);
+      }
     }
   } catch (e) {
     throw new ServerError(e);

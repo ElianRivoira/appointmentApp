@@ -11,6 +11,7 @@ import CancelOption from '@/components/CancelOption';
 import { getOneReserve, cancelReserv } from '@/services/appointments';
 import Modal from '@/commons/Modal';
 import cancelReasons from '@/utils/cancelReasons';
+import { checkLocalStorage } from '@/utils/localStorage';
 
 const cancelReserve = ({ query }: MyPageProps) => {
   const [cancelReason, setCancelReason] = useState('');
@@ -49,7 +50,7 @@ const cancelReserve = ({ query }: MyPageProps) => {
   const reserve = useQuery({
     queryFn: () => getOneReserve(reserveId),
     queryKey: ['reserve', reserveId],
-    enabled: hasCookie('session'),
+    enabled: checkLocalStorage('session'),
     onError: error => {
       setType(2);
       setErrors((error as any).response.data.errors);

@@ -18,6 +18,7 @@ import operadores from '@/assets/icons/operadores.svg';
 import reportes from '@/assets/icons/reportes.svg';
 import { getLoggedUser } from '@/services/users';
 import Modal from '../../commons/Modal';
+import { checkLocalStorage } from '@/utils/localStorage';
 
 const Navbar = () => {
   const router = useRouter();
@@ -40,7 +41,8 @@ const Navbar = () => {
   });
 
   const handleLogout = () => {
-    deleteCookie('session');
+    // deleteCookie('session');
+    if (typeof window !== 'undefined') localStorage.removeItem('session');
     router.push({
       pathname: '/login',
     });
@@ -94,7 +96,7 @@ const Navbar = () => {
                       ></Image>
                     </button>
                   </Link>
-                  {hasCookie('session') ? (
+                  {checkLocalStorage('session') ? (
                     <button className={`text-ss font-bold flex hover:text-cruceHover ml-8`} onClick={handleLogout}>
                       Cerrar Sesión
                       <Image className='w-4 h-4 ml-1' alt='logout' src={logoutIcon}></Image>
@@ -173,7 +175,7 @@ const Navbar = () => {
                       ></Image>
                     </button>
                   </Link>
-                  {hasCookie('session') ? (
+                  {checkLocalStorage('session') ? (
                     <button className={`text-ss font-bold flex hover:text-cruceHover ml-8`} onClick={handleLogout}>
                       Cerrar Sesión
                       <Image className='w-4 h-4 ml-1' alt='logout' src={logoutIcon}></Image>
@@ -212,7 +214,7 @@ const Navbar = () => {
                       ></Image>
                     </button>
                   </Link>
-                  {hasCookie('session') ? (
+                  {checkLocalStorage('session') ? (
                     <button className={`text-ss font-bold flex hover:text-cruceHover ml-8`} onClick={handleLogout}>
                       Cerrar Sesión
                       <Image className='w-4 h-4 ml-1' alt='logout' src={logoutIcon}></Image>

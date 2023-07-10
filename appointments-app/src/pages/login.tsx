@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useDispatch, useSelector } from 'react-redux';
 
-import { AppDispatch, RootState } from '@/store';
 import { login } from '../services/users';
 import Modal from '@/commons/Modal';
-import { fetchUser } from '@/store/slices/userSlice';
 import { useMutation } from '@tanstack/react-query';
 
 const Login = () => {
@@ -17,13 +14,10 @@ const Login = () => {
   const [errors, setErrors] = useState<CustomError[]>([]);
   const [calledPush, setCalledPush] = useState(false);
   const router = useRouter();
-  const dispatch = useDispatch<AppDispatch>();
-  const { user } = useSelector((state: RootState) => state.user);
 
   const loginUser = useMutation({
     mutationFn: login,
     onSuccess: async user => {
-      await dispatch(fetchUser());
       setType(1);
       setOpen(true);
     },
@@ -41,13 +35,13 @@ const Login = () => {
 
   const redirect = () => {
     if (calledPush) return;
-    if (user?.role === 'user') {
+    if (loginUser.data?.role === 'user') {
       setCalledPush(true);
       router.push('reservePanel');
-    } else if (user?.role === 'operator') {
+    } else if (loginUser.data?.role === 'operator') {
       setCalledPush(true);
       router.push('operator/reserves');
-    } else if (user?.role === 'admin') {
+    } else if (loginUser.data?.role === 'admin') {
       setCalledPush(true);
       router.push('admin/operators');
     }

@@ -5,6 +5,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { getLoggedUser, sendPassEmail, updateUser } from '@/services/users';
 import Modal from '@/commons/Modal';
 import Spinner2 from '@/components/General/Spinner2';
+import { checkLocalStorage } from '@/utils/localStorage';
 
 const myData = () => {
   const [name, setName] = useState('');
@@ -18,7 +19,7 @@ const myData = () => {
 
   const loggedUser = useQuery({
     queryKey: ['loggedUser'],
-    enabled: hasCookie('session'),
+    enabled: checkLocalStorage('session'),
     queryFn: getLoggedUser,
     onError: error => {
       setType(2);

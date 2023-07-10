@@ -6,6 +6,7 @@ import Modal from '@/commons/Modal';
 import { createOperator } from '@/services/operators';
 import { getBranches } from '@/services/branches';
 import OperatorsForm from '@/components/OperatorsForm';
+import { checkLocalStorage } from '@/utils/localStorage';
 
 const CreateOperators = () => {
   const [open, setOpen] = useState(false);
@@ -39,7 +40,7 @@ const CreateOperators = () => {
   const branches = useQuery({
     queryKey: ['branches'],
     queryFn: getBranches,
-    enabled: hasCookie('session'),
+    enabled: checkLocalStorage('session'),
     onError: error => {
       setType(2);
       setErrors((error as any).response.data.errors);

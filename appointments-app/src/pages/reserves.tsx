@@ -6,6 +6,7 @@ import { getReserves } from '@/services/appointments';
 import Reserve from '@/components/Reserve';
 import { getLoggedUser } from '@/services/users';
 import Modal from '@/commons/Modal';
+import { checkLocalStorage } from '@/utils/localStorage';
 
 const Reserves = () => {
   const [open, setOpen] = useState(false);
@@ -14,7 +15,7 @@ const Reserves = () => {
 
   const loggedUser = useQuery({
     queryKey: ['loggedUser'],
-    enabled: hasCookie('session'),
+    enabled: checkLocalStorage('session'),
     queryFn: getLoggedUser,
     onError: error => {
       setType(2);

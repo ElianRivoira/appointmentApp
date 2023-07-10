@@ -10,6 +10,7 @@ import bigCheck from '@/assets/icons/bigCheck.svg';
 import llaveInglesa from '@/assets/icons/llaveInglesa.svg';
 import cruzRoja from '@/assets/icons/cruzRoja.svg';
 import Modal from '@/commons/Modal';
+import { checkLocalStorage } from '@/utils/localStorage';
 
 const confirmedReserve = ({ query }: MyPageProps) => {
   const [creationDate, setCreationDate] = useState<string[]>([]);
@@ -23,7 +24,7 @@ const confirmedReserve = ({ query }: MyPageProps) => {
   const reserve = useQuery({
     queryFn: () => getOneReserve(reserveId),
     queryKey: ['reserve', reserveId],
-    enabled: hasCookie('session'),
+    enabled: checkLocalStorage('session'),
     onError: error => {
       setType(2);
       setErrors((error as any).response.data.errors);

@@ -13,6 +13,7 @@ import CountDown from '@/components/ReservePanel/CountDown';
 import Modal from '@/commons/Modal';
 import { getBranchByName, getBranches } from '@/services/branches';
 import formatTime from '@/utils/formatTime';
+import { checkLocalStorage } from '@/utils/localStorage';
 
 const ReservePanel = ({ query }: MyPageProps) => {
   const [branch, setBranch] = useState('');
@@ -34,7 +35,7 @@ const ReservePanel = ({ query }: MyPageProps) => {
   const reserve = useQuery({
     queryFn: () => getOneReserve(reserveId),
     queryKey: ['reserve', reserveId],
-    enabled: hasCookie('session'),
+    enabled: checkLocalStorage('session'),
     onError: error => {
       setType(2);
       setErrors((error as any).response.data.errors);
@@ -58,7 +59,7 @@ const ReservePanel = ({ query }: MyPageProps) => {
   const branches = useQuery({
     queryKey: ['branches'],
     queryFn: getBranches,
-    enabled: hasCookie('session'),
+    enabled: checkLocalStorage('session'),
     onError: error => {
       setType(2);
       setErrors((error as any).response.data.errors);

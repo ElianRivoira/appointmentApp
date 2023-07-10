@@ -5,11 +5,9 @@ import { useQuery } from '@tanstack/react-query';
 import List from '@/components/List';
 import { getOperators } from '@/services/operators';
 import Modal from '@/commons/Modal';
+import { checkLocalStorage } from '@/utils/localStorage';
 
 const Operators = () => {
-  // const { user } = useSelector((state: RootState) => state.user);
-  // const dispatch = useDispatch<AppDispatch>();
-  // const router = useRouter();
   const [open, setOpen] = useState(false);
   const [type, setType] = useState(0);
   const [errors, setErrors] = useState<CustomError[]>([]);
@@ -17,7 +15,7 @@ const Operators = () => {
   const operators = useQuery({
     queryKey: ['operators'],
     queryFn: getOperators,
-    enabled: hasCookie('session'),
+    enabled: checkLocalStorage('session'),
     onError: error => {
       setType(2);
       setErrors((error as any).response.data.errors);
