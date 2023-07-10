@@ -20,7 +20,7 @@ app.enable('trust proxy');
 app.use(express.json());
 
 app.use(cors({
-  origin: `${process.env.FRONT_IP_LOCAL}`,
+  origin: `${process.env.FRONT_IP_PUBLIC}`,
   credentials: true,
   exposedHeaders: ['Authorization'],
 }));
