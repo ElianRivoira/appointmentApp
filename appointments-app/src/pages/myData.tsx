@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { hasCookie } from 'cookies-next';
 import { useMutation, useQuery } from '@tanstack/react-query';
 
-import { getLoggedUser, sendPassEmail, updateUser } from '@/services/users';
+import { forgotPassword, getLoggedUser, updateUser } from '@/services/users';
 import Modal from '@/commons/Modal';
 import Spinner2 from '@/components/General/Spinner2';
 import { checkLocalStorage } from '@/utils/localStorage';
@@ -43,6 +43,20 @@ const myData = () => {
     },
   });
 
+  const sendEmail = useMutation({
+    mutationFn: forgotPassword,
+    onSuccess: response => {
+      setMessage('Se le ha enviado un correo para cambiar su contraseña');
+      setType(3);
+      setOpen(true);
+    },
+    onError: (err: any) => {
+      setType(2);
+      setErrors(err.response.data.errors);
+      setOpen(true);
+    },
+  });
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (loggedUser.data) {
@@ -58,10 +72,7 @@ const myData = () => {
 
   const changePassword = () => {
     if (loggedUser.data) {
-      sendPassEmail({ id: loggedUser.data._id, email });
-      setMessage('Se le ha enviado un correo para cambiar su contraseña');
-      setType(3);
-      setOpen(true);
+      sendEmail.mutate(email);
     }
   };
 
@@ -78,7 +89,7 @@ const myData = () => {
 
   return (
     <div className='flex justify-center'>
-      <div className='flex flex-col w-3/4 max-w-screen-md h-3/5 mt-12 p-10 pb-8 border rounded-xl shadow-navbar bg-white'>
+      <div className='flex flex-col lg:w-3/4 max-w-screen-md h-3/5 mt-12 lgMax:mx-4 p-10 pb-8 border rounded-xl shadow-navbar bg-white'>
         <p className='mb-4 font-bold text-xb'>Mis Datos</p>
         <form onSubmit={handleSubmit}>
           <Input

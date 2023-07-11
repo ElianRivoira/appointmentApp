@@ -67,7 +67,6 @@ const Login = () => {
               type='email'
               name='email'
               id='email'
-              pattern='[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$'
               value={email}
               onChange={e => setEmail(e.target.value)}
               required
@@ -81,9 +80,11 @@ const Login = () => {
               required
             />
             <div className='flex justify-center mt-6'>
-              <button className='font-bold text-ss mb-5 text-cruce hover:text-cruceHover'>
-                ¿Olvidaste tu contraseña?
-              </button>
+              <Link href={'/recover'}>
+                <button type='button' className='font-bold text-ss mb-5 text-cruce hover:text-cruceHover'>
+                  ¿Olvidaste tu contraseña?
+                </button>
+              </Link>
             </div>
             <div className='flex flex-col justify-center'>
               {email && password.length >= 8 ? (

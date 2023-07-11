@@ -1,11 +1,12 @@
 import bcrypt from 'bcrypt';
 
 import User, { UserAttrs } from './User.model';
-import { generateToken } from '../utils/tokens';
+import { generateToken, recoverPasswordToken } from '../utils/tokens';
 import { ServerError } from '../errors/server-error';
 import UserLogin from '../interfaces/userLogin';
 import { BranchOfficeDoc } from './BranchOffice.model';
 import { BadRequestError } from '../errors/bad-request-error';
+import { sendPasswordChangerEmail } from '../utils/emails';
 
 const signUp = async (data: UserAttrs) => {
   try {
@@ -116,17 +117,44 @@ const updateUser = async (user: UserAttrs, branch: BranchOfficeDoc, id: string) 
   }
 };
 
-const updatePassword = async (id: string, pass: string) => {
+const updatePassword = async (pass: string, email?: string, id?: string) => {
   try {
     const hash = await bcrypt.hash(pass, 10);
-    const user = await User.findByIdAndUpdate(
-      id,
-      { password: hash },
-      {
-        new: true,
-      }
-    );
-    return user;
+    if (email) {
+      const user = await User.findOneAndUpdate(
+        { email },
+        { password: hash },
+        {
+          new: true,
+        }
+      );
+      return user;
+    } else if (id) {
+      const user = await User.findByIdAndUpdate(
+        id,
+        { password: hash },
+        {
+          new: true,
+        }
+      );
+      return user;
+    }
+  } catch (e) {
+    throw new ServerError(e);
+  }
+};
+
+const forgotPassword = async (email: string) => {
+  try {
+    const user = await User.findOne({ email });
+    if (user) {
+      const token = recoverPasswordToken(email);
+      const link = `${process.env.FRONT_IP_PUBLIC}/passwordChange?token=${token}`;
+      sendPasswordChangerEmail(email, link);
+      return true;
+    } else {
+      throw new BadRequestError('Usuario no encontrado');
+    }
   } catch (e) {
     throw new ServerError(e);
   }
@@ -150,6 +178,7 @@ export default {
   userLogin,
   getLoggedUser,
   updateUser,
-  updatePassword,
+  forgotPassword,
   deleteUser,
+  updatePassword,
 };

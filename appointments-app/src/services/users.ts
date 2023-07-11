@@ -58,37 +58,17 @@ export async function updateUser(user: UpdateUser): Promise<User | undefined> {
   }
 }
 
-export async function updatePassword({ id, pass }: { id: string; pass: string }): Promise<User | undefined> {
-  const token = getLocalStorage('session');
-  if (token) {
-    const res = await api.put(
-      `/users/pass/${id}`,
-      { pass },
-      {
-        headers: {
-          Authorization: token,
-        },
-      }
-    );
-    return res.data;
-  }
+export async function forgotPassword(email: string): Promise<any> {
+  const res = await api.post(`/users/forgot-pass`, { email });
+  return res.data;
 }
 
-export async function sendPassEmail({ id, email }: { id: string; email: string }): Promise<void> {
-  const token = getLocalStorage('session');
-  if (token) {
-    try {
-      await api.post(
-        '/users/pass/email',
-        { id, email },
-        {
-          headers: {
-            Authorization: token,
-          },
-        }
-      );
-    } catch (e) {
-      console.error(e);
-    }
-  }
+export async function sendToken(token: string): Promise<string> {
+  const res = await api.get(`/users/recover-pass?token=${token}`);
+  return res.data;
+}
+
+export async function changePassword({ email, password, id }: { email?: string; password: string, id?: string }): Promise<User> {
+  const res = await api.put(`/users/change-pass`, { email, password, id });
+  return res.data;
 }

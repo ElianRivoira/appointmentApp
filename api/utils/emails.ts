@@ -32,14 +32,15 @@ const send = (options: MailOptions) => {
   });
 };
 
-const sendPasswordChangerEmail = (data: any) => {
+const sendPasswordChangerEmail = (email: string, link: string) => {
   const mailOptions = {
-    to: data.email,
+    to: email,
     subject: 'Password change request',
     text: 'Password change',
     html: `
-    <p>To follow the password change process click in the link below</p>
-    <a href='${process.env.FRONT_IP_PUBLIC}/passwordChange/${data.id}'>Change password</a>`,
+    <h3>Usted a solicitado un cambio de contraseña</h3>
+    <p>Para continuar con el proceso haga click en el siguiente link</p>
+    <a href='${link}'>Change password</a>`,
   };
   send(mailOptions);
 };

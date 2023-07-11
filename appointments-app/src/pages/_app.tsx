@@ -6,7 +6,9 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { useRouter } from 'next/router';
 
 // import { store } from '../store/index';
-import Navbar from '@/components/General/Navbar';
+import Navbar from '@/components/General/Navbar/Navbar';
+import useMediaQuery from '@/hooks/useMediaQuery'
+import NavbarMobile from '@/components/General/Navbar/NavbarMobile';
 
 const App = ({ Component, pageProps }: any) => {
   const [queryClient] = React.useState(() => new QueryClient());
@@ -16,11 +18,15 @@ const App = ({ Component, pageProps }: any) => {
     <QueryClientProvider client={queryClient}>
       {/* <Hydrate state={pageProps.dehydratedState}> */}
       {/* <Provider store={store}> */}
-        <Navbar />
-        <div className={`${router.asPath !== '/login' && router.asPath !== '/register' ? 'pt-20' : ''} min-h-screen bg-cruceBackground`}>
-          <Component {...pageProps} />
-        </div>
-        <ReactQueryDevtools />
+      {useMediaQuery(1024) ? <NavbarMobile /> : <Navbar />}
+      <div
+        className={`${
+          router.asPath !== '/login' && router.asPath !== '/register' ? 'pt-20' : ''
+        } min-h-screen bg-cruceBackground`}
+      >
+        <Component {...pageProps} />
+      </div>
+      <ReactQueryDevtools />
       {/* </Provider> */}
       {/* </Hydrate> */}
     </QueryClientProvider>

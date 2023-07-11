@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { hasCookie } from 'cookies-next';
 
-import { getLoggedUser, sendPassEmail, updateUser } from '@/services/users';
+import { forgotPassword, getLoggedUser, updateUser } from '@/services/users';
 import Modal from '@/commons/Modal';
 import { checkLocalStorage } from '@/utils/localStorage';
 import Input from '@/commons/Input';
@@ -44,6 +44,20 @@ const myData = () => {
     },
   });
 
+  const sendEmail = useMutation({
+    mutationFn: forgotPassword,
+    onSuccess: response => {
+      setMessage('Se le ha enviado un correo para cambiar su contraseña');
+      setType(3);
+      setOpen(true);
+    },
+    onError: (err: any) => {
+      setType(2);
+      setErrors(err.response.data.errors);
+      setOpen(true);
+    },
+  });
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (loggedUser.data) {
@@ -60,10 +74,7 @@ const myData = () => {
 
   const changePassword = () => {
     if (loggedUser.data) {
-      sendPassEmail({ id: loggedUser.data._id, email });
-      setMessage('Se le ha enviado un correo para cambiar su contraseña');
-      setType(3);
-      setOpen(true);
+      sendEmail.mutate(email);
     }
   };
 

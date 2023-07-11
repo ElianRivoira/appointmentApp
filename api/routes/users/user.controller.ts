@@ -6,7 +6,7 @@ import branchService from '../../models/branchOffice-service';
 import { sendPasswordChangerEmail } from '../../utils/emails';
 import { ServerError } from '../../errors/server-error';
 import { RequestValidationError } from '../../errors/request-validation-error';
-import { validateToken } from '../../utils/tokens';
+import { validateRecoverToken, validateToken } from '../../utils/tokens';
 import { BadRequestError } from '../../errors/bad-request-error';
 
 const httpSignUp = async (req: Request, res: Response) => {
@@ -59,7 +59,7 @@ const httpGetUser = async (req: Request, res: Response) => {
   try {
     if (req.headers) {
       const token = req.headers.authorization;
-      if(token){
+      if (token) {
         const { user } = validateToken(token);
         const loggedUser = await userService.getLoggedUser(user.id);
         res.send(loggedUser);
@@ -98,26 +98,41 @@ const httpUpdatePassword = async (req: Request, res: Response) => {
     throw new RequestValidationError(errors.array());
   }
   try {
-    const { id } = req.params;
-    const { pass } = req.body;
-    const updatedUser = await userService.updatePassword(id, pass);
-    res.send(updatedUser);
+    const data = req.body;
+    if(data.email){
+      const updatedUser = await userService.updatePassword(data.password, data.email);
+      res.send(updatedUser);
+    }else if (data.id){
+      const updatedUser = await userService.updatePassword(data.password, undefined, data.id);
+      res.send(updatedUser);
+    }
   } catch (e) {
     throw new ServerError(e);
   }
 };
 
-const httpSendPassEmail = async (req: Request, res: Response) => {
+const httpForgotPassword = async (req: Request, res: Response) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     throw new RequestValidationError(errors.array());
   }
   try {
-    const data = req.body;
-    sendPasswordChangerEmail(data);
-    res.sendStatus(200);
+    const { email } = req.body;
+    const response = await userService.forgotPassword(email);
+    response ? res.sendStatus(200) : res.sendStatus(400);
   } catch (e) {
     throw new ServerError(e);
+  }
+};
+
+const httpRecoverPassword = async (req: Request, res: Response) => {
+  const token = String(req.query.token);
+  try {
+    const decodedToken = validateRecoverToken(token);
+    if (decodedToken) res.send(decodedToken.email);
+    else throw new BadRequestError('El token es inválido o ha expirado');
+  } catch (e) {
+    throw new BadRequestError('El token es inválido o ha expirado');
   }
 };
 
@@ -127,5 +142,6 @@ export default {
   httpGetUser,
   httpUpdateUser,
   httpUpdatePassword,
-  httpSendPassEmail,
+  httpForgotPassword,
+  httpRecoverPassword,
 };

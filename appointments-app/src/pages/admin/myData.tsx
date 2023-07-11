@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 
-import { getLoggedUser, sendPassEmail, updateUser } from '@/services/users';
+import { forgotPassword, getLoggedUser, updateUser } from '@/services/users';
 import Modal from '@/commons/Modal';
 import { checkLocalStorage } from '@/utils/localStorage';
 import Input from '@/commons/Input';
@@ -48,9 +48,9 @@ const myData = () => {
     },
   });
 
-  const passEmail = useMutation({
-    mutationFn: sendPassEmail,
-    onSuccess: operator => {
+  const sendEmail = useMutation({
+    mutationFn: forgotPassword,
+    onSuccess: response => {
       setMessage('Se le ha enviado un correo para cambiar su contraseña');
       setType(3);
       setOpen(true);
@@ -74,7 +74,7 @@ const myData = () => {
     }
   };
 
-  if(loggedUser.isLoading || !name) return <Spinner2 />
+  if (loggedUser.isLoading || !name) return <Spinner2 />;
 
   return (
     <div className='bg-cruceBackground'>
@@ -114,7 +114,7 @@ const myData = () => {
                 type='button'
                 className='font-semibold text-ss text-cruce hover:text-cruceHover'
                 onClick={() => {
-                  loggedUser.data && passEmail.mutate({ id: loggedUser.data._id, email: email });
+                  loggedUser.data && sendEmail.mutate(email);
                 }}
               >
                 Editar contraseña

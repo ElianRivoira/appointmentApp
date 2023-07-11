@@ -57,7 +57,7 @@ const ReservePanel = () => {
       setOpen(true);
     },
     onSuccess: branches => {
-      if(branches){
+      if (branches) {
         setDbBranches([
           ...branches,
           {
@@ -92,7 +92,7 @@ const ReservePanel = () => {
   const createReserve = useMutation({
     mutationFn: postReserve,
     onSuccess: reserve => {
-      if(reserve){
+      if (reserve) {
         setReserveId(reserve._id);
         generateAppointmentProof(reserve, branch, postProof);
       }
@@ -142,19 +142,19 @@ const ReservePanel = () => {
     }
   }, [date, branchObject]);
 
-  if(loggedUser.isLoading || branches.isLoading) return <Spinner2 />
+  if (loggedUser.isLoading || branches.isLoading) return <Spinner2 />;
 
   return (
     <div className='bg-cruceBackground'>
-      <div className='flex flex-col lg:mx-32 2xl:mx-44'>
-        <div className='mt-12 mb-6 flex justify-around lg:justify-between'>
+      <div className='flex flex-col mx-4 lg:mx-14 2xl:mx-32 3xl:mx-44'>
+        <div className='mt-12 mb-6 flex justify-between'>
           <div className='w-3/6'>
             <h1 className='font-bold text-xb'>Hacer una Reserva</h1>
           </div>
           <div className='w-2/6'></div>
         </div>
-        <div className='flex justify-around lg:justify-between'>
-          <div className='w-3/6 px-10 py-8 rounded-lg bg-white'>
+        <div className='flex lgMax:flex-col lgMax:items-center justify-between'>
+          <div className='lg:w-3/6 md:w-[80%] w-full lgMax:mb-10 px-10 py-8 rounded-lg bg-white'>
             <h3 className='text-ln font-bold mb-1'>Reserva</h3>
             {!branch ? (
               <>
@@ -210,31 +210,35 @@ const ReservePanel = () => {
             />
           </div>
           {branch ? (
-            <CalendarContainer>
-              <Calendar
-                calendarType={'US'}
-                defaultView={'month'}
-                locale={'es-ES'}
-                value={date}
-                onClickDay={(e: Date) => {
-                  setDate(e);
-                  setSelectedDate(true);
-                }}
-              />
-            </CalendarContainer>
+            <div className='lg:w-[40%] w-full flex justify-center lg:justify-end lgMax:mb-14'>
+              <CalendarContainer>
+                <Calendar
+                  calendarType={'US'}
+                  defaultView={'month'}
+                  locale={'es-ES'}
+                  value={date}
+                  onClickDay={(e: Date) => {
+                    setDate(e);
+                    setSelectedDate(true);
+                  }}
+                />
+              </CalendarContainer>
+            </div>
           ) : (
-            <CalendarContainerDisabled>
-              <Calendar
-                calendarType={'US'}
-                defaultView={'month'}
-                locale={'es-ES'}
-                value={date}
-                onClickDay={(e: Date) => {
-                  setDate(e);
-                  setSelectedDate(true);
-                }}
-              />
-            </CalendarContainerDisabled>
+            <div className='lg:w-[40%] w-full flex justify-center lg:justify-end lgMax:mb-14'>
+              <CalendarContainerDisabled>
+                <Calendar
+                  calendarType={'US'}
+                  defaultView={'month'}
+                  locale={'es-ES'}
+                  value={date}
+                  onClickDay={(e: Date) => {
+                    setDate(e);
+                    setSelectedDate(true);
+                  }}
+                />
+              </CalendarContainerDisabled>
+            </div>
           )}
         </div>
         <CountDown

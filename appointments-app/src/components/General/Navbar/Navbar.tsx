@@ -17,8 +17,9 @@ import reporteActivo from '@/assets/icons/reporteActivo.svg';
 import operadores from '@/assets/icons/operadores.svg';
 import reportes from '@/assets/icons/reportes.svg';
 import { getLoggedUser } from '@/services/users';
-import Modal from '../../commons/Modal';
+import Modal from '../../../commons/Modal';
 import { checkLocalStorage } from '@/utils/localStorage';
+import { checkPathname } from '@/utils/checkPathname';
 
 const Navbar = () => {
   const router = useRouter();
@@ -30,7 +31,7 @@ const Navbar = () => {
   const loggedUser = useQuery({
     queryKey: ['loggedUser'],
     retry: 1,
-    enabled: router.pathname !== '/login' && router.pathname !== '/register' && router.pathname !== '/',
+    enabled: checkPathname(router.pathname),
     queryFn: getLoggedUser,
     onError: error => {
       setType(2);
@@ -57,7 +58,7 @@ const Navbar = () => {
 
   return (
     <>
-      {router.pathname !== '/login' && router.pathname !== '/register' && router.pathname !== '/' && (
+      {checkPathname(router.pathname) && (
         <div className='fixed z-20 top-0 right-0 w-full flex justify-center h-20 shadow-navbar bg-white'>
           <nav className='flex flex-row justify-between w-11/12 md:max-w-screen-2xl h-20 items-center'>
             {loggedUser.data?.role === 'user' ? (

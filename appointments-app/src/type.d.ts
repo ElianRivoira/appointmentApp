@@ -172,3 +172,9 @@ interface IMetrics {
 interface IAllBranchesMetrics {
   [key: string]: IMetrics;
 }
+
+interface TokenResponse {
+  status: boolean;
+  message?: string;
+  email?: string;
+}
