@@ -7,6 +7,7 @@ import editIcon from '@/assets/icons/edit.svg';
 import { cancelReserv, confirmReserve } from '@/services/appointments';
 import Modal from '@/commons/Modal';
 import Spinner2 from '@/components/General/Spinner2';
+import useMediaQuery from '@/hooks/useMediaQuery';
 
 interface Props {
   reserveId: string;
@@ -67,15 +68,17 @@ const Dropdown: React.FC<Props> = ({ reserveId, view, refetchFunc }) => {
   return (
     <div className='relative'>
       <button
-        className={`bg-grey1 hover:bg-grey2 text-cruce font-semibold text-lb rounded-lg ${
-          view === 'user' ? 'w-[100px]' : view === 'operator' ? 'w-[150px]' : null
-        } h-12 flex justify-center items-center active:shadow-active relative z-10`}
+        className={`bg-grey1 hover:bg-grey2 text-cruce font-semibold text-lb rounded-lg h-8 sm:h-12 px-2 sm:px-4 flex justify-center items-center active:shadow-active relative z-10`}
         onClick={() => setOpenDrop(!openDrop)}
       >
-        <div className='ml-2 mr-3 font-semibold text-[15px]'>
-          {view === 'user' ? 'Editar' : view === 'operator' ? 'Confirmación' : null}
-        </div>
-        <Image src={editIcon} alt='editIcon' className='w-4 h-4 mr-1'></Image>
+        {!useMediaQuery(640) ? (
+          <div className='ml-2 mr-3 font-semibold text-[15px]'>
+            {view === 'user' ? 'Editar' : view === 'operator' ? 'Confirmación' : null}
+          </div>
+        ) : (
+          <></>
+        )}
+        <Image src={editIcon} alt='editIcon' className='w-4 h-4'></Image>
       </button>
 
       {openDrop ? (
@@ -84,7 +87,7 @@ const Dropdown: React.FC<Props> = ({ reserveId, view, refetchFunc }) => {
             className='fixed w-full h-full inset-0 cursor-default z-20'
             onClick={() => setOpenDrop(false)}
           ></button>
-          <ul className='absolute z-20 left-0 w-32 mt-2 mb-10 border rounded-lg bg-white shadow-xl'>
+          <ul className='absolute z-20 right-0 sm:left-0 w-32 mt-2 mb-10 border rounded-lg bg-white shadow-xl'>
             {view === 'user' ? (
               <>
                 <Link href={`./reservePanel/edit/${reserveId}`}>

@@ -36,10 +36,10 @@ const Reserves = () => {
     },
   });
 
-  if(loggedUser.isLoading || reserves.isLoading) return <Spinner2 />
+  if (loggedUser.isLoading || reserves.isLoading) return <Spinner2 />;
 
   return (
-    <div className='mt-12 mx-24 pb-16'>
+    <div className='pt-12 px-3 sm:px-12 lg:px-24 pb-16'>
       <div className='font-semibold text-xl mb-6'>Reservas</div>
       <div>
         {reserves.data?.map(reserve => (

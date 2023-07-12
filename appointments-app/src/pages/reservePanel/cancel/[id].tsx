@@ -12,6 +12,7 @@ import { getOneReserve, cancelReserv } from '@/services/appointments';
 import Modal from '@/commons/Modal';
 import cancelReasons from '@/utils/cancelReasons';
 import { checkLocalStorage } from '@/utils/localStorage';
+import useMediaQuery from '@/hooks/useMediaQuery';
 
 const cancelReserve = ({ query }: MyPageProps) => {
   const [cancelReason, setCancelReason] = useState('');
@@ -60,8 +61,8 @@ const cancelReserve = ({ query }: MyPageProps) => {
 
   return (
     <>
-      <div className='flex mx-24 mt-6'>
-        <div className='w-2/3'>
+      <div className={`flex ${useMediaQuery(550) ? 'flex-col' : ''} px-10 md:px-24 pt-6 gap-4`}>
+        <div className={`${useMediaQuery(550) ? 'w-full' : 'w-2/3'}`}>
           <div className='flex w-full text-cruce font-semibold text-ss items-center'>
             <Link href={'/reserves'} className='flex items-center'>
               <Image src={flechitaIzq} alt='flechitaIzq' className='w-3 h-3 mr-1.5' />
@@ -85,25 +86,27 @@ const cancelReserve = ({ query }: MyPageProps) => {
             </fieldset>
           </form>
         </div>
-        <div className='w-1/3 ml-[115px] mt-6'>
-          <p className='text-xm'>Información de la reserva</p>
-          <h1 className='mt-2 mb-4 font-bold text-lx'>{reserve.data?.name}</h1>
-          <p className='text-ss font-semibold'>
-            Día:{' '}
-            {reserve.data ? (
-              <span className='font-normal'>{new Date(reserve.data.date).toLocaleString().split(',')[0]}</span>
-            ) : null}
-          </p>
-          <p className='text-ss font-semibold my-2'>
-            Horario:{' '}
-            {reserve.data ? (
-              <span className='font-normal'>{new Date(reserve.data.date).toLocaleString().split(',')[1]}</span>
-            ) : null}
-          </p>
-          <p className='text-ss font-semibold'>
-            Sucursal: <span className='font-normal'>{reserve.data?.branch.name}</span>
-          </p>
-          <hr className='mt-4' />
+        <div className={`${useMediaQuery(550) ? 'w-full' : 'w-1/3 pt-6'}  flex justify-center`}>
+          <div className={`${useMediaQuery(550) ? 'w-full' : 'w-fit'}`}>
+            <p className='text-xm'>Información de la reserva</p>
+            <h1 className='mt-2 mb-4 font-bold text-lx'>{reserve.data?.name}</h1>
+            <p className='text-ss font-semibold'>
+              Día:{' '}
+              {reserve.data ? (
+                <span className='font-normal'>{new Date(reserve.data.date).toLocaleString().split(',')[0]}</span>
+              ) : null}
+            </p>
+            <p className='text-ss font-semibold my-2'>
+              Horario:{' '}
+              {reserve.data ? (
+                <span className='font-normal'>{new Date(reserve.data.date).toLocaleString().split(',')[1]}</span>
+              ) : null}
+            </p>
+            <p className='text-ss font-semibold'>
+              Sucursal: <span className='font-normal'>{reserve.data?.branch.name}</span>
+            </p>
+            <hr className={`${useMediaQuery(550) ? 'mt-5' : 'mt-[10px]'} border-grey4`} />
+          </div>
         </div>
       </div>
       <Modal type={type} open={open} errors={errors} onClose={() => setOpen(false)}>

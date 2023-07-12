@@ -154,7 +154,7 @@ const ReservePanel = () => {
           <div className='w-2/6'></div>
         </div>
         <div className='flex lgMax:flex-col lgMax:items-center justify-between'>
-          <div className='lg:w-3/6 md:w-[80%] w-full lgMax:mb-10 px-10 py-8 rounded-lg bg-white'>
+          <div className='lg:w-3/6 md:w-[80%] w-full lgMax:mb-10 px-3 sm:px-10 py-8 rounded-lg bg-white'>
             <h3 className='text-ln font-bold mb-1'>Reserva</h3>
             {!branch ? (
               <>

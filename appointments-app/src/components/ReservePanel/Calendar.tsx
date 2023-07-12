@@ -5,11 +5,14 @@ export const CalendarContainer = styled.div`
 width: 100%;
 height: 400px;
 max-width: 550px;
-max-heigth: 450px;
 padding: 32px;
 border-radius: 8px;
 background-color: white;
 text-transform: capitalize;
+
+@media (max-width: 580px) {
+  padding: 10px;
+}
 
 /* ~~~ calendar styles ~~~ */
 .react-calendar__navigation {
@@ -21,11 +24,15 @@ text-transform: capitalize;
     font-size: 18px;
     line-height: 24px;
     text-transform: capitalize;
+    @media (max-width: 580px) {
+      font-size: 16px;
+      line-height: 21px;
+    }
 }
 
-.react-calendar__navigation__arrow {
-  flex-grow: 0.333;
-}
+  .react-calendar__navigation__arrow {
+    flex-grow: 0.333;
+  }
 }
 
 /* ~~~ label styles ~~~ */
@@ -79,12 +86,15 @@ export const CalendarContainerDisabled = styled.div`
 width: 100%;
 height: 400px;
 max-width: 550px;
-max-heigth: 450px;
 padding: 32px;
 border-radius: 8px;
 background-color: white;
 text-transform: capitalize;
 pointer-events: none;
+
+@media (max-width: 580px) {
+  padding: 10px;
+}
 
 /* ~~~ calendar styles ~~~ */
 .react-calendar__navigation {
@@ -96,6 +106,10 @@ pointer-events: none;
     font-size: 18px;
     line-height: 24px;
     text-transform: capitalize;
+    @media (max-width: 580px) {
+      font-size: 16px;
+      line-height: 21px;
+    }
 }
 
 .react-calendar__navigation__arrow {

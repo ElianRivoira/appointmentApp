@@ -108,16 +108,16 @@ const ReservePanel = ({ query }: MyPageProps) => {
   }, [reserve.isSuccess, reserve.isRefetching]);
 
   return (
-    <>
-      <div className='flex flex-col lg:mx-32 2xl:mx-44'>
-        <div className='mt-12 mb-6 flex justify-around lg:justify-between'>
+    <div className='bg-cruceBackground'>
+      <div className='flex flex-col mx-4 lg:mx-14 2xl:mx-32 3xl:mx-44'>
+        <div className='mt-12 mb-6 flex justify-between'>
           <div className='w-3/6'>
             <h1 className='font-bold text-xb'>Hacer una Reserva</h1>
           </div>
           <div className='w-2/6'></div>
         </div>
-        <div className='flex justify-around lg:justify-between'>
-          <div className='w-3/6 px-10 py-8 rounded-lg bg-white'>
+        <div className='flex lgMax:flex-col lgMax:items-center justify-between'>
+          <div className='lg:w-3/6 md:w-[80%] w-full lgMax:mb-10 px-3 sm:px-10 py-8 rounded-lg bg-white'>
             <h3 className='text-ln font-bold mb-1'>Reserva</h3>
             {!branch ? (
               <>
@@ -157,8 +157,8 @@ const ReservePanel = ({ query }: MyPageProps) => {
               handleSubmit={handleSubmit}
               branches={branches.data}
               branch={branch}
-              setBranch={setBranch}
               shifts={shifts}
+              setBranch={setBranch}
               selectedDate={selectedDate}
               time={time}
               setTime={setTime}
@@ -173,56 +173,50 @@ const ReservePanel = ({ query }: MyPageProps) => {
             />
           </div>
           {branch ? (
-            <CalendarContainer>
-              <Calendar
-                calendarType={'US'}
-                defaultView={'month'}
-                locale={'es-ES'}
-                value={date}
-                onClickDay={(e: Date) => {
-                  setDate(e);
-                  setSelectedDate(true);
-                }}
-              />
-            </CalendarContainer>
+            <div className='lg:w-[40%] w-full flex justify-center lg:justify-end lgMax:mb-14'>
+              <CalendarContainer>
+                <Calendar
+                  calendarType={'US'}
+                  defaultView={'month'}
+                  locale={'es-ES'}
+                  value={date}
+                  onClickDay={(e: Date) => {
+                    setDate(e);
+                    setSelectedDate(true);
+                  }}
+                />
+              </CalendarContainer>
+            </div>
           ) : (
-            <CalendarContainerDisabled>
-              <Calendar
-                calendarType={'US'}
-                defaultView={'month'}
-                locale={'es-ES'}
-                value={date}
-                onClickDay={(e: Date) => {
-                  setDate(e);
-                  setSelectedDate(true);
-                }}
-              />
-            </CalendarContainerDisabled>
+            <div className='lg:w-[40%] w-full flex justify-center lg:justify-end lgMax:mb-14'>
+              <CalendarContainerDisabled>
+                <Calendar
+                  calendarType={'US'}
+                  defaultView={'month'}
+                  locale={'es-ES'}
+                  value={date}
+                  onClickDay={(e: Date) => {
+                    setDate(e);
+                    setSelectedDate(true);
+                  }}
+                />
+              </CalendarContainerDisabled>
+            </div>
           )}
         </div>
-        {selectedDate === true ? (
-          <CountDown
-            start={start}
-            countDown={countDown}
-            setCountDown={setCountDown}
-            formatTime={formatTime}
-            margin={false}
-          />
-        ) : (
-          <CountDown
-            start={start}
-            countDown={countDown}
-            setCountDown={setCountDown}
-            formatTime={formatTime}
-            margin={true}
-          />
-        )}
+        <CountDown
+          start={start}
+          countDown={countDown}
+          setCountDown={setCountDown}
+          formatTime={formatTime}
+          margin={selectedDate ? true : false}
+        />
       </div>
       <Modal type={type} errors={errors} open={open} onClose={() => setOpen(false)}>
-        <h1 className='text-ln font-bold'>Turno modificado con éxito</h1>
+        <h1 className='text-ln font-bold'>Turno reservado con éxito</h1>
         <p className='text-sm font-normal mt-1'>Gracias por confiar en nuestro servicio</p>
       </Modal>
-    </>
+    </div>
   );
 };
 

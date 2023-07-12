@@ -2,6 +2,7 @@ import React from 'react';
 import { UseQueryResult } from '@tanstack/react-query';
 
 import Dropdown from '@/commons/Dropdown';
+import ReserveData from '@/commons/ReserveData';
 
 interface Props {
   data: reserveUser;
@@ -10,57 +11,44 @@ interface Props {
 }
 
 const Reserve: React.FC<Props> = ({ data, operatorView, refetchFunc }) => {
-  let date = new Date(data.date);
-  let [fecha, hora] = date.toLocaleString().split(',');
-  let minutos;
-  [hora, minutos] = hora.split(':');
+  const date = new Date(data.date);
+  const [fecha, time] = date.toLocaleString().split(',');
+  const [hora, minutos] = time.split(':');
+
   return (
-    <div className='flex mb-4 border-2 rounded-xl p-6'>
+    <div className='flex w-full mb-4 border-2 rounded-xl p-2.5 sm:p-6 bg-white'>
       {operatorView ? (
         <>
-          <div className='w-5/6 flex py-1.5'>
-            <div className='flex flex-col flex-1'>
-              <div className='text-xs'>Nombre y apellido</div>
-              <div className='text-sm font-semibold'>{data.name}</div>
+          <div className='w-5/6 flex lgMax:flex-col py-1.5'>
+            <div className='flex lg:w-1/2'>
+              <ReserveData label='Nombre y apellido' data={data.name} />
+              <ReserveData label='Reserva' data={fecha + ',' + hora + ':' + minutos + ' hs'} />
             </div>
-            <div className='flex flex-col flex-1'>
-              <div className='text-xs'>Reserva</div>
-              <div className='text-sm font-semibold'>{fecha + ',' + hora + ':' + minutos + ' hs'}</div>
-            </div>
-            <div className='flex flex-col flex-1'>
-              <div className='text-xs'>Día de la reserva</div>
-              <div className='text-sm font-semibold'>{new Date(data.creationDate).toLocaleString().split(',')[0]}</div>
-            </div>
-            <div className='flex flex-col flex-1'>
-              <div className='text-xs'>N° de la reserva</div>
-              <div className='text-sm font-semibold'>{data.id}</div>
+            <div className='flex lg:w-1/2'>
+              <ReserveData
+                label='Día de la reserva'
+                data={new Date(data.creationDate).toLocaleString().split(',')[0]}
+              />
+              <ReserveData label='N° de la reserva' data={data.id} />
             </div>
           </div>
-          <div className='w-1/6 flex justify-end'>
+          <div className='w-1/6 flex justify-center sm:justify-end items-center'>
             <Dropdown reserveId={data._id} view={'operator'} refetchFunc={refetchFunc} />
           </div>
         </>
       ) : (
         <>
-          <div className='w-5/6 flex py-1.5'>
-            <div className='flex flex-col flex-1'>
-              <div className='text-xs'>Nombre y apellido</div>
-              <div className='text-sm font-semibold'>{data.name}</div>
+          <div className='w-5/6 flex lgMax:flex-col gap-3 py-1.5'>
+            <div className='flex lg:w-1/2'>
+              <ReserveData label='Nombre y apellido' data={data.name} />
+              <ReserveData label='Reserva' data={fecha + ',' + hora + ':' + minutos + ' hs'} />
             </div>
-            <div className='flex flex-col flex-1'>
-              <div className='text-xs'>Reserva</div>
-              <div className='text-sm font-semibold'>{fecha + ',' + hora + ':' + minutos + ' hs'}</div>
-            </div>
-            <div className='flex flex-col flex-1'>
-              <div className='text-xs'>Sucursal</div>
-              <div className='text-sm font-semibold'>{data.branch.name}</div>
-            </div>
-            <div className='flex flex-col flex-1'>
-              <div className='text-xs'>Id de la reserva</div>
-              <div className='text-sm font-semibold'>{data.id}</div>
+            <div className='flex lg:w-1/2'>
+              <ReserveData label='Sucursal' data={data.branch.name} />
+              <ReserveData label='Id de la reserva' data={data.id} />
             </div>
           </div>
-          <div className='w-1/6 flex justify-end'>
+          <div className='w-1/6 flex justify-center sm:justify-end items-center'>
             <Dropdown reserveId={data._id} view={'user'} refetchFunc={refetchFunc} />
           </div>
         </>

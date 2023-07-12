@@ -12,7 +12,7 @@ interface Props {
 const CancelOption: React.FC<Props> = ({ label, id, cancelReason, setCancelReason }) => {
   return (
     <>
-      <hr />
+      <hr className='border-grey4' />
       <div className='my-6.5 flex items-center relative'>
         <input
           type='radio'
@@ -27,7 +27,7 @@ const CancelOption: React.FC<Props> = ({ label, id, cancelReason, setCancelReaso
         </label>
       </div>
       {cancelReason === label ? (
-        <div className='p-6 bg-grey1 mb-6.5 rounded-lg'>
+        <div className='p-6 bg-white mb-6.5 rounded-lg mdMax:flex mdMax:flex-col mdMax:items-center'>
           <p className='text-ss font-semibold'>Su reserva actual será cancelada</p>
           <p className='my-3 text-ss font-semibold'>La cancelación no puede ser revertida</p>
           <Button type='submit' style='w-fit px-6 h-11 bg-error hover:bg-errorHover'>
