@@ -12,6 +12,7 @@ import Input from '@/commons/Input';
 import PasswordInput from '@/commons/PasswordInput';
 import Button from '@/commons/Button';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 
 const Register = () => {
   const [name, setName] = useState('');
@@ -124,124 +125,129 @@ const Register = () => {
   }, [open]);
 
   return (
-    <div className='flex justify-center'>
-      <div className='flex flex-col p-8 px-12 w-3/4 max-w-screen-sm h-3/5 border-2 mt-8 rounded-xl shadow-xg bg-white'>
-        <div className='flex w-full text-cruce font-semibold'>
-          <Link href={'login'}>
-            <button className='flex'>
-              <Image src={flechitaIzq} alt='flechitaIzq' className='w-4 h-4 mr-1'></Image>
-              <p className='flex -mt-1'>Atrás</p>
+    <>
+      <Head>
+        <title>Appointments - Registro</title>
+      </Head>
+      <div className='flex justify-center'>
+        <div className='flex flex-col p-8 px-12 w-3/4 max-w-screen-sm h-3/5 border-2 mt-8 rounded-xl shadow-xg bg-white'>
+          <div className='flex w-full text-cruce font-semibold'>
+            <Link href={'login'}>
+              <button className='flex'>
+                <Image src={flechitaIzq} alt='flechitaIzq' className='w-4 h-4 mr-1'></Image>
+                <p className='flex -mt-1'>Atrás</p>
+              </button>
+            </Link>
+          </div>
+          <div className='flex justify-center mt-1'>
+            <h3 className='font-semibold text-2xl mb-5'>Crear cuenta</h3>
+          </div>
+          <form onSubmit={registerButton}>
+            <div className='w-full flex gap-4'>
+              <div className='w-1/2 flex flex-col'>
+                <Input
+                  label='Nombre y Apellido'
+                  type='text'
+                  name='name'
+                  id='name'
+                  value={name}
+                  onChange={handleName}
+                  required
+                />
+              </div>
+              <div className='w-1/2 flex flex-col'>
+                <Input label='DNI' type='tel' name='dni' id='dni' value={dni} onChange={handleDni} required />
+              </div>
+            </div>
+            <div className='flex flex-col'>
+              <Input
+                label='Email'
+                type='email'
+                name='email'
+                id='email'
+                pattern='[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$'
+                value={email}
+                onChange={handleEmail}
+                required
+              />
+            </div>
+            <div className='flex gap-4'>
+              <div className='w-1/2 flex flex-col'>
+                <PasswordInput
+                  label='Contraseña'
+                  name='password'
+                  id='password'
+                  value={password}
+                  onChange={handlePassword}
+                  required
+                />
+              </div>
+              <div className='w-1/2 flex flex-col'>
+                <PasswordInput
+                  label='Repetir Contraseña'
+                  name='password2'
+                  id='password2'
+                  value={passwordTwo}
+                  onChange={handlePasswordTwo}
+                  required
+                />
+              </div>
+            </div>
+            <div className='flex flex-col bg-[#F5F5F5] py-4 px-5 rounded-lg mt-4 mb-5'>
+              <div className='font-medium text-xs mb-3'>
+                <p className='mb-0.5'>La contraseña debe contener:</p>
+                <hr />
+              </div>
+              <div className='w-full flex flex-col'>
+                <div className='flex text-xs w-full mb-2'>
+                  <div className='w-1/2 flex'>
+                    <Image src={mayus > 0 ? rightCheckbox : wrongCheckbox} alt='x' className='w-4 h-4 mr-2'></Image>
+                    <span className={`${mayus > 0 ? 'text-green-500' : 'text-red-500'}`}>ABC Una letra mayúscula</span>
+                  </div>
+                  <div className='w-1/2 flex'>
+                    <Image src={minus > 0 ? rightCheckbox : wrongCheckbox} alt='x' className='w-4 h-4 mr-2'></Image>
+                    <span className={`${minus > 0 ? 'text-green-500' : 'text-red-500'}`}>ABC Una letra minúscula</span>
+                  </div>
+                </div>
+                <div className='flex text-xs'>
+                  <div className='w-1/2 flex'>
+                    <Image src={numb > 0 ? rightCheckbox : wrongCheckbox} alt='x' className='w-4 h-4 mr-2'></Image>
+                    <span className={`${numb > 0 ? 'text-green-500' : 'text-red-500'}`}>123 Un número</span>
+                  </div>
+                  <div className='w-1/2 flex'>
+                    <Image src={length > 0 ? rightCheckbox : wrongCheckbox} alt='x' className='w-4 h-4 mr-2'></Image>
+                    <span className={`${length > 0 ? 'text-green-500' : 'text-red-500'}`}>*** Mínimo 8 caracteres</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {name && dni && email && password.length >= 8 && passwordTwo.length >= 8 ? (
+              <Button type='submit'>Registrarme</Button>
+            ) : (
+              <Button type='submit' disabled>
+                Registrarme
+              </Button>
+            )}
+          </form>
+          <hr className='w-full border-grey3 my-5' />
+          <Link href='/login'>
+            <button className='active:shadow-active bg-cruceSecondary hover:bg-cruceSecondaryHover text-cruce w-full font-semibold rounded-lg mb-5 h-11'>
+              ¿Ya tenés cuenta? Iniciá Sesión
             </button>
           </Link>
         </div>
-        <div className='flex justify-center mt-1'>
-          <h3 className='font-semibold text-2xl mb-5'>Crear cuenta</h3>
-        </div>
-        <form onSubmit={registerButton}>
-          <div className='w-full flex gap-4'>
-            <div className='w-1/2 flex flex-col'>
-              <Input
-                label='Nombre y Apellido'
-                type='text'
-                name='name'
-                id='name'
-                value={name}
-                onChange={handleName}
-                required
-              />
-            </div>
-            <div className='w-1/2 flex flex-col'>
-              <Input label='DNI' type='tel' name='dni' id='dni' value={dni} onChange={handleDni} required />
-            </div>
-          </div>
-          <div className='flex flex-col'>
-            <Input
-              label='Email'
-              type='email'
-              name='email'
-              id='email'
-              pattern='[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$'
-              value={email}
-              onChange={handleEmail}
-              required
-            />
-          </div>
-          <div className='flex gap-4'>
-            <div className='w-1/2 flex flex-col'>
-              <PasswordInput
-                label='Contraseña'
-                name='password'
-                id='password'
-                value={password}
-                onChange={handlePassword}
-                required
-              />
-            </div>
-            <div className='w-1/2 flex flex-col'>
-              <PasswordInput
-                label='Repetir Contraseña'
-                name='password2'
-                id='password2'
-                value={passwordTwo}
-                onChange={handlePasswordTwo}
-                required
-              />
-            </div>
-          </div>
-          <div className='flex flex-col bg-[#F5F5F5] py-4 px-5 rounded-lg mt-4 mb-5'>
-            <div className='font-medium text-xs mb-3'>
-              <p className='mb-0.5'>La contraseña debe contener:</p>
-              <hr />
-            </div>
-            <div className='w-full flex flex-col'>
-              <div className='flex text-xs w-full mb-2'>
-                <div className='w-1/2 flex'>
-                  <Image src={mayus > 0 ? rightCheckbox : wrongCheckbox} alt='x' className='w-4 h-4 mr-2'></Image>
-                  <span className={`${mayus > 0 ? 'text-green-500' : 'text-red-500'}`}>ABC Una letra mayúscula</span>
-                </div>
-                <div className='w-1/2 flex'>
-                  <Image src={minus > 0 ? rightCheckbox : wrongCheckbox} alt='x' className='w-4 h-4 mr-2'></Image>
-                  <span className={`${minus > 0 ? 'text-green-500' : 'text-red-500'}`}>ABC Una letra minúscula</span>
-                </div>
-              </div>
-              <div className='flex text-xs'>
-                <div className='w-1/2 flex'>
-                  <Image src={numb > 0 ? rightCheckbox : wrongCheckbox} alt='x' className='w-4 h-4 mr-2'></Image>
-                  <span className={`${numb > 0 ? 'text-green-500' : 'text-red-500'}`}>123 Un número</span>
-                </div>
-                <div className='w-1/2 flex'>
-                  <Image src={length > 0 ? rightCheckbox : wrongCheckbox} alt='x' className='w-4 h-4 mr-2'></Image>
-                  <span className={`${length > 0 ? 'text-green-500' : 'text-red-500'}`}>*** Mínimo 8 caracteres</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          {name && dni && email && password.length >= 8 && passwordTwo.length >= 8 ? (
-            <Button type='submit'>Registrarme</Button>
-          ) : (
-            <Button type='submit' disabled>
-              Registrarme
-            </Button>
-          )}
-        </form>
-        <hr className='w-full border-grey3 my-5' />
-        <Link href='/login'>
-          <button className='active:shadow-active bg-cruceSecondary hover:bg-cruceSecondaryHover text-cruce w-full font-semibold rounded-lg mb-5 h-11'>
-            ¿Ya tenés cuenta? Iniciá Sesión
-          </button>
-        </Link>
+        <Modal
+          type={type}
+          errors={errors}
+          open={open}
+          type3Message={message}
+          type3Img={type3Img}
+          onClose={() => setOpen(false)}
+        >
+          <h1>Tu usuario ha sido creado satisfactoriamente</h1>
+        </Modal>
       </div>
-      <Modal
-        type={type}
-        errors={errors}
-        open={open}
-        type3Message={message}
-        type3Img={type3Img}
-        onClose={() => setOpen(false)}
-      >
-        <h1>Tu usuario ha sido creado satisfactoriamente</h1>
-      </Modal>
-    </div>
+    </>
   );
 };
 

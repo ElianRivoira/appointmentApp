@@ -8,6 +8,7 @@ import Spinner2 from '@/components/General/Spinner2';
 import { checkLocalStorage } from '@/utils/localStorage';
 import Input from '@/commons/Input';
 import Button from '@/commons/Button';
+import Head from 'next/head';
 
 const myData = () => {
   const [name, setName] = useState('');
@@ -88,70 +89,75 @@ const myData = () => {
   if (loggedUser.isLoading || !name) return <Spinner2 />;
 
   return (
-    <div className='flex justify-center'>
-      <div className='flex flex-col lg:w-3/4 max-w-screen-md h-3/5 mt-12 lgMax:mx-4 p-10 pb-8 border rounded-xl shadow-navbar bg-white'>
-        <p className='mb-4 font-bold text-xb'>Mis Datos</p>
-        <form onSubmit={handleSubmit}>
-          <Input
-            label='Nombre'
-            type='text'
-            name='username'
-            id='username'
-            value={name}
-            onChange={e => setName(e.target.value)}
-            required
-          />
-          <Input
-            label='Correo electrónico'
-            type='email'
-            name='email'
-            id='email'
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-            required
-          />
-          <div className='flex mb-3'>
-            <div className='w-1/2 mr-4'>
-              <Input
-                label='DNI'
-                type='tel'
-                name='dni'
-                id='dni'
-                value={dni}
-                onChange={e => setDni(Number(e.target.value))}
-                required
-              />
+    <>
+      <Head>
+        <title>Appointments - Mi cuenta</title>
+      </Head>
+      <div className='flex justify-center'>
+        <div className='flex flex-col lg:w-3/4 max-w-screen-md h-3/5 mt-12 lgMax:mx-4 p-10 pb-8 border rounded-xl shadow-navbar bg-white'>
+          <p className='mb-4 font-bold text-xb'>Mis Datos</p>
+          <form onSubmit={handleSubmit}>
+            <Input
+              label='Nombre'
+              type='text'
+              name='username'
+              id='username'
+              value={name}
+              onChange={e => setName(e.target.value)}
+              required
+            />
+            <Input
+              label='Correo electrónico'
+              type='email'
+              name='email'
+              id='email'
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              required
+            />
+            <div className='flex mb-3'>
+              <div className='w-1/2 mr-4'>
+                <Input
+                  label='DNI'
+                  type='tel'
+                  name='dni'
+                  id='dni'
+                  value={dni}
+                  onChange={e => setDni(Number(e.target.value))}
+                  required
+                />
+              </div>
+              <div className='w-1/2'>
+                <Input
+                  label='Teléfono'
+                  type='tel'
+                  name='phone'
+                  id='phone'
+                  value={phone}
+                  onChange={e => setPhone(Number(e.target.value))}
+                  required
+                />
+              </div>
             </div>
-            <div className='w-1/2'>
-              <Input
-                label='Teléfono'
-                type='tel'
-                name='phone'
-                id='phone'
-                value={phone}
-                onChange={e => setPhone(Number(e.target.value))}
-                required
-              />
+            <div className='flex justify-start'>
+              <button
+                type='button'
+                className='font-semibold text-ss text-cruce hover:text-cruceHover'
+                onClick={changePassword}
+              >
+                Editar contraseña
+              </button>
             </div>
-          </div>
-          <div className='flex justify-start'>
-            <button
-              type='button'
-              className='font-semibold text-ss text-cruce hover:text-cruceHover'
-              onClick={changePassword}
-            >
-              Editar contraseña
-            </button>
-          </div>
-          <div className='flex mt-4'>
-            <Button type='submit'>Aceptar</Button>
-          </div>
-        </form>
-        <Modal type={type} errors={errors} type3Message={message} open={open} onClose={() => setOpen(false)}>
-          <h1>Sus datos se han actualizado correctamente</h1>
-        </Modal>
+            <div className='flex mt-4'>
+              <Button type='submit'>Aceptar</Button>
+            </div>
+          </form>
+          <Modal type={type} errors={errors} type3Message={message} open={open} onClose={() => setOpen(false)}>
+            <h1>Sus datos se han actualizado correctamente</h1>
+          </Modal>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

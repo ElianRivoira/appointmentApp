@@ -7,6 +7,7 @@ import { getOperators } from '@/services/operators';
 import Modal from '@/commons/Modal';
 import { checkLocalStorage } from '@/utils/localStorage';
 import Spinner2 from '@/components/General/Spinner2';
+import Head from 'next/head';
 
 const Operators = () => {
   const [open, setOpen] = useState(false);
@@ -24,10 +25,13 @@ const Operators = () => {
     },
   });
 
-  if(operators.isLoading) return <Spinner2 />
+  if (operators.isLoading) return <Spinner2 />;
 
   return (
     <>
+      <Head>
+        <title>Admin Appointments - Operadores</title>
+      </Head>
       <div className='mt-12 mx-24 pb-16'>
         <h1 className='font-semibold text-xl mb-6'>Operadores</h1>
         <div>

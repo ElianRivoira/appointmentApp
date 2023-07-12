@@ -8,6 +8,7 @@ import { getLoggedUser } from '@/services/users';
 import Modal from '@/commons/Modal';
 import Spinner2 from '@/components/General/Spinner2';
 import { checkLocalStorage } from '@/utils/localStorage';
+import Head from 'next/head';
 
 const Reserves = () => {
   const [open, setOpen] = useState(false);
@@ -40,6 +41,9 @@ const Reserves = () => {
 
   return (
     <>
+      <Head>
+        <title>Appointments - Reservas</title>
+      </Head>
       <div className='pt-12 px-24 pb-16'>
         <div className='font-semibold text-xl mb-6'>Reservas</div>
         {branch.data?.appointments?.map(reserve => {

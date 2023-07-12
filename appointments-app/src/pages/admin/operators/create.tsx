@@ -8,6 +8,7 @@ import { getBranches } from '@/services/branches';
 import OperatorsForm from '@/components/OperatorsForm';
 import { checkLocalStorage } from '@/utils/localStorage';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 
 const CreateOperators = () => {
   const [open, setOpen] = useState(false);
@@ -52,41 +53,46 @@ const CreateOperators = () => {
   });
 
   useEffect(() => {
-      if ((type === 1 && !open)) {
-        router.push({
-          pathname: `/admin/operators`,
-        });
-      }
-    }, [open]);
+    if (type === 1 && !open) {
+      router.push({
+        pathname: `/admin/operators`,
+      });
+    }
+  }, [open]);
 
   return (
-    <div className='bg-cruceBackground'>
-      <div className='flex justify-center'>
-        <div className='flex flex-col w-3/4 max-w-screen-md h-3/5 mt-12 p-10 pb-8 border rounded-xl shadow-navbar bg-white'>
-          <p className='mb-4 font-bold text-xb'>Creación de operadores</p>
-          <OperatorsForm
-            handleSubmit={handleSubmit}
-            branches={branches.data}
-            branch={branch}
-            setBranch={setBranch}
-            name={name}
-            setName={setName}
-            phone={phone}
-            setPhone={setPhone}
-            email={email}
-            setEmail={setEmail}
-            dni={dni}
-            setDni={setDni}
-            password={password}
-            setPassword={setPassword}
-            edit={false}
-          />
+    <>
+      <Head>
+        <title>Admin Appointments - Crear operador</title>
+      </Head>
+      <div className='bg-cruceBackground'>
+        <div className='flex justify-center'>
+          <div className='flex flex-col w-3/4 max-w-screen-md h-3/5 mt-12 p-10 pb-8 border rounded-xl shadow-navbar bg-white'>
+            <p className='mb-4 font-bold text-xb'>Creación de operadores</p>
+            <OperatorsForm
+              handleSubmit={handleSubmit}
+              branches={branches.data}
+              branch={branch}
+              setBranch={setBranch}
+              name={name}
+              setName={setName}
+              phone={phone}
+              setPhone={setPhone}
+              email={email}
+              setEmail={setEmail}
+              dni={dni}
+              setDni={setDni}
+              password={password}
+              setPassword={setPassword}
+              edit={false}
+            />
+          </div>
+          <Modal open={open} type={type} errors={errors} onClose={() => setOpen(false)}>
+            <h1>Operador creado con éxito</h1>
+          </Modal>
         </div>
-        <Modal open={open} type={type} errors={errors} onClose={() => setOpen(false)}>
-          <h1>Operador creado con éxito</h1>
-        </Modal>
       </div>
-    </div>
+    </>
   );
 };
 

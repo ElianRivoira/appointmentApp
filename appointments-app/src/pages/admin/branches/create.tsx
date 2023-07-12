@@ -4,6 +4,7 @@ import { useMutation } from '@tanstack/react-query';
 import Modal from '@/commons/Modal';
 import { useRouter } from 'next/router';
 import BranchesForm from '@/components/BranchesForm';
+import Head from 'next/head';
 
 const createBranch = () => {
   const [name, setName] = useState('');
@@ -40,31 +41,36 @@ const createBranch = () => {
   }, [open]);
 
   return (
-    <div className=' bg-cruceBackground'>
-      <div className='flex justify-center'>
-        <div className='flex flex-col w-3/4 max-w-screen-md h-3/5 mt-12 p-10 pb-8 border rounded-xl shadow-navbar bg-white'>
-          <p className='mb-4 font-bold text-xb'>Creación de sucursales</p>
-          <BranchesForm
-            handleSubmit={handleSubmit}
-            name={name}
-            setName={setName}
-            email={email}
-            setEmail={setEmail}
-            capacity={capacity}
-            setCapacity={setCapacity}
-            phone={phone}
-            setPhone={setPhone}
-            openHour={openHour}
-            setOpenHour={setOpenHour}
-            closeHour={closeHour}
-            setCloseHour={setCloseHour}
-          />
+    <>
+      <Head>
+        <title>Admin Appointments - Crear sucursal</title>
+      </Head>
+      <div className=' bg-cruceBackground'>
+        <div className='flex justify-center'>
+          <div className='flex flex-col w-3/4 max-w-screen-md h-3/5 mt-12 p-10 pb-8 border rounded-xl shadow-navbar bg-white'>
+            <p className='mb-4 font-bold text-xb'>Creación de sucursales</p>
+            <BranchesForm
+              handleSubmit={handleSubmit}
+              name={name}
+              setName={setName}
+              email={email}
+              setEmail={setEmail}
+              capacity={capacity}
+              setCapacity={setCapacity}
+              phone={phone}
+              setPhone={setPhone}
+              openHour={openHour}
+              setOpenHour={setOpenHour}
+              closeHour={closeHour}
+              setCloseHour={setCloseHour}
+            />
+          </div>
         </div>
+        <Modal type={type} errors={errors} open={open} onClose={() => setOpen(false)}>
+          <h1>Sucursal creada con éxito</h1>
+        </Modal>
       </div>
-      <Modal type={type} errors={errors} open={open} onClose={() => setOpen(false)}>
-        <h1>Sucursal creada con éxito</h1>
-      </Modal>
-    </div>
+    </>
   );
 };
 

@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { hasCookie } from 'cookies-next';
 import { useMutation, useQuery } from '@tanstack/react-query';
+import Head from 'next/head';
 
 import flechitaIzq from '@/assets/icons/flechitaIzq.svg';
 import CancelOption from '@/components/CancelOption';
@@ -61,6 +62,9 @@ const cancelReserve = ({ query }: MyPageProps) => {
 
   return (
     <>
+      <Head>
+        <title>Appointments - Cancelar reserva</title>
+      </Head>
       <div className={`flex ${useMediaQuery(550) ? 'flex-col' : ''} px-10 md:px-24 pt-6 gap-4`}>
         <div className={`${useMediaQuery(550) ? 'w-full' : 'w-2/3'}`}>
           <div className='flex w-full text-cruce font-semibold text-ss items-center'>

@@ -8,6 +8,7 @@ import { getLoggedUser } from '@/services/users';
 import Modal from '@/commons/Modal';
 import { checkLocalStorage } from '@/utils/localStorage';
 import Spinner2 from '@/components/General/Spinner2';
+import Head from 'next/head';
 
 const Reserves = () => {
   const [open, setOpen] = useState(false);
@@ -39,15 +40,20 @@ const Reserves = () => {
   if (loggedUser.isLoading || reserves.isLoading) return <Spinner2 />;
 
   return (
-    <div className='pt-12 px-3 sm:px-12 lg:px-24 pb-16'>
-      <div className='font-semibold text-xl mb-6'>Reservas</div>
-      <div>
-        {reserves.data?.map(reserve => (
-          <Reserve data={reserve} key={reserve._id} operatorView={false} refetchFunc={reserves} />
-        ))}
+    <>
+      <Head>
+        <title>Appointments - Reservas</title>
+      </Head>
+      <div className='pt-12 px-3 sm:px-12 lg:px-24 pb-16'>
+        <div className='font-semibold text-xl mb-6'>Reservas</div>
+        <div>
+          {reserves.data?.map(reserve => (
+            <Reserve data={reserve} key={reserve._id} operatorView={false} refetchFunc={reserves} />
+          ))}
+        </div>
+        <Modal type={type} errors={errors} open={open} onClose={() => setOpen(false)} />
       </div>
-      <Modal type={type} errors={errors} open={open} onClose={() => setOpen(false)} />
-    </div>
+    </>
   );
 };
 

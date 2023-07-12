@@ -7,6 +7,7 @@ import { checkLocalStorage } from '@/utils/localStorage';
 import Input from '@/commons/Input';
 import Button from '@/commons/Button';
 import Spinner2 from '@/components/General/Spinner2';
+import Head from 'next/head';
 
 const myData = () => {
   const [name, setName] = useState('');
@@ -77,59 +78,64 @@ const myData = () => {
   if (loggedUser.isLoading || !name) return <Spinner2 />;
 
   return (
-    <div className='bg-cruceBackground'>
-      <div className='flex justify-center'>
-        <div className='flex flex-col w-3/4 max-w-screen-md h-3/5 mt-12 p-10 pb-8 border rounded-xl shadow-navbar bg-white'>
-          <p className='mb-4 font-bold text-xb'>Mis Datos</p>
-          <form onSubmit={handleSubmit}>
-            <Input
-              label='Nombre'
-              type='text'
-              name='username'
-              id='username'
-              value={name}
-              onChange={e => setName(e.target.value)}
-              required
-            />
-            <Input
-              label='Correo electrónico'
-              type='email'
-              name='email'
-              id='email'
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-              required
-            />
-            <Input
-              label='DNI'
-              type='tel'
-              name='dni'
-              id='dni'
-              value={dni}
-              onChange={e => setDni(Number(e.target.value))}
-              required
-            />
-            <div className='flex justify-start mt-2'>
-              <button
-                type='button'
-                className='font-semibold text-ss text-cruce hover:text-cruceHover'
-                onClick={() => {
-                  loggedUser.data && sendEmail.mutate(email);
-                }}
-              >
-                Editar contraseña
-              </button>
-            </div>
-            <div className='flex mt-4'>
-              <Button type='submit'>Aceptar</Button>
-            </div>
-          </form>
+    <>
+      <Head>
+        <title>Admin Appointments - Mi cuenta</title>
+      </Head>
+      <div className='bg-cruceBackground'>
+        <div className='flex justify-center'>
+          <div className='flex flex-col w-3/4 max-w-screen-md h-3/5 mt-12 p-10 pb-8 border rounded-xl shadow-navbar bg-white'>
+            <p className='mb-4 font-bold text-xb'>Mis Datos</p>
+            <form onSubmit={handleSubmit}>
+              <Input
+                label='Nombre'
+                type='text'
+                name='username'
+                id='username'
+                value={name}
+                onChange={e => setName(e.target.value)}
+                required
+              />
+              <Input
+                label='Correo electrónico'
+                type='email'
+                name='email'
+                id='email'
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                required
+              />
+              <Input
+                label='DNI'
+                type='tel'
+                name='dni'
+                id='dni'
+                value={dni}
+                onChange={e => setDni(Number(e.target.value))}
+                required
+              />
+              <div className='flex justify-start mt-2'>
+                <button
+                  type='button'
+                  className='font-semibold text-ss text-cruce hover:text-cruceHover'
+                  onClick={() => {
+                    loggedUser.data && sendEmail.mutate(email);
+                  }}
+                >
+                  Editar contraseña
+                </button>
+              </div>
+              <div className='flex mt-4'>
+                <Button type='submit'>Aceptar</Button>
+              </div>
+            </form>
+          </div>
+          <Modal type={type} errors={errors} open={open} type3Message={message} onClose={() => setOpen(false)}>
+            <h1>Sus datos se han actualizado correctamente</h1>
+          </Modal>
         </div>
-        <Modal type={type} errors={errors} open={open} type3Message={message} onClose={() => setOpen(false)}>
-          <h1>Sus datos se han actualizado correctamente</h1>
-        </Modal>
       </div>
-    </div>
+    </>
   );
 };
 

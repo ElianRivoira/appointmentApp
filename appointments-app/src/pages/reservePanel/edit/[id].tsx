@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { NextPageContext } from 'next';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { hasCookie } from 'cookies-next';
+import Head from 'next/head';
 
 import { CalendarContainer, CalendarContainerDisabled } from '@/components/ReservePanel/Calendar';
 import Step from '@/components/ReservePanel/Step';
@@ -108,115 +109,120 @@ const ReservePanel = ({ query }: MyPageProps) => {
   }, [reserve.isSuccess, reserve.isRefetching]);
 
   return (
-    <div className='bg-cruceBackground'>
-      <div className='flex flex-col mx-4 lg:mx-14 2xl:mx-32 3xl:mx-44'>
-        <div className='mt-12 mb-6 flex justify-between'>
-          <div className='w-3/6'>
-            <h1 className='font-bold text-xb'>Hacer una Reserva</h1>
+    <>
+      <Head>
+        <title>Appointments - Editar reserva</title>
+      </Head>
+      <div className='bg-cruceBackground'>
+        <div className='flex flex-col mx-4 lg:mx-14 2xl:mx-32 3xl:mx-44'>
+          <div className='mt-12 mb-6 flex justify-between'>
+            <div className='w-3/6'>
+              <h1 className='font-bold text-xb'>Hacer una Reserva</h1>
+            </div>
+            <div className='w-2/6'></div>
           </div>
-          <div className='w-2/6'></div>
-        </div>
-        <div className='flex lgMax:flex-col lgMax:items-center justify-between'>
-          <div className='lg:w-3/6 md:w-[80%] w-full lgMax:mb-10 px-3 sm:px-10 py-8 rounded-lg bg-white'>
-            <h3 className='text-ln font-bold mb-1'>Reserva</h3>
-            {!branch ? (
-              <>
-                <p className='text-sm font-semibold'>Seleccioná una sucursal</p>
-                <div className='flex flex-col'>
-                  <div className='h-26 flex flex-row items-center'>
-                    <Step icon='1' text='Elegí tu sucursal' bgColor='bg-cruce' textColor='text-cruce' />
-                    <Step icon='2' text='Seleccioná el día' bgColor='bg-grey4' textColor='text-grey4' />
-                    <Step icon='3' text='Completá el formulario' bgColor='bg-grey4' textColor='text-grey4' />
+          <div className='flex lgMax:flex-col lgMax:items-center justify-between'>
+            <div className='lg:w-3/6 md:w-[80%] w-full lgMax:mb-10 px-3 sm:px-10 py-8 rounded-lg bg-white'>
+              <h3 className='text-ln font-bold mb-1'>Reserva</h3>
+              {!branch ? (
+                <>
+                  <p className='text-sm font-semibold'>Seleccioná una sucursal</p>
+                  <div className='flex flex-col'>
+                    <div className='h-26 flex flex-row items-center'>
+                      <Step icon='1' text='Elegí tu sucursal' bgColor='bg-cruce' textColor='text-cruce' />
+                      <Step icon='2' text='Seleccioná el día' bgColor='bg-grey4' textColor='text-grey4' />
+                      <Step icon='3' text='Completá el formulario' bgColor='bg-grey4' textColor='text-grey4' />
+                    </div>
                   </div>
-                </div>
-              </>
-            ) : selectedDate === true ? (
-              <>
-                <p className='text-sm font-semibold'>Completá el formulario</p>
-                <div className='flex flex-col'>
-                  <div className='h-26 flex flex-row items-center'>
-                    <Step icon='check' text='Elegí tu sucursal' />
-                    <Step icon='check' text='Seleccioná el día' />
-                    <Step icon='3' text='Completá el formulario' bgColor='bg-cruce' textColor='text-cruce' />
+                </>
+              ) : selectedDate === true ? (
+                <>
+                  <p className='text-sm font-semibold'>Completá el formulario</p>
+                  <div className='flex flex-col'>
+                    <div className='h-26 flex flex-row items-center'>
+                      <Step icon='check' text='Elegí tu sucursal' />
+                      <Step icon='check' text='Seleccioná el día' />
+                      <Step icon='3' text='Completá el formulario' bgColor='bg-cruce' textColor='text-cruce' />
+                    </div>
                   </div>
-                </div>
-              </>
+                </>
+              ) : (
+                <>
+                  <p className='text-sm font-semibold'>Seleccioná el día en el calendario</p>
+                  <div className='flex flex-col'>
+                    <div className='h-26 flex flex-row items-center'>
+                      <Step icon='check' text='Elegí tu sucursal' />
+                      <Step icon='2' text='Seleccioná el día' bgColor='bg-cruce' textColor='text-cruce' />
+                      <Step icon='3' text='Completá el formulario' bgColor='bg-grey4' textColor='text-grey4' />
+                    </div>
+                  </div>
+                </>
+              )}
+              <ReservePanelForm
+                handleSubmit={handleSubmit}
+                branches={branches.data}
+                branch={branch}
+                shifts={shifts}
+                setBranch={setBranch}
+                selectedDate={selectedDate}
+                time={time}
+                setTime={setTime}
+                name={name}
+                setName={setName}
+                phone={phone}
+                setPhone={setPhone}
+                email={email}
+                setEmail={setEmail}
+                date={date}
+                edit={true}
+              />
+            </div>
+            {branch ? (
+              <div className='lg:w-[40%] w-full flex justify-center lg:justify-end lgMax:mb-14'>
+                <CalendarContainer>
+                  <Calendar
+                    calendarType={'US'}
+                    defaultView={'month'}
+                    locale={'es-ES'}
+                    value={date}
+                    onClickDay={(e: Date) => {
+                      setDate(e);
+                      setSelectedDate(true);
+                    }}
+                  />
+                </CalendarContainer>
+              </div>
             ) : (
-              <>
-                <p className='text-sm font-semibold'>Seleccioná el día en el calendario</p>
-                <div className='flex flex-col'>
-                  <div className='h-26 flex flex-row items-center'>
-                    <Step icon='check' text='Elegí tu sucursal' />
-                    <Step icon='2' text='Seleccioná el día' bgColor='bg-cruce' textColor='text-cruce' />
-                    <Step icon='3' text='Completá el formulario' bgColor='bg-grey4' textColor='text-grey4' />
-                  </div>
-                </div>
-              </>
+              <div className='lg:w-[40%] w-full flex justify-center lg:justify-end lgMax:mb-14'>
+                <CalendarContainerDisabled>
+                  <Calendar
+                    calendarType={'US'}
+                    defaultView={'month'}
+                    locale={'es-ES'}
+                    value={date}
+                    onClickDay={(e: Date) => {
+                      setDate(e);
+                      setSelectedDate(true);
+                    }}
+                  />
+                </CalendarContainerDisabled>
+              </div>
             )}
-            <ReservePanelForm
-              handleSubmit={handleSubmit}
-              branches={branches.data}
-              branch={branch}
-              shifts={shifts}
-              setBranch={setBranch}
-              selectedDate={selectedDate}
-              time={time}
-              setTime={setTime}
-              name={name}
-              setName={setName}
-              phone={phone}
-              setPhone={setPhone}
-              email={email}
-              setEmail={setEmail}
-              date={date}
-              edit={true}
-            />
           </div>
-          {branch ? (
-            <div className='lg:w-[40%] w-full flex justify-center lg:justify-end lgMax:mb-14'>
-              <CalendarContainer>
-                <Calendar
-                  calendarType={'US'}
-                  defaultView={'month'}
-                  locale={'es-ES'}
-                  value={date}
-                  onClickDay={(e: Date) => {
-                    setDate(e);
-                    setSelectedDate(true);
-                  }}
-                />
-              </CalendarContainer>
-            </div>
-          ) : (
-            <div className='lg:w-[40%] w-full flex justify-center lg:justify-end lgMax:mb-14'>
-              <CalendarContainerDisabled>
-                <Calendar
-                  calendarType={'US'}
-                  defaultView={'month'}
-                  locale={'es-ES'}
-                  value={date}
-                  onClickDay={(e: Date) => {
-                    setDate(e);
-                    setSelectedDate(true);
-                  }}
-                />
-              </CalendarContainerDisabled>
-            </div>
-          )}
+          <CountDown
+            start={start}
+            countDown={countDown}
+            setCountDown={setCountDown}
+            formatTime={formatTime}
+            margin={selectedDate ? true : false}
+          />
         </div>
-        <CountDown
-          start={start}
-          countDown={countDown}
-          setCountDown={setCountDown}
-          formatTime={formatTime}
-          margin={selectedDate ? true : false}
-        />
+        <Modal type={type} errors={errors} open={open} onClose={() => setOpen(false)}>
+          <h1 className='text-ln font-bold'>Turno reservado con éxito</h1>
+          <p className='text-sm font-normal mt-1'>Gracias por confiar en nuestro servicio</p>
+        </Modal>
       </div>
-      <Modal type={type} errors={errors} open={open} onClose={() => setOpen(false)}>
-        <h1 className='text-ln font-bold'>Turno reservado con éxito</h1>
-        <p className='text-sm font-normal mt-1'>Gracias por confiar en nuestro servicio</p>
-      </Modal>
-    </div>
+    </>
   );
 };
 

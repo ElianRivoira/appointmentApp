@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import { getLoggedUser } from '@/services/users';
 import Spinner2 from '@/components/General/Spinner2';
+import Head from 'next/head';
 
 const Index = () => {
   const router = useRouter();

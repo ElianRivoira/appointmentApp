@@ -9,6 +9,7 @@ import Modal from '@/commons/Modal';
 import BranchesForm from '@/components/BranchesForm';
 import { checkLocalStorage } from '@/utils/localStorage';
 import Button from '@/commons/Button';
+import Head from 'next/head';
 
 const EditBranch = ({ query }: MyPageProps) => {
   const [name, setName] = useState('');
@@ -102,44 +103,49 @@ const EditBranch = ({ query }: MyPageProps) => {
   }, [open]);
 
   return (
-    <div className='bg-cruceBackground'>
-      <div className='flex justify-center'>
-        <div className='flex flex-col w-3/4 max-w-screen-md h-3/5 mt-12 p-10 pb-8 border rounded-xl shadow-navbar bg-white'>
-          <div className='flex justify-between items-center mb-4'>
-            <p className='font-bold text-xb'>Editar sucursal</p>
-            <Button type='button' onClick={handleDelete} style='bg-error hover:bg-errorHover w-fit px-6'>
-              Eliminar
-            </Button>
+    <>
+      <Head>
+        <title>Admin Appointments - Editar sucursal</title>
+      </Head>
+      <div className='bg-cruceBackground'>
+        <div className='flex justify-center'>
+          <div className='flex flex-col w-3/4 max-w-screen-md h-3/5 mt-12 p-10 pb-8 border rounded-xl shadow-navbar bg-white'>
+            <div className='flex justify-between items-center mb-4'>
+              <p className='font-bold text-xb'>Editar sucursal</p>
+              <Button type='button' onClick={handleDelete} style='bg-error hover:bg-errorHover w-fit px-6'>
+                Eliminar
+              </Button>
+            </div>
+            <BranchesForm
+              handleSubmit={handleSubmit}
+              name={name}
+              setName={setName}
+              email={email}
+              setEmail={setEmail}
+              capacity={capacity}
+              setCapacity={setCapacity}
+              phone={phone}
+              setPhone={setPhone}
+              openHour={openHour}
+              setOpenHour={setOpenHour}
+              closeHour={closeHour}
+              setCloseHour={setCloseHour}
+            />
           </div>
-          <BranchesForm
-            handleSubmit={handleSubmit}
-            name={name}
-            setName={setName}
-            email={email}
-            setEmail={setEmail}
-            capacity={capacity}
-            setCapacity={setCapacity}
-            phone={phone}
-            setPhone={setPhone}
-            openHour={openHour}
-            setOpenHour={setOpenHour}
-            closeHour={closeHour}
-            setCloseHour={setCloseHour}
-          />
+          <Modal
+            open={open}
+            type={type}
+            type3Message={message}
+            deleteMessage={deleteMsg}
+            deleteFunc={() => deleteBranch.mutate(branchId)}
+            errors={errors}
+            onClose={() => setOpen(false)}
+          >
+            <h1>Sucursal modificada con éxito</h1>
+          </Modal>
         </div>
-        <Modal
-          open={open}
-          type={type}
-          type3Message={message}
-          deleteMessage={deleteMsg}
-          deleteFunc={() => deleteBranch.mutate(branchId)}
-          errors={errors}
-          onClose={() => setOpen(false)}
-        >
-          <h1>Sucursal modificada con éxito</h1>
-        </Modal>
       </div>
-    </div>
+    </>
   );
 };
 

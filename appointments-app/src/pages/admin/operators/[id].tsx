@@ -11,6 +11,7 @@ import OperatorsForm from '@/components/OperatorsForm';
 import { updateUser } from '@/services/users';
 import { checkLocalStorage } from '@/utils/localStorage';
 import Button from '@/commons/Button';
+import Head from 'next/head';
 
 const EditOperators = ({ query }: MyPageProps) => {
   const [open, setOpen] = useState(false);
@@ -117,46 +118,51 @@ const EditOperators = ({ query }: MyPageProps) => {
   }, [open]);
 
   return (
-    <div className='bg-cruceBackground'>
-      <div className='flex justify-center'>
-        <div className='flex flex-col w-3/4 max-w-screen-md h-3/5 mt-12 p-10 pb-8 border rounded-xl shadow-navbar bg-white'>
-          <div className='flex justify-between items-center mb-4'>
-            <p className='font-bold text-xb'>Edición de operador</p>
-            <Button type='button' onClick={handleDelete} style='bg-error hover:bg-errorHover w-fit px-6'>
-              Eliminar
-            </Button>
+    <>
+      <Head>
+        <title>Admin Appointments - Editar operador</title>
+      </Head>
+      <div className='bg-cruceBackground'>
+        <div className='flex justify-center'>
+          <div className='flex flex-col w-3/4 max-w-screen-md h-3/5 mt-12 p-10 pb-8 border rounded-xl shadow-navbar bg-white'>
+            <div className='flex justify-between items-center mb-4'>
+              <p className='font-bold text-xb'>Edición de operador</p>
+              <Button type='button' onClick={handleDelete} style='bg-error hover:bg-errorHover w-fit px-6'>
+                Eliminar
+              </Button>
+            </div>
+            <OperatorsForm
+              handleSubmit={handleSubmit}
+              branches={branches.data}
+              branch={branch}
+              setBranch={setBranch}
+              name={name}
+              setName={setName}
+              phone={phone}
+              setPhone={setPhone}
+              email={email}
+              setEmail={setEmail}
+              dni={dni}
+              setDni={setDni}
+              password={password}
+              setPassword={setPassword}
+              edit={true}
+            />
           </div>
-          <OperatorsForm
-            handleSubmit={handleSubmit}
-            branches={branches.data}
-            branch={branch}
-            setBranch={setBranch}
-            name={name}
-            setName={setName}
-            phone={phone}
-            setPhone={setPhone}
-            email={email}
-            setEmail={setEmail}
-            dni={dni}
-            setDni={setDni}
-            password={password}
-            setPassword={setPassword}
-            edit={true}
-          />
+          <Modal
+            open={open}
+            type={type}
+            type3Message={message}
+            deleteMessage={deleteMsg}
+            deleteFunc={() => deleteOperator.mutate(operatorId)}
+            errors={errors}
+            onClose={() => setOpen(false)}
+          >
+            <h1>Operador modificado con éxito</h1>
+          </Modal>
         </div>
-        <Modal
-          open={open}
-          type={type}
-          type3Message={message}
-          deleteMessage={deleteMsg}
-          deleteFunc={() => deleteOperator.mutate(operatorId)}
-          errors={errors}
-          onClose={() => setOpen(false)}
-        >
-          <h1>Operador modificado con éxito</h1>
-        </Modal>
       </div>
-    </div>
+    </>
   );
 };
 
