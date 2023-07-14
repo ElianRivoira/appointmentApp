@@ -11,24 +11,13 @@ export async function login({ email, password }: LoginUser): Promise<User> {
 }
 
 export async function postUser({ name, dni, email, password }: PostUser): Promise<User | undefined> {
-  const token = getLocalStorage('session');
-  if (token) {
-    const response = await api.post(
-      '/users',
-      {
-        name,
-        dni,
-        email,
-        password,
-      },
-      {
-        headers: {
-          Authorization: token,
-        },
-      }
-    );
-    return response.data;
-  }
+  const response = await api.post('/users', {
+    name,
+    dni,
+    email,
+    password,
+  });
+  return response.data;
 }
 
 export async function getLoggedUser(): Promise<User | undefined> {
@@ -68,7 +57,15 @@ export async function sendToken(token: string): Promise<string> {
   return res.data;
 }
 
-export async function changePassword({ email, password, id }: { email?: string; password: string, id?: string }): Promise<User> {
+export async function changePassword({
+  email,
+  password,
+  id,
+}: {
+  email?: string;
+  password: string;
+  id?: string;
+}): Promise<User> {
   const res = await api.put(`/users/change-pass`, { email, password, id });
   return res.data;
 }
